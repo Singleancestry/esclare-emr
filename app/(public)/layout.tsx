@@ -26,7 +26,8 @@ const organizationSchema = {
     },
     {
       "@type": "HealthAndBeautyBusiness",
-      "@id": `${siteUrl}/branches#daet`,
+      "@id": `${siteUrl}/branches/daet#clinic`,
+      url: `${siteUrl}/branches/daet`,
       parentOrganization: { "@id": `${siteUrl}/#organization` },
       name: "ESCLARE Daet",
       telephone: "+639391421928",

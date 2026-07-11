@@ -26,3 +26,10 @@ test("branch page shows confirmed details and Daet exception", async ({ page }) 
   await expect(page.getByRole("heading", { name: "ESCLARE Daet" })).toBeVisible();
   await expect(page.getByText(/except Fractional Laser and Scar Care/)).toBeVisible();
 });
+
+test("Daet branch links preserve the selected booking branch", async ({ page }) => {
+  await page.goto("/appointment-request?branch=daet");
+  await expect(page.getByRole("combobox", { name: "Branch" })).toHaveValue("daet");
+  await expect(page.getByRole("heading", { name: "Confirm with ESCLARE Daet" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Call 0939 142 1928" })).toHaveAttribute("href", "tel:+639391421928");
+});

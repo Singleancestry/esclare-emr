@@ -17,9 +17,9 @@ const initialPublicAppointmentRequestState: PublicAppointmentRequestState = {
   submittedBranchCode: null,
 };
 
-export function AppointmentRequestForm() {
+export function AppointmentRequestForm({ initialBranch = "naga" }: { initialBranch?: BranchCode }) {
   const [fullName, setFullName] = useState("");
-  const [branchCode, setBranchCode] = useState<BranchCode>("naga");
+  const [branchCode, setBranchCode] = useState<BranchCode>(initialBranch);
   const [treatmentSlug, setTreatmentSlug] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
