@@ -12,5 +12,6 @@ await mkdir(server, { recursive: true });
 await cp(openNext, server, { recursive: true });
 await copyFile(resolve(openNext, "worker.js"), resolve(server, "index.js"));
 await cp(resolve(openNext, "assets"), client, { recursive: true });
+await rm(resolve(server, "assets"), { force: true, recursive: true });
 
 console.log("Prepared Sites-compatible Cloudflare Worker output in dist/.");
