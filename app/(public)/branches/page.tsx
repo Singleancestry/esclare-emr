@@ -36,7 +36,7 @@ export default function BranchesPage() {
           {clinicBranches.map((branch) => {
             const visual = branchVisuals[branch.code];
             return (
-              <article id={branch.code} key={branch.code} className="grid overflow-hidden border border-[#D8C9B4] bg-white lg:grid-cols-[0.52fr_0.48fr]" data-reveal>
+              <article id={branch.code} key={branch.code} className="grid overflow-hidden rounded-lg border border-[#D8C9B4] bg-white shadow-[0_18px_46px_rgb(72_42_48_/_8%)] lg:grid-cols-[0.52fr_0.48fr]" data-reveal>
                 <div className="relative min-h-80 overflow-hidden lg:min-h-[34rem]">
                   <Image src={visual.image} alt={visual.alt} fill sizes="(min-width: 1024px) 52vw, 100vw" placeholder="blur" className="object-cover transition-transform duration-[1400ms] hover:scale-[1.025]" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-[#32101E]/90 p-5 text-white"><div><p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#E8D5B5]">Authentic clinic interior</p><p className="mt-1 font-serif text-2xl">{branch.name}</p></div><span className="text-xs text-[#E8D5B5]">{visual.location}</span></div>

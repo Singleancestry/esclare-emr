@@ -83,10 +83,10 @@ export function ClinicGallery({ compact = false, branch }: ClinicGalleryProps) {
           {images.map((image, index) => {
             const isFeature = !compact && (index === 0 || images[index - 1]?.branch !== image.branch);
             return (
-              <figure key={`${image.branch}-${image.title}-${index}`} className={`${isFeature ? "lg:col-span-8" : compact ? "" : "lg:col-span-4"} group overflow-hidden bg-white`} data-reveal>
+              <figure key={`${image.branch}-${image.title}-${index}`} className={`${isFeature ? "lg:col-span-8" : compact ? "" : "lg:col-span-4"} group overflow-hidden rounded-lg border border-[#DED2C2] bg-white shadow-[0_14px_36px_rgb(72_42_48_/_7%)]`} data-reveal>
                 <button type="button" onClick={(event) => openImage(index, event.currentTarget)} aria-label={`Open larger view of ${image.title}, ESCLARE ${image.branch}`} className={`relative block w-full cursor-zoom-in overflow-hidden text-left ${compact ? "aspect-[4/5]" : isFeature ? "aspect-[16/9]" : "aspect-[4/5]"}`}>
                   <Image src={image.src} alt={image.alt} fill sizes={compact ? "(min-width: 1024px) 25vw, 50vw" : isFeature ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 50vw"} placeholder="blur" className="object-cover transition duration-700 group-hover:scale-[1.035] group-hover:brightness-[0.94]" />
-                  <span className="absolute bottom-3 right-3 grid size-10 place-items-center bg-[#FBF8F2]/95 text-[#5B1830] opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"><Expand size={17} /></span>
+                  <span className="absolute bottom-3 right-3 grid size-10 place-items-center rounded-lg bg-[#FBF8F2]/95 text-[#5B1830] opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"><Expand size={17} /></span>
                 </button>
                 <figcaption className="border-t border-[#E1D5C4] p-4">
                   <div className="flex items-center justify-between gap-3"><p className="font-serif text-xl text-[#481827]">{image.title}</p><span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A6B3D]">{image.branch}</span></div>
@@ -104,10 +104,10 @@ export function ClinicGallery({ compact = false, branch }: ClinicGalleryProps) {
           <div className="relative m-auto flex size-full max-w-7xl flex-col">
             <div className="flex items-center justify-between gap-4 border-b border-white/20 pb-3 text-white">
               <div><p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#DCC69F]">ESCLARE {activeImage.branch}</p><h2 id="clinic-lightbox-title" className="mt-1 font-sans text-base font-semibold text-white">{activeImage.title}</h2></div>
-              <button ref={closeButtonRef} type="button" onClick={() => setActiveIndex(null)} aria-label="Close gallery" title="Close gallery" className="grid size-11 place-items-center border border-white/40 text-white transition-colors hover:bg-white hover:text-[#481827]"><X size={20} /></button>
+              <button ref={closeButtonRef} type="button" onClick={() => setActiveIndex(null)} aria-label="Close gallery" title="Close gallery" className="grid size-11 place-items-center rounded-lg border border-white/40 text-white transition-colors hover:bg-white hover:text-[#481827]"><X size={20} /></button>
             </div>
             <div className="relative min-h-0 flex-1 py-4">
-              <Image src={activeImage.src} alt={activeImage.alt} fill sizes="100vw" placeholder="blur" className="object-contain" priority />
+              <Image src={activeImage.src} alt={activeImage.alt} fill sizes="100vw" placeholder="blur" className="rounded-lg object-contain" priority />
             </div>
             <div className="flex items-center justify-between gap-4 border-t border-white/20 pt-3 text-white">
               <button type="button" onClick={() => setActiveIndex((activeIndex - 1 + images.length) % images.length)} aria-label="Previous clinic photo" title="Previous photo" className="inline-flex min-h-11 items-center gap-2 px-2 text-xs font-bold uppercase"><ArrowLeft size={18} /> Previous</button>

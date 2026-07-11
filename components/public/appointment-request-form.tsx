@@ -49,7 +49,7 @@ export function AppointmentRequestForm({ initialBranch = "naga" }: { initialBran
   }
 
   return (
-    <div className="grid gap-0 overflow-hidden border border-[#D8C9B4] bg-white shadow-[0_24px_70px_rgba(55,28,37,0.1)] lg:grid-cols-[1fr_0.72fr]">
+    <div className="grid gap-0 overflow-hidden rounded-lg border border-[#D8C9B4] bg-white shadow-[0_24px_70px_rgba(55,28,37,0.1)] lg:grid-cols-[1fr_0.72fr]">
       <form action={formAction} noValidate className="p-5 sm:p-9 lg:p-11">
         <div className="mb-8"><p className="public-eyebrow">Step 1</p><h2 className="mt-3 text-3xl text-[#481827]">Plan your request</h2><p className="mt-2 text-sm leading-6 text-[#6B6264]">Only your full name is required. Add visit preferences when you are ready.</p></div>
         <div className="grid gap-5">
@@ -61,7 +61,7 @@ export function AppointmentRequestForm({ initialBranch = "naga" }: { initialBran
             <label className="grid gap-2 text-xs font-bold uppercase tracking-[0.05em] text-[#3F1724]">Preferred time <span className="font-normal normal-case tracking-normal text-[#77716A]">Optional</span><span className="relative"><Clock className="pointer-events-none absolute left-3 top-3.5 text-[#7A655D]" size={17} /><input name="preferredTime" type="time" value={time} onChange={(event) => setTime(event.target.value)} className="min-h-12 w-full rounded-sm border border-[#CFC7BE] py-3 pl-10 pr-3 font-normal normal-case tracking-normal text-[#292524] outline-none focus:border-[#6F263D]" /></span></label>
           </div>
           <label className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-          {error && <p id="booking-error" role="alert" className="border-l-2 border-[#B42D43] bg-[#FFF2F3] px-3 py-2 text-sm text-[#8B1F32]">{error}</p>}
+          {error && <p id="booking-error" role="alert" className="rounded-lg border-l-2 border-[#B42D43] bg-[#FFF2F3] px-3 py-2 text-sm text-[#8B1F32]">{error}</p>}
           <p className="text-xs leading-5 text-[#6E6862]">Preparing this form does not confirm a slot. ESCLARE confirms through Facebook, phone call, or SMS.</p>
           <button type="submit" disabled={isPending} className="luxury-button w-full disabled:cursor-wait disabled:opacity-70 sm:w-fit">{isPending ? <><LoaderCircle className="animate-spin" size={17} /> Sending request</> : "Prepare request"}</button>
         </div>

@@ -4,10 +4,9 @@ import { CalendarDays, Sparkles } from "lucide-react";
 export function AuthenticHero() {
   return <section className="relative min-h-[calc(88svh-104px)] overflow-hidden bg-[#32101E] text-white">
     <picture>
-      <source media="(max-width: 639px)" type="image/webp" srcSet="/images/optimized/clinic/esclare-naga-hero-mobile-800.webp" />
-      <source media="(max-width: 639px)" srcSet="/images/optimized/clinic/esclare-naga-hero-mobile-800.jpg" />
-      <source type="image/webp" srcSet="/images/optimized/clinic/esclare-naga-hero-1800.webp" />
-      <img src="/images/optimized/clinic/esclare-naga-hero-1800.jpg" alt="The real ESCLARE Naga logo wall and crystal chandelier" width="1800" height="1000" fetchPriority="high" decoding="async" className="absolute inset-0 size-full object-cover object-center transition-transform duration-[1600ms] hover:scale-[1.02]" />
+      <source media="(max-width: 639px)" type="image/webp" srcSet="/images/optimized/clinic/esclare-naga-hero-mobile-v2.webp" />
+      <source type="image/webp" srcSet="/images/optimized/clinic/esclare-naga-hero-v2.webp" />
+      <img src="/images/optimized/clinic/esclare-naga-hero-v2.webp" alt="ESCLARE Naga logo wall and crystal chandelier" width="1254" height="706" fetchPriority="high" decoding="async" className="absolute inset-0 size-full object-cover object-center transition-transform duration-[1600ms] hover:scale-[1.02]" />
     </picture>
     <div className="absolute inset-0 bg-[#210814]/65" />
     <div className="public-container relative flex min-h-[calc(88svh-104px)] items-end py-12 sm:py-16 lg:items-center lg:py-20">

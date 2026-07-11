@@ -19,6 +19,8 @@
   --luxury-ivory: #fbf8f2;
   --luxury-beige: #eee6da;
   --luxury-ink: #241d20;
+  --radius-control: 8px;
+  --radius-surface: 8px;
 }
 
 * {
@@ -79,6 +81,10 @@ a {
   overflow: clip;
 }
 
+.public-site :where(input, select, textarea) {
+  border-radius: var(--radius-control);
+}
+
 .public-container {
   width: min(100% - 2rem, 75rem);
   margin-inline: auto;
@@ -110,7 +116,7 @@ a {
 .luxury-button-light,
 .luxury-button-ghost {
   align-items: center;
-  border-radius: 2px;
+  border-radius: var(--radius-control);
   display: inline-flex;
   font-size: 0.78rem;
   font-weight: 700;

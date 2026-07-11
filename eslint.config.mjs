@@ -7,11 +7,13 @@ const eslintConfig = [
   {
     ignores: [
       ".next/**",
+      ".open-next/**",
       "node_modules/**",
       "coverage/**",
       "playwright-report/**",
       "test-results/**",
       ".tools/**",
+      "dist/**",
     ],
   },
 ];

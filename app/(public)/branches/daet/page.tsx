@@ -39,7 +39,7 @@ export default function DaetBranchPage() {
       <section className="bg-white py-16 sm:py-20">
         <div className="public-container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:gap-20">
           <div data-reveal><p className="public-eyebrow">Plan your visit</p><h2 className="public-subheading mt-4">Welcome to the Daet branch.</h2><p className="mt-5 leading-8 text-[#62595C]">Appointments are confirmed directly by the branch through Facebook, phone call, or SMS. No booking deposit is required.</p></div>
-          <div className="grid gap-px bg-[#D8C9B4] sm:grid-cols-2" data-reveal="right">
+          <div className="grid gap-px overflow-hidden rounded-lg border border-[#D8C9B4] bg-[#D8C9B4] sm:grid-cols-2" data-reveal="right">
             <div className="bg-[#FBF8F2] p-6"><MapPin className="text-[#9A7740]" size={20} /><h3 className="mt-5 font-sans text-sm font-bold text-[#481827]">Address</h3><p className="mt-2 text-sm leading-6 text-[#62595C]">{daet.address}</p></div>
             <div className="bg-[#FBF8F2] p-6"><Clock3 className="text-[#9A7740]" size={20} /><h3 className="mt-5 font-sans text-sm font-bold text-[#481827]">Opening hours</h3><p className="mt-2 text-sm leading-6 text-[#62595C]">{daet.schedule}</p></div>
             <div className="bg-[#FBF8F2] p-6"><Phone className="text-[#9A7740]" size={20} /><h3 className="mt-5 font-sans text-sm font-bold text-[#481827]">Call or SMS</h3><a href={`tel:${daet.phoneHref}`} className="mt-2 inline-block text-sm font-semibold text-[#5B1830]">{daet.phone}</a></div>
