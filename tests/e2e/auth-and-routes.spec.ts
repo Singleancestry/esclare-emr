@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 test("public home links to staff login", async ({ page }) => {
   await page.goto("/home");
 
-  await expect(page.getByRole("heading", { name: "ESCLARE Aesthetic & Wellness Clinic" })).toBeVisible();
-  await page.getByRole("link", { name: "Patient login" }).click();
+  await expect(page.getByRole("heading", { name: "ESCLARE" })).toBeVisible();
+  await page.getByRole("link", { name: "Staff access" }).click();
   await expect(page.getByRole("heading", { name: "Staff login" })).toBeVisible();
 });
 

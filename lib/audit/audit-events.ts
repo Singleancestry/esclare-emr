@@ -2,7 +2,7 @@ import "server-only";
 import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 
 type AuditEventInput = {
-  actorEmployeeId: string;
+  actorEmployeeId?: string;
   actorRole: string;
   branchId?: string;
   action: string;
@@ -23,7 +23,7 @@ export async function recordAuditEvent(event: AuditEventInput) {
   }
 
   await admin.from("audit_events").insert({
-    actor_employee_id: event.actorEmployeeId,
+    actor_employee_id: event.actorEmployeeId ?? null,
     actor_role: event.actorRole,
     branch_id: event.branchId,
     action: event.action,

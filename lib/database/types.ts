@@ -55,6 +55,53 @@ export type Database = {
         };
         Update: never;
       };
+      appointment_requests: {
+        Row: {
+          id: string;
+          public_reference: string;
+          branch_id: string;
+          full_name: string;
+          service_id: string | null;
+          requested_service: string | null;
+          preferred_date: string | null;
+          preferred_time: string | null;
+          status: "pending" | "contacted" | "confirmed" | "declined" | "cancelled" | "archived";
+          status_reason: string | null;
+          source: string;
+          submitted_at: string;
+          handled_at: string | null;
+          handled_by: string | null;
+          created_at: string;
+          updated_at: string;
+          created_by: string | null;
+          archived_at: string | null;
+          archived_by: string | null;
+          archive_reason: string | null;
+        };
+        Insert: {
+          id?: string;
+          public_reference: string;
+          branch_id: string;
+          full_name: string;
+          service_id?: string | null;
+          requested_service?: string | null;
+          preferred_date?: string | null;
+          preferred_time?: string | null;
+          status?: "pending" | "contacted" | "confirmed" | "declined" | "cancelled" | "archived";
+          status_reason?: string | null;
+          source?: string;
+          submitted_at?: string;
+          handled_at?: string | null;
+          handled_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          created_by?: string | null;
+          archived_at?: string | null;
+          archived_by?: string | null;
+          archive_reason?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["appointment_requests"]["Insert"]>;
+      };
     };
     Functions: {
       get_staff_context: {

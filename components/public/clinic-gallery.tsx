@@ -1,0 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { clinicGallery } from "@/lib/clinic/media";
+
+export function ClinicGallery({ compact = false }: { compact?: boolean }) {
+  const images = compact ? clinicGallery.slice(0, 4) : clinicGallery;
+  return <section className="bg-[#EEE6DA] py-20 lg:py-28"><div className="public-container"><div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal><div><p className="public-eyebrow">Inside ESCLARE Naga</p><h2 className="public-subheading mt-4">The real space behind your visit.</h2><p className="mt-4 max-w-2xl text-sm leading-7 text-[#62595C]">Authentic photographs of the clinic, professionally color-corrected without changing its architecture or layout.</p></div>{compact && <Link href="/gallery" className="public-link w-fit py-3 text-sm font-bold text-[#5B1830]">View the gallery <ArrowRight className="ml-1 inline" size={16} /></Link>}</div><div className={`mt-10 grid gap-4 ${compact ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3"}`}>{images.map((image, index) => <figure key={image.src} className={`group overflow-hidden bg-white ${!compact && (index === 0 || index === 5) ? "lg:col-span-2" : ""}`} data-reveal><div className={`relative overflow-hidden ${compact ? "aspect-[4/5]" : index === 0 || index === 5 ? "aspect-[16/9]" : "aspect-[4/5]"}`}><Image src={image.src} alt={image.alt} fill sizes={compact ? "(min-width: 1024px) 25vw, 50vw" : "(min-width: 1024px) 50vw, 100vw"} className="object-cover transition-transform duration-700 group-hover:scale-105" /></div><figcaption className="border-t border-[#E1D5C4] p-4"><p className="font-serif text-xl text-[#481827]">{image.title}</p><p className="mt-1 text-xs leading-5 text-[#6B6264]">{image.detail}</p></figcaption></figure>)}</div></div></section>;
+}

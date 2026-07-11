@@ -28,6 +28,13 @@ Implemented in this phase:
 
 Treatment catalog, prices, packages and Google Sheets import and approval.
 
+In progress:
+
+- Added a management-sourced treatment catalog and public regular-price view.
+- Added versioned service pricing, branch availability and permission-aware RLS foundations.
+- Added the complete July 2026 4D Diode package matrix to the application catalog.
+- Google Sheets staging, approval workflow UI and complete database seeding remain outstanding.
+
 ## Phase 4
 
 Appointments, calendar, resource scheduling and booking rules.

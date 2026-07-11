@@ -1,18 +1,8 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { CheckCircle2 } from "lucide-react";
+import { AppointmentRequestForm } from "@/components/public/appointment-request-form";
 
+export const metadata: Metadata = { title: "Request an Appointment", description: "Prepare an appointment request for ESCLARE Naga or Daet. No booking deposit required.", alternates: { canonical: "/appointment-request" } };
 export default function AppointmentRequestPage() {
-  return (
-    <main className="min-h-screen bg-[#F8F4ED] px-6 py-10 text-[#262626]">
-      <section className="mx-auto max-w-2xl rounded border border-[#D9DDE3] bg-white p-8 shadow-sm">
-        <Link href="/home" className="font-serif text-2xl font-semibold text-[#6F263D]">
-          ESCLARE
-        </Link>
-        <h1 className="mt-8 text-4xl font-semibold text-[#481827]">Appointment Request</h1>
-        <p className="mt-4 leading-7 text-[#5F6368]">
-          Public booking begins as a request and is never automatically confirmed. The full request
-          workflow is scheduled for Phase 8.
-        </p>
-      </section>
-    </main>
-  );
+  return <main><section className="bg-[#32101E] py-14 text-white sm:py-20"><div className="public-container"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#E8D5B5]">Simple, direct booking</p><h1 className="mt-4 max-w-4xl font-serif text-4xl leading-tight sm:text-6xl">Request your ESCLARE visit.</h1><p className="mt-5 max-w-2xl leading-8 text-[#E7DAD2]">Share your preferred details, then continue through an official branch channel. Your appointment is confirmed only after the team replies.</p><div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-[#F1E6DE]"><span className="inline-flex items-center gap-2"><CheckCircle2 className="text-[#D4B77D]" size={16} /> Full name only required</span><span className="inline-flex items-center gap-2"><CheckCircle2 className="text-[#D4B77D]" size={16} /> No deposit</span><span className="inline-flex items-center gap-2"><CheckCircle2 className="text-[#D4B77D]" size={16} /> No automatic confirmation</span></div></div></section><section className="py-14 sm:py-20"><div className="public-container"><AppointmentRequestForm /></div></section><section className="border-t border-[#D8C9B4] bg-[#EEE6DA] py-12"><div className="public-container grid gap-8 sm:grid-cols-3"><div><p className="public-eyebrow">Changes</p><h2 className="mt-2 font-sans text-base font-bold text-[#481827]">2 hours notice</h2><p className="mt-2 text-sm leading-6 text-[#62595C]">Cancel or reschedule at least 2 hours before your appointment.</p></div><div><p className="public-eyebrow">Late arrival</p><h2 className="mt-2 font-sans text-base font-bold text-[#481827]">Based on availability</h2><p className="mt-2 text-sm leading-6 text-[#62595C]">Late clients are accommodated when the schedule allows.</p></div><div><p className="public-eyebrow">No-show</p><h2 className="mt-2 font-sans text-base font-bold text-[#481827]">You may book again</h2><p className="mt-2 text-sm leading-6 text-[#62595C]">There is no restriction on requesting another appointment.</p></div></div></section></main>;
 }

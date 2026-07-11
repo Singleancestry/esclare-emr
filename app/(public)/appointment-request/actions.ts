@@ -1,0 +1,110 @@
+"use server";
+
+import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
+import { recordAuditEvent } from "@/lib/audit/audit-events";
+import { getBranch } from "@/lib/clinic/details";
+import type { BranchCode } from "@/lib/clinic/details";
+import { treatments } from "@/lib/services/catalog";
+import { appointmentRequestSchema } from "@/lib/validation/appointment-request";
+
+export type PublicAppointmentRequestState = {
+  status: "idle" | "saved" | "prepared" | "error";
+  message: string | null;
+  reference: string | null;
+  preparedMessage: string | null;
+  submittedBranchCode: BranchCode | null;
+};
+
+function createPublicReference() {
+  const date = new Date().toISOString().slice(0, 10).replaceAll("-", "");
+  return `WEB-${date}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
+}
+
+export async function submitPublicAppointmentRequest(
+  _previousState: PublicAppointmentRequestState,
+  formData: FormData,
+): Promise<PublicAppointmentRequestState> {
+  const parsed = appointmentRequestSchema.safeParse(Object.fromEntries(formData));
+
+  if (!parsed.success) {
+    return { status: "error", message: parsed.error.issues[0]?.message ?? "Check your request details.", reference: null, preparedMessage: null, submittedBranchCode: null };
+  }
+
+  const treatment = parsed.data.treatmentSlug
+    ? treatments.find((item) => item.slug === parsed.data.treatmentSlug)
+    : undefined;
+  const branchDetails = getBranch(parsed.data.branchCode);
+  const preparedMessage = `Hello ESCLARE ${branchDetails.name.replace("ESCLARE ", "")}. My name is ${parsed.data.fullName}. I would like to request ${treatment?.name ?? "an appointment"}${parsed.data.preferredDate ? ` on ${parsed.data.preferredDate}` : ""}${parsed.data.preferredTime ? ` at ${parsed.data.preferredTime}` : ""}. Please confirm availability.`;
+
+  // Honeypot submissions receive a neutral response without reaching the database.
+  if (parsed.data.website) {
+    return { status: "prepared", message: "Continue through an official ESCLARE channel to confirm availability.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+  }
+
+  const admin = createSupabaseAdminClient();
+
+  if (!admin) {
+    return {
+      status: "prepared",
+      message: "Your message is ready. Online saving is not configured yet, so continue through Facebook, phone, or SMS.",
+      reference: null,
+      preparedMessage,
+      submittedBranchCode: parsed.data.branchCode,
+    };
+  }
+
+  const branchCode = parsed.data.branchCode.toUpperCase();
+  const { data: branch, error: branchError } = await admin
+    .from("branches")
+    .select("id")
+    .eq("code", branchCode)
+    .maybeSingle();
+
+  if (branchError || !branch) {
+    return { status: "error", message: "The selected branch is not ready for online requests. Please contact it directly.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+  }
+
+  let serviceId: string | null = null;
+
+  if (treatment) {
+    const { data: service } = await admin.from("services").select("id").eq("code", treatment.slug).maybeSingle();
+    serviceId = service?.id ?? null;
+  }
+
+  const requestId = crypto.randomUUID();
+  const reference = createPublicReference();
+  const { error } = await admin.from("appointment_requests").insert({
+    id: requestId,
+    public_reference: reference,
+    branch_id: branch.id,
+    full_name: parsed.data.fullName,
+    service_id: serviceId,
+    requested_service: treatment?.name ?? null,
+    preferred_date: parsed.data.preferredDate || null,
+    preferred_time: parsed.data.preferredTime || null,
+    source: "website",
+  });
+
+  if (error) {
+    return { status: "error", message: "We could not save the request. Please use Facebook, phone, or SMS instead.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+  }
+
+  await recordAuditEvent({
+    actorRole: "public",
+    branchId: branch.id,
+    action: "appointment_request.create",
+    entityType: "appointment_requests",
+    entityId: requestId,
+    newValue: { reference, status: "pending", source: "website" },
+    reason: "Public website appointment request",
+    success: true,
+  });
+
+  return {
+    status: "saved",
+    message: "Request saved for the ESCLARE team. Continue through an official channel to confirm your appointment.",
+    reference,
+    preparedMessage,
+    submittedBranchCode: parsed.data.branchCode,
+  };
+}

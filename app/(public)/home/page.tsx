@@ -1,92 +1,33 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import type { Route } from "next";
-import { ArrowRight, MapPin, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, MapPin, ShieldCheck, Stethoscope } from "lucide-react";
+import { AttendantSection } from "@/components/public/attendant-section";
+import { AuthenticHero } from "@/components/public/authentic-hero";
+import { ClinicGallery } from "@/components/public/clinic-gallery";
+import { PremiumCounters } from "@/components/public/premium-counters";
+import { diodeMachine } from "@/lib/clinic/media";
+import { treatments } from "@/lib/services/catalog";
 
-const services = ["4D Diode Laser", "Pico Laser", "Korean Facial", "7D HIFU", "Doctor Procedures"];
+export const metadata: Metadata = { title: "Aesthetic & Wellness Clinic in Naga and Daet", description: "Discover thoughtful aesthetic and wellness care at ESCLARE Naga and Daet. Explore regular prices and request an appointment with no booking deposit.", alternates: { canonical: "/home" } };
+const featured = ["korean-facial", "pico-glow-face", "7d-hifu-face", "mccm-pdrn"];
 
 export default function PublicHomePage() {
-  return (
-    <main className="min-h-screen bg-[#F8F4ED] text-[#262626]">
-      <section className="grid min-h-[88vh] grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="flex flex-col justify-between px-6 py-6 sm:px-10 lg:px-16">
-          <nav className="flex items-center justify-between">
-            <Link href="/home" className="font-serif text-2xl font-semibold text-[#6F263D]">
-              ESCLARE
-            </Link>
-            <div className="flex items-center gap-3">
-              <Link className="text-sm font-medium text-[#481827]" href="/login">
-                Patient login
-              </Link>
-              <Link
-                className="rounded bg-[#6F263D] px-4 py-2 text-sm font-semibold text-white focus-ring"
-                href={"/appointment-request" as Route}
-              >
-                Request appointment
-              </Link>
-            </div>
-          </nav>
+  const featuredTreatments = featured.map((slug) => treatments.find((item) => item.slug === slug)!);
+  return <main><AuthenticHero />
+    <section className="bg-white py-10 sm:py-14"><div className="public-container"><PremiumCounters /></div></section>
 
-          <div className="max-w-3xl py-16">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#6F263D]">
-              Aesthetic and wellness clinic
-            </p>
-            <h1 className="text-5xl font-semibold leading-tight text-[#481827] sm:text-6xl">
-              ESCLARE Aesthetic & Wellness Clinic
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#3D3D3D]">
-              Warm, physician-guided aesthetic care across Naga and Daet with treatment plans,
-              packages and follow-up workflows designed around safe outcomes.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 rounded bg-[#6F263D] px-5 py-3 text-sm font-semibold text-white focus-ring"
-              >
-                View services <ArrowRight size={18} aria-hidden />
-              </Link>
-              <Link
-                href={"/branches" as Route}
-                className="inline-flex items-center gap-2 rounded border border-[#C6A467] px-5 py-3 text-sm font-semibold text-[#481827] focus-ring"
-              >
-                <MapPin size={18} aria-hidden /> Find a branch
-              </Link>
-            </div>
-          </div>
+    <section className="py-20 lg:py-28"><div className="public-container grid gap-12 lg:grid-cols-[0.42fr_0.58fr] lg:gap-20"><div data-reveal><p className="public-eyebrow">The ESCLARE experience</p><h2 className="public-subheading mt-4">Premium care should feel clear, personal, and reassuring.</h2></div><div data-reveal="right"><p className="leading-8 text-[#62595C]">From consultation to aftercare, every visit is guided by your goals, treatment suitability, and a plan you can understand. Doctor-required services are clearly identified and scheduled around clinical availability.</p><div className="mt-8 grid gap-5 sm:grid-cols-2"><div className="flex gap-3"><ShieldCheck className="mt-1 shrink-0 text-[#9A7740]" size={21} /><div><h3 className="font-sans text-sm font-bold text-[#3A2029]">Assessment-led</h3><p className="mt-1 text-sm leading-6 text-[#6B6264]">Suitability comes before recommendations.</p></div></div><div className="flex gap-3"><CheckCircle2 className="mt-1 shrink-0 text-[#9A7740]" size={21} /><div><h3 className="font-sans text-sm font-bold text-[#3A2029]">Clear pricing</h3><p className="mt-1 text-sm leading-6 text-[#6B6264]">Published regular rates, without expired promos.</p></div></div></div><Link href="/about" className="luxury-button-outline mt-9">Discover our approach <ArrowRight size={16} /></Link></div></div></section>
 
-          <div className="grid gap-4 pb-4 sm:grid-cols-3">
-            <div className="border-l-2 border-[#C6A467] pl-4">
-              <ShieldCheck className="mb-2 text-[#6F263D]" size={22} aria-hidden />
-              <p className="text-sm font-semibold">Consent-led care</p>
-            </div>
-            <div className="border-l-2 border-[#C6A467] pl-4">
-              <Sparkles className="mb-2 text-[#6F263D]" size={22} aria-hidden />
-              <p className="text-sm font-semibold">Premium treatments</p>
-            </div>
-            <div className="border-l-2 border-[#C6A467] pl-4">
-              <MapPin className="mb-2 text-[#6F263D]" size={22} aria-hidden />
-              <p className="text-sm font-semibold">Naga and Daet</p>
-            </div>
-          </div>
-        </div>
+    <section className="bg-[#EEE6DA] py-20 lg:py-28"><div className="public-container"><div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal><div><p className="public-eyebrow">Signature care</p><h2 className="public-subheading mt-4">Treatments selected around you.</h2></div><Link href="/treatments" className="public-link w-fit py-3 text-sm font-bold text-[#5B1830]">View all treatments <ArrowRight className="ml-1 inline" size={16} /></Link></div><div className="mt-10 grid gap-px bg-[#CCBCA7] sm:grid-cols-2 lg:grid-cols-4">{featuredTreatments.map((item, index) => <Link href={`/treatments#${item.category.replaceAll(" ", "-").toLowerCase()}`} key={item.slug} data-reveal className="group min-h-60 bg-[#FBF8F2] p-6 transition-colors hover:bg-white"><span className="font-serif text-sm text-[#A17E48]">0{index + 1}</span><div className="mt-12"><h3 className="text-2xl text-[#481827] transition-transform duration-300 group-hover:-translate-y-1">{item.name}</h3><p className="mt-3 text-sm leading-6 text-[#686063]">{item.summary}</p><ArrowRight className="mt-6 text-[#6F263D] transition-transform group-hover:translate-x-2" size={18} /></div></Link>)}</div></div></section>
 
-        <div className="bg-[#6F263D] px-6 py-10 text-white lg:px-12">
-          <div className="flex h-full flex-col justify-end">
-            <p className="mb-4 text-sm uppercase tracking-[0.18em] text-[#F8F4ED]">Featured care</p>
-            <div className="grid gap-3">
-              {services.map((service) => (
-                <Link
-                  key={service}
-                  className="flex items-center justify-between rounded border border-white/20 bg-white/10 px-4 py-4 text-base font-semibold focus-ring"
-                  href="/services"
-                >
-                  {service}
-                  <ArrowRight size={18} aria-hidden />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+    <section className="overflow-hidden bg-[#32101E] py-20 text-white lg:py-28"><div className="public-container grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20"><div className="relative mx-auto aspect-[9/11] w-full max-w-lg bg-[#FBF8F2]" data-reveal="left"><Image src={diodeMachine.src} alt={diodeMachine.alt} width={diodeMachine.width} height={diodeMachine.height} sizes="(min-width: 1024px) 40vw, 90vw" className="size-full object-contain p-6 sm:p-10" /><div className="absolute bottom-0 left-0 bg-[#5B1830] px-5 py-4"><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#E8D5B5]">Actual ESCLARE equipment</p></div></div><div data-reveal="right"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#D4B77D]">4-wavelength diode</p><h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">Technology you can see. Guidance you can trust.</h2><p className="mt-6 leading-8 text-[#E7DAD2]">ESCLARE uses a four-wavelength diode laser system designed to address hair at different follicle depths. Cooling support helps make sessions more comfortable, while treatment intervals and the recommended course remain individualized.</p><div className="mt-8 grid gap-4 text-sm text-[#F2E7E0] sm:grid-cols-2"><p className="border-l border-[#C4A064] pl-4">Multiple wavelengths for broader treatment coverage</p><p className="border-l border-[#C4A064] pl-4">Cooling-supported treatment experience</p><p className="border-l border-[#C4A064] pl-4">Monthly intervals commonly recommended</p><p className="border-l border-[#C4A064] pl-4">Results vary by hair, hormones, area, and consistency</p></div><Link href="/diode-laser" className="luxury-button-light mt-9">Explore 4D Diode <ArrowRight size={16} /></Link></div></div></section>
+
+    <ClinicGallery compact />
+    <AttendantSection />
+
+    <section className="py-20 lg:py-28"><div className="public-container"><div data-reveal><p className="public-eyebrow">Your treatment journey</p><h2 className="public-subheading mt-4 max-w-3xl">Simple steps, clear expectations.</h2></div><div className="mt-10 grid gap-px bg-[#D8C9B4] md:grid-cols-3">{[["01","Request","Choose your branch, treatment, preferred date, and preferred time."],["02","Confirm","The team checks staff, doctor, room, and equipment availability."],["03","Visit","Arrive for assessment and a treatment plan suited to your goals."]].map(([number,title,copy]) => <article key={number} className="bg-white p-7" data-reveal><p className="font-serif text-3xl text-[#A17E48]">{number}</p><h3 className="mt-10 text-2xl text-[#481827]">{title}</h3><p className="mt-3 text-sm leading-7 text-[#62595C]">{copy}</p></article>)}</div></div></section>
+
+    <section className="bg-[#5B1830] py-16 text-white"><div className="public-container grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center"><div data-reveal><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#E8D5B5]">Visit with confidence</p><h2 className="mt-4 max-w-3xl font-serif text-3xl leading-tight sm:text-5xl">Two welcoming branches, one considered standard of care.</h2><div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#F0DFD3]"><span className="inline-flex items-center gap-2"><MapPin size={16} /> Naga City</span><span className="inline-flex items-center gap-2"><MapPin size={16} /> Daet</span><span className="inline-flex items-center gap-2"><Stethoscope size={16} /> Saturday doctor schedule</span></div></div><div className="flex flex-col gap-3 sm:flex-row lg:flex-col"><Link href="/branches" className="luxury-button-light">Find a branch</Link><Link href="/appointment-request" className="luxury-button-ghost">Book a visit</Link></div></div></section>
+  </main>;
 }

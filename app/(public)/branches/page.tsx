@@ -1,28 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { ArrowRight, Clock3, ExternalLink, Facebook, MapPin, Phone } from "lucide-react";
+import { clinicBranches } from "@/lib/clinic/details";
 
-const branches = ["ESCLARE Naga", "ESCLARE Daet"];
-
+export const metadata: Metadata = { title: "Naga & Daet Branches", description: "Find ESCLARE Naga and Daet addresses, opening hours, phone numbers, maps, and treatment availability.", alternates: { canonical: "/branches" } };
 export default function BranchesPage() {
-  return (
-    <main className="min-h-screen bg-[#F8F4ED] px-6 py-10 text-[#262626]">
-      <section className="mx-auto max-w-3xl">
-        <Link href="/home" className="font-serif text-2xl font-semibold text-[#6F263D]">
-          ESCLARE
-        </Link>
-        <h1 className="mt-8 text-4xl font-semibold text-[#481827]">Branches</h1>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {branches.map((branch) => (
-            <article key={branch} className="rounded border border-[#D9DDE3] bg-white p-5 shadow-sm">
-              <MapPin className="text-[#6F263D]" size={22} aria-hidden />
-              <h2 className="mt-3 text-xl font-semibold text-[#481827]">{branch}</h2>
-              <p className="mt-2 text-sm leading-6 text-[#5F6368]">
-                Fictional development branch seeded for Phase 1 multi-branch access controls.
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
+  return <main><section className="bg-[#EEE6DA] py-16 sm:py-24"><div className="public-container"><p className="public-eyebrow">Visit ESCLARE</p><h1 className="public-heading mt-4">Two beautiful places to feel looked after.</h1><p className="mt-6 max-w-2xl leading-8 text-[#62595C]">Choose your nearest branch and connect directly for confirmed availability.</p></div></section><section className="py-16 sm:py-24"><div className="public-container space-y-14">{clinicBranches.map((branch, index) => <article key={branch.code} className="grid overflow-hidden border border-[#D8C9B4] bg-white lg:grid-cols-[0.42fr_0.58fr]" data-reveal><div className={`flex min-h-72 flex-col justify-between p-7 text-white sm:p-10 ${index === 0 ? "bg-[#5B1830]" : "bg-[#3B242C]"}`}><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#E8D5B5]">{index === 0 ? "Naga City" : "Camarines Norte"}</p><h2 className="mt-4 text-4xl text-white">{branch.name}</h2></div><div><p className="flex items-start gap-3 text-sm leading-7 text-[#EEE2DA]"><MapPin className="mt-1 shrink-0 text-[#D4B77D]" size={18} /> {branch.address}</p><p className="mt-4 flex items-center gap-3 text-sm"><Clock3 className="text-[#D4B77D]" size={18} /> {branch.schedule}</p>{branch.lastClient && <p className="mt-2 pl-8 text-xs text-[#D8C9C0]">{branch.lastClient}</p>}</div></div><div className="flex flex-col justify-between p-7 sm:p-10"><div><p className="public-eyebrow">Treatment availability</p><p className="mt-4 max-w-2xl leading-7 text-[#62595C]">{branch.unavailableTreatments.length === 0 ? "All listed ESCLARE treatments are available, subject to doctor or staff availability." : `All listed treatments are available except ${branch.unavailableTreatments.join(", ")}. Other services remain subject to staff availability.`}</p><a href={`tel:${branch.phoneHref}`} className="mt-7 inline-flex items-center gap-3 text-xl font-semibold text-[#5B1830]"><Phone size={20} /> {branch.phone}</a></div><div className="mt-10 flex flex-wrap gap-3"><a href={branch.maps} target="_blank" rel="noreferrer" className="luxury-button">Directions <ExternalLink size={15} /></a><a href={branch.facebook} target="_blank" rel="noreferrer" className="luxury-button-outline"><Facebook size={16} /> Facebook</a><Link href={`/appointment-request?branch=${branch.code}`} className="luxury-button-outline">Request visit <ArrowRight size={15} /></Link></div></div></article>)}</div></section></main>;
 }
