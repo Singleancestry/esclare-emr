@@ -227,6 +227,52 @@ a {
   will-change: transform;
 }
 
+.spotlight-card {
+  border-radius: var(--radius-control);
+  isolation: isolate;
+  position: relative;
+}
+
+.spotlight-card::before {
+  background: radial-gradient(150px circle at var(--spot-x) var(--spot-y), rgb(245 220 172 / 78%), rgb(167 111 74 / 22%) 42%, transparent 72%);
+  border-radius: inherit;
+  content: "";
+  inset: -1px;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  padding: 1px;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.premium-trace::after {
+  animation: trace-border 9s linear infinite;
+  background: conic-gradient(from var(--trace-angle), transparent 0 80%, rgb(232 213 181 / 85%) 89%, rgb(111 38 61 / 92%) 94%, transparent 100%);
+  content: "";
+  inset: 10px;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  padding: 1px;
+  pointer-events: none;
+  position: absolute;
+  z-index: 10;
+}
+
+.hero-reveal { animation: hero-rise 720ms cubic-bezier(.2,.75,.2,1) both; }
+.hero-reveal-1 { animation-delay: 80ms; }
+.hero-reveal-2 { animation-delay: 180ms; }
+.hero-reveal-3 { animation-delay: 300ms; }
+.hero-reveal-4 { animation-delay: 430ms; }
+.hero-scroll { animation: scroll-cue 1.8s ease-in-out infinite; }
+.site-nav-enter { animation: nav-enter 520ms cubic-bezier(.2,.75,.2,1) both; }
+
+@property --trace-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @keyframes page-enter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes shimmer { 55%, 100% { transform: translateX(120%); } }
 @keyframes pulse-soft { 50% { opacity: .48; } }
@@ -234,6 +280,10 @@ a {
 @keyframes reveal-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
 @keyframes reveal-right { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 @keyframes cinematic-drift { from { transform: scale(1.015); } to { transform: scale(1.045); } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes scroll-cue { 50% { transform: translateY(5px); } }
+@keyframes trace-border { to { --trace-angle: 360deg; } }
+@keyframes nav-enter { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
 @media (min-width: 640px) {
   .public-container { width: min(100% - 4rem, 75rem); }
@@ -252,4 +302,13 @@ a {
 
 .focus-ring:focus-visible {
   outline-color: var(--gold);
+}
+
+.public-scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.public-scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

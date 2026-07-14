@@ -45,7 +45,7 @@ export function SiteHeader() {
 
   return <>
     <div className="bg-[#32101E] px-4 py-2 text-center text-[11px] font-semibold uppercase text-[#E8D5B5] sm:text-xs">Naga open daily · Daet Tuesday-Sunday · No booking deposit</div>
-    <header className="sticky top-0 z-50 border-b border-[#D8C9B4]/70 bg-[#FBF8F2]/95 backdrop-blur-xl">
+    <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D8C9B4]/60 bg-[#FCFAF6]/92 backdrop-blur-xl">
       <div className="public-container flex h-[72px] items-center justify-between gap-4">
         <Link href="/home" aria-label="ESCLARE home" className="group shrink-0"><Image src="/images/optimized/logo/esclare-official-wordmark-640.webp" alt="ESCLARE Aesthetic Center" width={640} height={199} priority className="h-auto w-[132px] sm:w-[152px]" /></Link>
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">{links.map(([label, href]) => { const active = pathname === href || (href === "/branches" && pathname.startsWith("/branches/")); return <Link key={href} href={href} aria-current={active ? "page" : undefined} className={`public-link py-3 text-[11px] font-bold uppercase tracking-[0.07em] ${active ? "text-[#5B1830]" : "text-[#3A2D31]"}`}>{label}</Link>; })}</nav>

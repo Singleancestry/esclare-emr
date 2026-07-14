@@ -53,8 +53,8 @@ export const attendantPortrait = {
 } as const;
 
 export const diodeMachine = {
-  src: "/images/optimized/diode-machine/esclare-diode-machine-front-900.webp",
-  alt: "The actual four-wavelength diode laser machine used by ESCLARE",
-  width: 900,
-  height: 1100,
+  src: "/images/optimized/treatments/devices/diode-4d/diode-4d-device.webp",
+  alt: "ESCLARE 4D diode laser device visual in a prepared treatment room",
+  width: 1537,
+  height: 1023,
 } as const;

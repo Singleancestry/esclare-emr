@@ -83,7 +83,7 @@ export function ClinicGallery({ compact = false, branch }: ClinicGalleryProps) {
           {images.map((image, index) => {
             const isFeature = !compact && (index === 0 || images[index - 1]?.branch !== image.branch);
             return (
-              <figure key={`${image.branch}-${image.title}-${index}`} className={`${isFeature ? "lg:col-span-8" : compact ? "" : "lg:col-span-4"} group overflow-hidden rounded-lg border border-[#DED2C2] bg-white shadow-[0_14px_36px_rgb(72_42_48_/_7%)]`} data-reveal>
+              <figure key={`${image.branch}-${image.title}-${index}`} className={`${isFeature ? "premium-trace lg:col-span-8" : compact ? "" : "lg:col-span-4"} group relative overflow-hidden rounded-lg border border-[#DED2C2] bg-white shadow-[0_14px_36px_rgb(72_42_48_/_7%)]`} data-reveal>
                 <button type="button" onClick={(event) => openImage(index, event.currentTarget)} aria-label={`Open larger view of ${image.title}, ESCLARE ${image.branch}`} className={`relative block w-full cursor-zoom-in overflow-hidden text-left ${compact ? "aspect-[4/5]" : isFeature ? "aspect-[16/9]" : "aspect-[4/5]"}`}>
                   <Image src={image.src} alt={image.alt} fill sizes={compact ? "(min-width: 1024px) 25vw, 50vw" : isFeature ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 50vw"} placeholder="blur" className="object-cover transition duration-700 group-hover:scale-[1.035] group-hover:brightness-[0.94]" />
                   <span className="absolute bottom-3 right-3 grid size-10 place-items-center rounded-lg bg-[#FBF8F2]/95 text-[#5B1830] opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"><Expand size={17} /></span>

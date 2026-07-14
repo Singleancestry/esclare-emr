@@ -48,7 +48,7 @@ export default function DaetBranchPage() {
         </div>
       </section>
 
-      <section className="bg-[#32101E] py-12 text-white"><div className="public-container grid gap-6 sm:grid-cols-[1fr_auto] sm:items-center"><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D4B77D]">Daet treatment availability</p><h2 className="mt-3 text-3xl text-white">All listed treatments except Fractional Laser and Scar Care.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-[#E7DAD2]">Treatments remain subject to doctor, staff, room, and equipment availability.</p></div><Link href="/treatments" className="luxury-button-light">View treatments <ArrowRight size={16} /></Link></div></section>
+      <section className="bg-[#32101E] py-12 text-white"><div className="public-container grid gap-6 sm:grid-cols-[1fr_auto] sm:items-center"><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D4B77D]">Daet treatment availability</p><h2 className="mt-3 text-3xl text-white">All listed treatments except Fractional Laser.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-[#E7DAD2]">Treatments remain subject to doctor, staff, room, and equipment availability.</p></div><Link href="/treatments" className="luxury-button-light">View treatments <ArrowRight size={16} /></Link></div></section>
 
       <ClinicGallery branch="daet" />
 
