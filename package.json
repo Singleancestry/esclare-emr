@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "playwright test",
+    "e2e": "node scripts/run-e2e.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
