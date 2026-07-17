@@ -9,7 +9,11 @@ import {
 function futureDate() {
   const date = new Date();
   date.setDate(date.getDate() + 3);
-  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
 }
 
 describe("public appointment request validation", () => {
@@ -32,8 +36,12 @@ describe("public appointment request validation", () => {
 
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.issues.map((issue) => issue.message)).toContain("Choose a valid treatment.");
-      expect(result.error.issues.map((issue) => issue.message)).toContain("Preferred date cannot be in the past.");
+      expect(result.error.issues.map((issue) => issue.message)).toContain(
+        "Choose a valid treatment.",
+      );
+      expect(result.error.issues.map((issue) => issue.message)).toContain(
+        "Preferred date cannot be in the past.",
+      );
     }
   });
 
@@ -61,10 +69,12 @@ describe("appointment request status rules", () => {
   });
 
   it("requires a reason for every staff status change", () => {
-    expect(appointmentRequestStatusUpdateSchema.safeParse({
-      requestId: crypto.randomUUID(),
-      status: "confirmed",
-      reason: "ok",
-    }).success).toBe(false);
+    expect(
+      appointmentRequestStatusUpdateSchema.safeParse({
+        requestId: crypto.randomUUID(),
+        status: "confirmed",
+        reason: "ok",
+      }).success,
+    ).toBe(false);
   });
 });

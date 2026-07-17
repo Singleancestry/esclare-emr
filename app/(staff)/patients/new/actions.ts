@@ -28,7 +28,10 @@ export async function createPatientAction(
   const parsed = patientRegistrationSchema.safeParse(Object.fromEntries(formData));
 
   if (!parsed.success) {
-    return { status: "error", message: parsed.error.issues[0]?.message ?? "Check the registration form." };
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Check the registration form.",
+    };
   }
 
   if (!hasBranchAccess(staff, parsed.data.branchId)) {

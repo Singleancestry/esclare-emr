@@ -27,7 +27,13 @@ export async function submitPublicAppointmentRequest(
   const parsed = appointmentRequestSchema.safeParse(Object.fromEntries(formData));
 
   if (!parsed.success) {
-    return { status: "error", message: parsed.error.issues[0]?.message ?? "Check your request details.", reference: null, preparedMessage: null, submittedBranchCode: null };
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Check your request details.",
+      reference: null,
+      preparedMessage: null,
+      submittedBranchCode: null,
+    };
   }
 
   const treatment = parsed.data.treatmentSlug
@@ -38,7 +44,13 @@ export async function submitPublicAppointmentRequest(
 
   // Honeypot submissions receive a neutral response without reaching the database.
   if (parsed.data.website) {
-    return { status: "prepared", message: "Continue through an official ESCLARE channel to confirm availability.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+    return {
+      status: "prepared",
+      message: "Continue through an official ESCLARE channel to confirm availability.",
+      reference: null,
+      preparedMessage,
+      submittedBranchCode: parsed.data.branchCode,
+    };
   }
 
   const admin = createSupabaseAdminClient();
@@ -46,7 +58,8 @@ export async function submitPublicAppointmentRequest(
   if (!admin) {
     return {
       status: "prepared",
-      message: "Your message is ready. Online saving is not configured yet, so continue through Facebook, phone, or SMS.",
+      message:
+        "Your message is ready. Online saving is not configured yet, so continue through Facebook, phone, or SMS.",
       reference: null,
       preparedMessage,
       submittedBranchCode: parsed.data.branchCode,
@@ -61,13 +74,23 @@ export async function submitPublicAppointmentRequest(
     .maybeSingle();
 
   if (branchError || !branch) {
-    return { status: "error", message: "The selected branch is not ready for online requests. Please contact it directly.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+    return {
+      status: "error",
+      message: "The selected branch is not ready for online requests. Please contact it directly.",
+      reference: null,
+      preparedMessage,
+      submittedBranchCode: parsed.data.branchCode,
+    };
   }
 
   let serviceId: string | null = null;
 
   if (treatment) {
-    const { data: service } = await admin.from("services").select("id").eq("code", treatment.slug).maybeSingle();
+    const { data: service } = await admin
+      .from("services")
+      .select("id")
+      .eq("code", treatment.slug)
+      .maybeSingle();
     serviceId = service?.id ?? null;
   }
 
@@ -86,7 +109,13 @@ export async function submitPublicAppointmentRequest(
   });
 
   if (error) {
-    return { status: "error", message: "We could not save the request. Please use Facebook, phone, or SMS instead.", reference: null, preparedMessage, submittedBranchCode: parsed.data.branchCode };
+    return {
+      status: "error",
+      message: "We could not save the request. Please use Facebook, phone, or SMS instead.",
+      reference: null,
+      preparedMessage,
+      submittedBranchCode: parsed.data.branchCode,
+    };
   }
 
   await recordAuditEvent({
@@ -102,7 +131,8 @@ export async function submitPublicAppointmentRequest(
 
   return {
     status: "saved",
-    message: "Request saved for the ESCLARE team. Continue through an official channel to confirm your appointment.",
+    message:
+      "Request saved for the ESCLARE team. Continue through an official channel to confirm your appointment.",
     reference,
     preparedMessage,
     submittedBranchCode: parsed.data.branchCode,

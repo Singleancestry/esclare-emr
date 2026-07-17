@@ -31,7 +31,11 @@ describe("treatment gallery media", () => {
       "doctor-led": ["/doctor/"],
     } as const;
     for (const category of treatmentGalleryCategories) {
-      expect(category.images.every((image) => folders[category.id].some((folder) => image.src.includes(folder)))).toBe(true);
+      expect(
+        category.images.every((image) =>
+          folders[category.id].some((folder) => image.src.includes(folder)),
+        ),
+      ).toBe(true);
     }
   });
 });

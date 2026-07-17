@@ -16,7 +16,10 @@ export default async function NewPatientPage() {
           acknowledgement, duplicate-screening data, and an initial medical-profile shell.
         </p>
       </div>
-      <PatientRegistrationForm branches={staff.branches} verifierName={staff.employee.displayName} />
+      <PatientRegistrationForm
+        branches={staff.branches}
+        verifierName={staff.employee.displayName}
+      />
     </main>
   );
 }

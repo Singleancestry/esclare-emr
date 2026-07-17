@@ -42,7 +42,11 @@ export const mainNavigation: NavItem[] = [
     icon: CalendarDays,
     permission: "appointments.view",
     children: [
-      { label: "Appointment Calendar", href: "/appointments/calendar", permission: "appointments.view" },
+      {
+        label: "Appointment Calendar",
+        href: "/appointments/calendar",
+        permission: "appointments.view",
+      },
       { label: "Appointment List", href: "/appointments", permission: "appointments.view" },
       { label: "New Appointment", href: "/appointments/new", permission: "appointments.create" },
       { label: "Pending Requests", href: "/appointments/pending", permission: "appointments.view" },

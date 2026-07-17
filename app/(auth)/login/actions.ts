@@ -9,7 +9,10 @@ type LoginState = {
   error: string | null;
 };
 
-export async function signInAction(_previousState: LoginState, formData: FormData): Promise<LoginState> {
+export async function signInAction(
+  _previousState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

@@ -10,6 +10,9 @@ test-results/
 .env*.local
 !.env.example
 dist/
+release/
 .tools/
+tools/
+debug.log
 tsconfig.tsbuildinfo
 .vercel/

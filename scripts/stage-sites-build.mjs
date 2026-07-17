@@ -11,11 +11,15 @@ const bundle = resolve(root, ".sites-bundle");
 
 await rm(bundle, { force: true, recursive: true });
 const wrangler = resolve(root, "node_modules", "wrangler", "bin", "wrangler.js");
-const bundleResult = spawnSync(process.execPath, [wrangler, "deploy", "--dry-run", "--outdir", bundle], {
-  cwd: root,
-  encoding: "utf8",
-  stdio: "inherit",
-});
+const bundleResult = spawnSync(
+  process.execPath,
+  [wrangler, "deploy", "--dry-run", "--outdir", bundle],
+  {
+    cwd: root,
+    encoding: "utf8",
+    stdio: "inherit",
+  },
+);
 if (bundleResult.status !== 0) {
   throw new Error("Unable to bundle the Sites worker");
 }

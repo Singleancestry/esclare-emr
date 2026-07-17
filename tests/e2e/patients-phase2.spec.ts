@@ -32,7 +32,9 @@ test("patient registration validates weak mobile input", async ({ page }) => {
   await expect(page.getByText("Use a valid Philippine mobile number.")).toBeVisible();
 });
 
-test("patient profile masks contact and hides full medical notes only when allowed", async ({ page }) => {
+test("patient profile masks contact and hides full medical notes only when allowed", async ({
+  page,
+}) => {
   await page.goto("/patients/10000000-0000-4000-8000-000000000001");
 
   await expect(page.getByRole("heading", { name: /Liana/ })).toBeVisible();

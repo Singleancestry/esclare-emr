@@ -19,5 +19,10 @@ export default async function PatientProfilePage({
     notFound();
   }
 
-  return <PatientProfile patient={patient} canViewFullMedical={hasPermission(staff, "medical.view_full")} />;
+  return (
+    <PatientProfile
+      patient={patient}
+      canViewFullMedical={hasPermission(staff, "medical.view_full")}
+    />
+  );
 }

@@ -2,7 +2,102 @@ import type { Metadata } from "next";
 import { ExternalLink, Facebook, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { clinicBranches } from "@/lib/clinic/details";
 
-export const metadata: Metadata = { title: "Contact", description: "Contact ESCLARE Naga or Daet through official phone, Facebook, email, and location links.", alternates: { canonical: "/contact" } };
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Contact ESCLARE Naga or Daet through official phone, Facebook, email, and location links.",
+  alternates: { canonical: "/contact" },
+};
 export default function ContactPage() {
-  return <main><section className="bg-[#32101E] py-16 text-white sm:py-24"><div className="public-container"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#E8D5B5]">Official channels</p><h1 className="mt-4 max-w-4xl font-serif text-4xl sm:text-6xl">Let’s plan your visit.</h1><p className="mt-6 max-w-2xl leading-8 text-[#E7DAD2]">Choose the branch most convenient for you. Appointment availability is confirmed directly by the team.</p></div></section><section className="py-16 sm:py-24"><div className="public-container grid gap-8 lg:grid-cols-2">{clinicBranches.map((branch) => <article key={branch.code} className="border-t-4 border-[#C4A064] bg-white p-6 shadow-[0_20px_50px_rgba(55,28,37,0.08)] sm:p-9" data-reveal><p className="public-eyebrow">{branch.code === "naga" ? "Open daily" : "Tuesday-Sunday"}</p><h2 className="mt-3 text-3xl text-[#481827]">{branch.name}</h2><p className="mt-4 flex gap-3 text-sm leading-7 text-[#62595C]"><MapPin className="mt-1 shrink-0 text-[#9A7740]" size={18} /> {branch.address}</p><p className="mt-3 text-sm font-semibold text-[#4A3E42]">{branch.schedule}{branch.lastClient ? ` · ${branch.lastClient}` : ""}</p><div className="mt-7 grid gap-3"><a href={`tel:${branch.phoneHref}`} className="luxury-button justify-between"><span className="inline-flex items-center gap-2"><Phone size={17} /> {branch.phone}</span></a><a href={branch.messenger} target="_blank" rel="noreferrer" className="luxury-button-outline justify-between"><span className="inline-flex items-center gap-2"><MessageCircle size={17} /> Messenger</span><ExternalLink size={15} /></a><a href={branch.facebook} target="_blank" rel="noreferrer" className="luxury-button-outline justify-between"><span className="inline-flex items-center gap-2"><Facebook size={17} /> Facebook page</span><ExternalLink size={15} /></a><a href={branch.maps} target="_blank" rel="noreferrer" className="luxury-button-outline justify-between"><span className="inline-flex items-center gap-2"><MapPin size={17} /> Get directions</span><ExternalLink size={15} /></a></div></article>)}</div><div className="public-container mt-12 border-t border-[#D8C9B4] pt-10"><a href="mailto:esclarenaga@gmail.com" className="inline-flex items-center gap-3 text-lg font-semibold text-[#5B1830]"><Mail size={20} /> esclarenaga@gmail.com</a><p className="mt-3 text-sm text-[#6B6264]">For the fastest booking response, contact your preferred branch by Facebook, phone, or SMS.</p></div></section></main>;
+  return (
+    <main>
+      <section className="bg-[#32101E] py-16 text-white sm:py-24">
+        <div className="public-container">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#E8D5B5]">
+            Official channels
+          </p>
+          <h1 className="mt-4 max-w-4xl font-serif text-4xl sm:text-6xl">Let’s plan your visit.</h1>
+          <p className="mt-6 max-w-2xl leading-8 text-[#E7DAD2]">
+            Choose the branch most convenient for you. Appointment availability is confirmed
+            directly by the team.
+          </p>
+        </div>
+      </section>
+      <section className="py-16 sm:py-24">
+        <div className="public-container grid gap-8 lg:grid-cols-2">
+          {clinicBranches.map((branch) => (
+            <article
+              key={branch.code}
+              className="border-t-4 border-[#C4A064] bg-white p-6 shadow-[0_20px_50px_rgba(55,28,37,0.08)] sm:p-9"
+              data-reveal
+            >
+              <p className="public-eyebrow">
+                {branch.code === "naga" ? "Open daily" : "Tuesday-Sunday"}
+              </p>
+              <h2 className="mt-3 text-3xl text-[#481827]">{branch.name}</h2>
+              <p className="mt-4 flex gap-3 text-sm leading-7 text-[#62595C]">
+                <MapPin className="mt-1 shrink-0 text-[#9A7740]" size={18} /> {branch.address}
+              </p>
+              <p className="mt-3 text-sm font-semibold text-[#4A3E42]">
+                {branch.schedule}
+                {branch.lastClient ? ` · ${branch.lastClient}` : ""}
+              </p>
+              <div className="mt-7 grid gap-3">
+                <a href={`tel:${branch.phoneHref}`} className="luxury-button justify-between">
+                  <span className="inline-flex items-center gap-2">
+                    <Phone size={17} /> {branch.phone}
+                  </span>
+                </a>
+                <a
+                  href={branch.messenger}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="luxury-button-outline justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <MessageCircle size={17} /> Messenger
+                  </span>
+                  <ExternalLink size={15} />
+                </a>
+                <a
+                  href={branch.facebook}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="luxury-button-outline justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Facebook size={17} /> Facebook page
+                  </span>
+                  <ExternalLink size={15} />
+                </a>
+                <a
+                  href={branch.maps}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="luxury-button-outline justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <MapPin size={17} /> Get directions
+                  </span>
+                  <ExternalLink size={15} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="public-container mt-12 border-t border-[#D8C9B4] pt-10">
+          <a
+            href="mailto:esclarenaga@gmail.com"
+            className="inline-flex items-center gap-3 text-lg font-semibold text-[#5B1830]"
+          >
+            <Mail size={20} /> esclarenaga@gmail.com
+          </a>
+          <p className="mt-3 text-sm text-[#6B6264]">
+            For the fastest booking response, contact your preferred branch by Facebook, phone, or
+            SMS.
+          </p>
+        </div>
+      </section>
+    </main>
+  );
 }

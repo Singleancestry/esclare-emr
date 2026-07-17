@@ -26,12 +26,18 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
   const [message, setMessage] = useState<string | null>(null);
 
   const branches = useMemo(
-    () => Array.from(new Map(patients.map((patient) => [patient.homeBranchId, patient.homeBranchName])).entries()),
+    () =>
+      Array.from(
+        new Map(
+          patients.map((patient) => [patient.homeBranchId, patient.homeBranchName]),
+        ).entries(),
+      ),
     [patients],
   );
 
   const filteredPatients = patients.filter((patient) => {
-    const text = `${patient.firstName} ${patient.lastName} ${patient.patientNumber} ${patient.mobile}`.toLowerCase();
+    const text =
+      `${patient.firstName} ${patient.lastName} ${patient.patientNumber} ${patient.mobile}`.toLowerCase();
     const matchesQuery = text.includes(query.toLowerCase());
     const matchesBranch = branch === "all" || patient.homeBranchId === branch;
     return matchesQuery && matchesBranch && !patient.archivedAt;
@@ -67,7 +73,11 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
       <div className="rounded border border-[#D9DDE3] bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative min-w-[260px] flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6F263D]" size={17} aria-hidden />
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6F263D]"
+              size={17}
+              aria-hidden
+            />
             <label className="sr-only" htmlFor="patient-filter">
               Search patients
             </label>
@@ -122,28 +132,48 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
       {view === "cards" ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredPatients.map((patient) => (
-            <article key={patient.id} className="rounded border border-[#D9DDE3] bg-white p-4 shadow-sm">
+            <article
+              key={patient.id}
+              className="rounded border border-[#D9DDE3] bg-white p-4 shadow-sm"
+            >
               <div className="flex items-start gap-3">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded bg-[#6F263D] font-serif text-lg font-semibold text-white">
                   {patient.firstName[0]}
                   {patient.lastName[0]}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="truncate text-lg font-semibold text-[#481827]">{formatPatientName(patient)}</h2>
+                  <h2 className="truncate text-lg font-semibold text-[#481827]">
+                    {formatPatientName(patient)}
+                  </h2>
                   <p className="text-sm font-semibold text-[#5F6368]">{patient.patientNumber}</p>
                 </div>
-                <span className={`rounded px-2 py-1 text-xs font-semibold ${alertTone(patient.clinicalAlertLevel)}`}>
+                <span
+                  className={`rounded px-2 py-1 text-xs font-semibold ${alertTone(patient.clinicalAlertLevel)}`}
+                >
                   {patient.clinicalAlertLevel.replaceAll("_", " ")}
                 </span>
               </div>
 
               <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
                 <Metric label="Sex" value={patient.sexAtBirth} />
-                <Metric label="Mobile" value={revealed[patient.id]?.mobile ?? patient.maskedMobile} />
+                <Metric
+                  label="Mobile"
+                  value={revealed[patient.id]?.mobile ?? patient.maskedMobile}
+                />
                 <Metric label="Sessions" value={patient.remainingSessions.toString()} />
-                <Metric label="Balance" value={`PHP ${patient.outstandingBalance.toLocaleString()}`} />
+                <Metric
+                  label="Balance"
+                  value={`PHP ${patient.outstandingBalance.toLocaleString()}`}
+                />
                 <Metric label="Loyalty" value={patient.loyaltyPoints.toString()} />
-                <Metric label="Last visit" value={patient.lastVisitAt ? new Date(patient.lastVisitAt).toLocaleDateString() : "None"} />
+                <Metric
+                  label="Last visit"
+                  value={
+                    patient.lastVisitAt
+                      ? new Date(patient.lastVisitAt).toLocaleDateString()
+                      : "None"
+                  }
+                />
               </dl>
 
               <div className="mt-4 flex flex-wrap gap-2">
@@ -154,14 +184,24 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
                   View
                 </Link>
                 {canRevealContact ? (
-                  <Button type="button" variant="secondary" onClick={() => revealContact(patient.id)}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => revealContact(patient.id)}
+                  >
                     <Eye size={16} aria-hidden /> Reveal
                   </Button>
                 ) : null}
-                <button className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold" type="button">
+                <button
+                  className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold"
+                  type="button"
+                >
                   Archive
                 </button>
-                <button className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold" type="button">
+                <button
+                  className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold"
+                  type="button"
+                >
                   Mark duplicate
                 </button>
               </div>
@@ -186,15 +226,22 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
             <tbody>
               {filteredPatients.map((patient) => (
                 <tr key={patient.id} className="border-t border-[#D9DDE3]">
-                  <td className="px-4 py-3 font-semibold text-[#481827]">{formatPatientName(patient)}</td>
+                  <td className="px-4 py-3 font-semibold text-[#481827]">
+                    {formatPatientName(patient)}
+                  </td>
                   <td className="px-4 py-3">{patient.patientNumber}</td>
                   <td className="px-4 py-3">{patient.homeBranchName}</td>
-                  <td className="px-4 py-3">{revealed[patient.id]?.mobile ?? patient.maskedMobile}</td>
+                  <td className="px-4 py-3">
+                    {revealed[patient.id]?.mobile ?? patient.maskedMobile}
+                  </td>
                   <td className="px-4 py-3">{patient.remainingSessions}</td>
                   <td className="px-4 py-3">PHP {patient.outstandingBalance.toLocaleString()}</td>
                   <td className="px-4 py-3">{patient.clinicalAlertLevel.replaceAll("_", " ")}</td>
                   <td className="px-4 py-3">
-                    <Link className="font-semibold text-[#6F263D]" href={`/patients/${patient.id}` as Route}>
+                    <Link
+                      className="font-semibold text-[#6F263D]"
+                      href={`/patients/${patient.id}` as Route}
+                    >
                       View
                     </Link>
                   </td>

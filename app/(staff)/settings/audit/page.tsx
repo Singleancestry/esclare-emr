@@ -14,7 +14,8 @@ export default async function AuditLogsPage() {
         <p className="text-sm font-semibold uppercase text-[#6F263D]">Security</p>
         <h1 className="text-3xl font-semibold text-[#481827]">Audit Logs</h1>
         <p className="mt-2 text-sm text-[#5F6368]">
-          Immutable audit events include patient views, contact reveals, record changes and access events.
+          Immutable audit events include patient views, contact reveals, record changes and access
+          events.
         </p>
       </div>
       <AuditLogTable events={events} />

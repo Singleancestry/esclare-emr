@@ -1,6 +1,34 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
-  return { rules: [{ userAgent: "*", allow: ["/home", "/treatments", "/diode-laser", "/gallery", "/appointment-request", "/branches", "/about", "/faq", "/contact"], disallow: ["/dashboard", "/admin", "/patients", "/clinical", "/finance", "/settings", "/api/"] }], sitemap: `${baseUrl}/sitemap.xml` };
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://127.0.0.1:3000";
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: [
+          "/home",
+          "/treatments",
+          "/diode-laser",
+          "/gallery",
+          "/appointment-request",
+          "/branches",
+          "/about",
+          "/faq",
+          "/contact",
+        ],
+        disallow: [
+          "/dashboard",
+          "/admin",
+          "/patients",
+          "/clinical",
+          "/finance",
+          "/settings",
+          "/api/",
+        ],
+      },
+    ],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }

@@ -1,8 +1,7 @@
 import type { StaffContext } from "@/lib/permissions/types";
 
 export type StaffAccessResult =
-  | { allowed: true; staff: StaffContext }
-  | { allowed: false; reason: string };
+  { allowed: true; staff: StaffContext } | { allowed: false; reason: string };
 
 export function evaluateStaffContext(staff: StaffContext | null): StaffAccessResult {
   if (!staff) {
@@ -17,7 +16,10 @@ export function evaluateStaffContext(staff: StaffContext | null): StaffAccessRes
     return { allowed: false, reason: "This employee account is pending activation." };
   }
 
-  if (!staff.activeBranch || !staff.branches.some((branch) => branch.id === staff.activeBranch.id)) {
+  if (
+    !staff.activeBranch ||
+    !staff.branches.some((branch) => branch.id === staff.activeBranch.id)
+  ) {
     return { allowed: false, reason: "No permitted branch is active for this session." };
   }
 

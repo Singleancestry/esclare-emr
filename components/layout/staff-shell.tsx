@@ -99,8 +99,12 @@ export function StaffShell({ staff, children }: StaffShellProps) {
               <LockKeyhole size={18} aria-hidden />
             </Link>
             <div className="min-w-[180px] rounded border border-[#D9DDE3] bg-[#F8F4ED] px-3 py-2">
-              <p className="truncate text-sm font-semibold text-[#262626]">{staff.employee.displayName}</p>
-              <p className="text-xs font-semibold uppercase text-[#6F263D]">{staff.activeRole.name}</p>
+              <p className="truncate text-sm font-semibold text-[#262626]">
+                {staff.employee.displayName}
+              </p>
+              <p className="text-xs font-semibold uppercase text-[#6F263D]">
+                {staff.activeRole.name}
+              </p>
             </div>
           </div>
         </header>

@@ -4,5 +4,56 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { attendantPortrait } from "@/lib/clinic/media";
 
 export function AttendantSection() {
-  return <section className="bg-white py-20 lg:py-28"><div className="public-container grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20"><div className="relative aspect-[5/7] overflow-hidden bg-[#E8DCCE]" data-reveal="left"><Image src={attendantPortrait.src} alt={attendantPortrait.alt} width={attendantPortrait.width} height={attendantPortrait.height} sizes="(min-width: 1024px) 40vw, 100vw" className="size-full object-cover" /><div className="absolute bottom-0 left-0 bg-[#5B1830] px-5 py-4 text-white"><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#E8D5B5]">Client care</p><p className="mt-1 font-serif text-xl">A warm welcome</p></div></div><div data-reveal="right"><p className="public-eyebrow">People-first care</p><h2 className="public-subheading mt-4">Professional guidance, without the pressure.</h2><p className="mt-6 leading-8 text-[#62595C]">From the first question to appointment coordination, the ESCLARE team keeps the experience clear, calm, and approachable. Treatment suitability is assessed before recommendations, and doctor-required services follow the appropriate clinical schedule.</p><div className="mt-8 grid gap-4 sm:grid-cols-2"><p className="flex gap-3 text-sm leading-6 text-[#5F575A]"><CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Clear regular-price guidance</p><p className="flex gap-3 text-sm leading-6 text-[#5F575A]"><CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Branch-aware availability</p><p className="flex gap-3 text-sm leading-6 text-[#5F575A]"><CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> No booking deposit</p><p className="flex gap-3 text-sm leading-6 text-[#5F575A]"><CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Confirmation through official channels</p></div><Link href="/appointment-request" className="luxury-button mt-9">Plan your visit <ArrowRight size={16} /></Link></div></div></section>;
+  return (
+    <section className="bg-white py-20 lg:py-28">
+      <div className="public-container grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div className="relative aspect-[5/7] overflow-hidden bg-[#E8DCCE]" data-reveal="left">
+          <Image
+            src={attendantPortrait.src}
+            alt={attendantPortrait.alt}
+            width={attendantPortrait.width}
+            height={attendantPortrait.height}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            className="size-full object-cover"
+          />
+          <div className="absolute bottom-0 left-0 bg-[#5B1830] px-5 py-4 text-white">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#E8D5B5]">
+              Client care
+            </p>
+            <p className="mt-1 font-serif text-xl">A warm welcome</p>
+          </div>
+        </div>
+        <div data-reveal="right">
+          <p className="public-eyebrow">People-first care</p>
+          <h2 className="public-subheading mt-4">Professional guidance, without the pressure.</h2>
+          <p className="mt-6 leading-8 text-[#62595C]">
+            From the first question to appointment coordination, the ESCLARE team keeps the
+            experience clear, calm, and approachable. Treatment suitability is assessed before
+            recommendations, and doctor-required services follow the appropriate clinical schedule.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <p className="flex gap-3 text-sm leading-6 text-[#5F575A]">
+              <CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Clear
+              regular-price guidance
+            </p>
+            <p className="flex gap-3 text-sm leading-6 text-[#5F575A]">
+              <CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Branch-aware
+              availability
+            </p>
+            <p className="flex gap-3 text-sm leading-6 text-[#5F575A]">
+              <CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> No booking
+              deposit
+            </p>
+            <p className="flex gap-3 text-sm leading-6 text-[#5F575A]">
+              <CheckCircle2 className="mt-0.5 shrink-0 text-[#9A7740]" size={18} /> Confirmation
+              through official channels
+            </p>
+          </div>
+          <Link href="/appointment-request" className="luxury-button mt-9">
+            Plan your visit <ArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 }

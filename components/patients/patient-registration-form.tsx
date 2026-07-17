@@ -3,7 +3,10 @@
 import { useActionState, useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { Save } from "lucide-react";
-import { createPatientAction, type PatientRegistrationState } from "@/app/(staff)/patients/new/actions";
+import {
+  createPatientAction,
+  type PatientRegistrationState,
+} from "@/app/(staff)/patients/new/actions";
 import type { BranchAccess } from "@/lib/permissions/types";
 import type { PatientRegistrationInput } from "@/lib/validation/patient";
 import { calculateAge, calculateBmi } from "@/lib/patients/utils";
@@ -59,8 +62,14 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
         <Field label="Middle name" input={<input {...register("middleName")} />} />
         <Field label="Last name" input={<input {...register("lastName")} required />} />
         <Field label="Preferred name" input={<input {...register("preferredName")} />} />
-        <Field label="Date of birth" input={<input type="date" {...register("dateOfBirth")} required />} />
-        <Readout label="Age" value={age === null ? "Calculated after date of birth" : `${age} years`} />
+        <Field
+          label="Date of birth"
+          input={<input type="date" {...register("dateOfBirth")} required />}
+        />
+        <Readout
+          label="Age"
+          value={age === null ? "Calculated after date of birth" : `${age} years`}
+        />
         <Field
           label="Sex at birth"
           input={
@@ -78,8 +87,14 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
       </Step>
 
       <Step title="2. Contact">
-        <Field label="Mobile" input={<input {...register("mobile")} placeholder="09171234567" required />} />
-        <Field label="Secondary mobile" input={<input {...register("secondaryMobile")} placeholder="09181234567" />} />
+        <Field
+          label="Mobile"
+          input={<input {...register("mobile")} placeholder="09171234567" required />}
+        />
+        <Field
+          label="Secondary mobile"
+          input={<input {...register("secondaryMobile")} placeholder="09181234567" />}
+        />
         <Field label="Email" input={<input type="email" {...register("email")} />} />
         <Field
           label="Preferred contact"
@@ -93,14 +108,20 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
             </select>
           }
         />
-        <Field label="Preferred language" input={<input {...register("preferredLanguage")} required />} />
+        <Field
+          label="Preferred language"
+          input={<input {...register("preferredLanguage")} required />}
+        />
       </Step>
 
       <Step title="3. Address">
         <Field label="Country" input={<input {...register("country")} required />} />
         <Field label="Region" input={<input {...register("region")} required />} />
         <Field label="Province" input={<input {...register("province")} required />} />
-        <Field label="City or municipality" input={<input {...register("cityMunicipality")} required />} />
+        <Field
+          label="City or municipality"
+          input={<input {...register("cityMunicipality")} required />}
+        />
         <Field label="Barangay" input={<input {...register("barangay")} required />} />
         <Field label="Street" input={<input {...register("street")} />} />
         <Field label="Building" input={<input {...register("building")} />} />
@@ -109,15 +130,30 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
 
       <Step title="4. Emergency Contact">
         <Field label="Name" input={<input {...register("emergencyName")} required />} />
-        <Field label="Relationship" input={<input {...register("emergencyRelationship")} required />} />
+        <Field
+          label="Relationship"
+          input={<input {...register("emergencyRelationship")} required />}
+        />
         <Field label="Mobile" input={<input {...register("emergencyMobile")} required />} />
-        <Field label="Secondary contact" input={<input {...register("emergencySecondaryContact")} />} />
+        <Field
+          label="Secondary contact"
+          input={<input {...register("emergencySecondaryContact")} />}
+        />
       </Step>
 
       <Step title="5. Physical Information">
-        <Field label="Height (cm)" input={<input type="number" step="0.1" {...register("heightCm")} />} />
-        <Field label="Weight (kg)" input={<input type="number" step="0.1" {...register("weightKg")} />} />
-        <Readout label="BMI" value={bmi === null ? "Calculated after height and weight" : bmi.toString()} />
+        <Field
+          label="Height (cm)"
+          input={<input type="number" step="0.1" {...register("heightCm")} />}
+        />
+        <Field
+          label="Weight (kg)"
+          input={<input type="number" step="0.1" {...register("weightKg")} />}
+        />
+        <Readout
+          label="BMI"
+          value={bmi === null ? "Calculated after height and weight" : bmi.toString()}
+        />
       </Step>
 
       <Step title="6. Referral and Marketing">
@@ -140,7 +176,10 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
           <input type="checkbox" {...register("privacyAcknowledged")} required />
           Privacy notice acknowledged
         </label>
-        <Field label="Identity verification method" input={<input {...register("identityVerificationMethod")} required />} />
+        <Field
+          label="Identity verification method"
+          input={<input {...register("identityVerificationMethod")} required />}
+        />
         <Field label="Verified by" input={<input {...register("verifiedBy")} required />} />
         <Field
           label="Branch"
@@ -174,7 +213,15 @@ function Step({ title, children }: { title: string; children: React.ReactNode })
   );
 }
 
-function Field({ label, input }: { label: string; input: React.ReactElement<React.InputHTMLAttributes<HTMLInputElement> | React.SelectHTMLAttributes<HTMLSelectElement>> }) {
+function Field({
+  label,
+  input,
+}: {
+  label: string;
+  input: React.ReactElement<
+    React.InputHTMLAttributes<HTMLInputElement> | React.SelectHTMLAttributes<HTMLSelectElement>
+  >;
+}) {
   return (
     <label className="grid gap-2 text-sm font-semibold text-[#262626]">
       {label}

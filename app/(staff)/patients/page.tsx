@@ -27,7 +27,10 @@ export default async function PatientsPage() {
           </Link>
         ) : null}
       </div>
-      <PatientDirectory patients={patients} canRevealContact={hasPermission(staff, "patients.reveal_contact")} />
+      <PatientDirectory
+        patients={patients}
+        canRevealContact={hasPermission(staff, "patients.reveal_contact")}
+      />
     </main>
   );
 }

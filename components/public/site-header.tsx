@@ -1,13 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { Menu, Phone, X } from "lucide-react";
+import Link from "next/link";
+import { ChevronDown, Menu, X } from "lucide-react";
+import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const links = [
-  ["Treatments", "/treatments"], ["4D Diode", "/diode-laser"], ["Gallery", "/gallery"], ["Branches", "/branches"], ["About", "/about"], ["Contact", "/contact"],
+  ["Home", "/home"],
+  ["Treatments", "/treatments"],
+  ["About", "/about"],
+  ["Branches", "/branches"],
+  ["Aftercare", "/aftercare"],
+  ["FAQ", "/faq"],
+  ["Contact", "/contact"],
 ] as const;
 
 export function SiteHeader() {
@@ -26,33 +33,120 @@ export function SiteHeader() {
         triggerRef.current?.focus();
       }
       if (event.key === "Tab" && open) {
-        const focusable = Array.from(mobileMenuRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? []);
+        const focusable = Array.from(
+          mobileMenuRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ??
+            [],
+        );
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (!first || !last) return;
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+        if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", onKeyDown); };
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
-  function closeMenu() {
-    setOpen(false);
-    triggerRef.current?.focus();
-  }
+  const closeMenu = () => setOpen(false);
 
-  return <>
-    <div className="bg-[#32101E] px-4 py-2 text-center text-[11px] font-semibold uppercase text-[#E8D5B5] sm:text-xs">Naga open daily · Daet Tuesday-Sunday · No booking deposit</div>
-    <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D8C9B4]/60 bg-[#FCFAF6]/92 backdrop-blur-xl">
-      <div className="public-container flex h-[72px] items-center justify-between gap-4">
-        <Link href="/home" aria-label="ESCLARE home" className="group shrink-0"><Image src="/images/optimized/logo/esclare-official-wordmark-640.webp" alt="ESCLARE Aesthetic Center" width={640} height={199} priority className="h-auto w-[132px] sm:w-[152px]" /></Link>
-        <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">{links.map(([label, href]) => { const active = pathname === href || (href === "/branches" && pathname.startsWith("/branches/")); return <Link key={href} href={href} aria-current={active ? "page" : undefined} className={`public-link py-3 text-[11px] font-bold uppercase tracking-[0.07em] ${active ? "text-[#5B1830]" : "text-[#3A2D31]"}`}>{label}</Link>; })}</nav>
-        <div className="hidden items-center gap-3 sm:flex"><a href="tel:+639207351379" aria-label="Call ESCLARE Naga" className="grid size-11 place-items-center rounded-lg border border-[#CDBB9E] text-[#5B1830] transition-colors hover:bg-[#EEE6DA]"><Phone size={17} /></a><Link href="/appointment-request" className="luxury-button">Book a visit</Link></div>
-        <button ref={triggerRef} type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen((value) => !value)} className="grid size-11 place-items-center rounded-lg border border-[#CDBB9E] text-[#5B1830] lg:hidden">{open ? <X size={22} /> : <Menu size={22} />}</button>
-      </div>
-    </header>
-    {open && <div ref={mobileMenuRef} className="fixed inset-x-0 bottom-0 top-[105px] z-40 overflow-y-auto bg-[#FBF8F2] px-6 py-8 lg:hidden"><nav id="mobile-navigation" aria-label="Mobile navigation" className="mx-auto flex max-w-lg flex-col">{links.map(([label, href], index) => { const active = pathname === href || (href === "/branches" && pathname.startsWith("/branches/")); return <Link ref={index === 0 ? firstLinkRef : undefined} key={href} href={href} onClick={closeMenu} aria-current={active ? "page" : undefined} className="flex items-center justify-between border-b border-[#DED1BF] py-4 font-serif text-2xl text-[#481827]"><span>{label}</span><span className="text-xs font-sans text-[#9A7A49]">0{index + 1}</span></Link>; })}<Link href="/appointment-request" onClick={closeMenu} className="luxury-button mt-8">Book a visit</Link><a href="tel:+639207351379" className="mt-4 text-center text-sm font-semibold text-[#5B1830]">Call +63 920 735 1379</a></nav></div>}
-  </>;
+  return (
+    <>
+      <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D6B078]/30 bg-[#FAF4EC]/95 backdrop-blur-xl">
+        <div className="public-container flex h-[76px] items-center justify-between gap-5">
+          <Link href="/home" aria-label="ESCLARE home" className="shrink-0">
+            <Image
+              src="/images/optimized/logo/esclare-official-wordmark-640.webp"
+              alt="ESCLARE Aesthetic Center"
+              width={640}
+              height={200}
+              priority
+              className="h-10 w-auto sm:h-12"
+            />
+          </Link>
+          <nav aria-label="Main navigation" className="hidden items-center gap-5 xl:flex">
+            {links.map(([label, href]) => {
+              const active =
+                pathname === href || (href !== "/home" && pathname.startsWith(`${href}/`));
+              return (
+                <Link
+                  key={href}
+                  href={href as Route}
+                  aria-current={active ? "page" : undefined}
+                  className={`public-link py-3 text-[0.72rem] ${active ? "text-[#59141D]" : "text-[#43201E]"}`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="hidden items-center gap-4 lg:flex">
+            <Link
+              href="/branches"
+              className="inline-flex items-center gap-2 text-xs text-[#43201E]"
+            >
+              Naga City <span className="text-[#B98A4D]">&bull;</span> Daet{" "}
+              <ChevronDown size={13} />
+            </Link>
+            <Link href="/appointment-request" className="luxury-button">
+              Book a consultation
+            </Link>
+          </div>
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            onClick={() => setOpen((value) => !value)}
+            className="grid size-11 place-items-center rounded-lg border border-[#D6B078]/65 text-[#59141D] xl:hidden"
+          >
+            {open ? <X size={21} /> : <Menu size={21} />}
+          </button>
+        </div>
+      </header>
+      {open && (
+        <div
+          ref={mobileMenuRef}
+          className="fixed inset-x-0 bottom-0 top-[76px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 xl:hidden"
+        >
+          <nav
+            id="mobile-navigation"
+            aria-label="Mobile navigation"
+            className="mx-auto flex max-w-lg flex-col"
+          >
+            {links.map(([label, href], index) => (
+              <Link
+                ref={index === 0 ? firstLinkRef : undefined}
+                key={href}
+                href={href as Route}
+                onClick={closeMenu}
+                className="flex items-center justify-between border-b border-[#D6B078]/35 py-4 font-serif text-2xl text-[#59141D]"
+              >
+                <span>{label}</span>
+                <span className="font-sans text-[10px] text-[#B98A4D]">0{index + 1}</span>
+              </Link>
+            ))}
+            <Link href="/appointment-request" onClick={closeMenu} className="luxury-button mt-8">
+              Book a consultation
+            </Link>
+            <div className="mt-5 flex justify-center gap-3 text-xs text-[#43201E]">
+              <Link href="/branches">Naga City</Link>
+              <span>&bull;</span>
+              <Link href={"/branches/daet" as Route}>Daet</Link>
+            </div>
+          </nav>
+        </div>
+      )}
+    </>
+  );
 }

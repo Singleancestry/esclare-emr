@@ -39,6 +39,15 @@ In progress:
 
 Appointments, calendar, resource scheduling and booking rules.
 
+In progress:
+
+- Added patient-linked, branch-aware appointments with provider and room assignment.
+- Added database-enforced provider and room conflict prevention.
+- Added controlled scheduled, confirmed, checked-in, in-progress, completed, cancelled and no-show transitions.
+- Added append-only appointment events and immutable audit-event integration.
+- Added a responsive staff scheduling workspace and validation coverage.
+- Calendar views, recurring staff availability, request-to-patient matching and notification delivery remain outstanding.
+
 ## Phase 5
 
 Clinical encounters, treatment templates, body map, consent, clinical photographs and signatures.

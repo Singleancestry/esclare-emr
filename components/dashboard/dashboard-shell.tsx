@@ -1,4 +1,10 @@
-import { Activity, AlertTriangle, CalendarCheck, CircleDollarSign, UserRoundCheck } from "lucide-react";
+import {
+  Activity,
+  AlertTriangle,
+  CalendarCheck,
+  CircleDollarSign,
+  UserRoundCheck,
+} from "lucide-react";
 import type { StaffContext } from "@/lib/permissions/types";
 import { DashboardCard } from "./dashboard-card";
 
@@ -64,11 +70,14 @@ export function DashboardShell({ staff }: DashboardShellProps) {
     <main className="p-4 sm:p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase text-[#6F263D]">{staff.activeBranch.name}</p>
+          <p className="text-sm font-semibold uppercase text-[#6F263D]">
+            {staff.activeBranch.name}
+          </p>
           <h1 className="text-3xl font-semibold text-[#481827]">Dashboard</h1>
         </div>
         <div className="rounded border border-[#D9DDE3] bg-white px-4 py-3 text-sm text-[#5F6368]">
-          Signed in as <span className="font-semibold text-[#262626]">{staff.employee.displayName}</span>
+          Signed in as{" "}
+          <span className="font-semibold text-[#262626]">{staff.employee.displayName}</span>
         </div>
       </div>
 
@@ -119,7 +128,9 @@ function QueueItem({
         <Icon size={17} className="text-[#6F263D]" aria-hidden />
         {label}
       </span>
-      <span className="rounded bg-[#F8F4ED] px-2 py-1 text-sm font-bold text-[#481827]">{value}</span>
+      <span className="rounded bg-[#F8F4ED] px-2 py-1 text-sm font-bold text-[#481827]">
+        {value}
+      </span>
     </div>
   );
 }

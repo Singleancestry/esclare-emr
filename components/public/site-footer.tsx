@@ -1,7 +1,69 @@
 import Link from "next/link";
-import { ArrowUpRight, Facebook, MapPin, Phone } from "lucide-react";
+import { Facebook, MapPin, Phone } from "lucide-react";
+import type { Route } from "next";
 import { clinicBranches } from "@/lib/clinic/details";
 
 export function SiteFooter() {
-  return <footer className="bg-[#2A0C19] text-[#F8F0E5]"><div className="public-container grid gap-12 py-14 md:grid-cols-[1.2fr_0.8fr_1fr] lg:py-20"><div><Link href="/home" className="font-serif text-3xl font-semibold">ESCLARE</Link><p className="mt-4 max-w-sm text-sm leading-7 text-[#D7C5B7]">Aesthetic and wellness care shaped by thoughtful assessment, clear guidance, and warm hospitality.</p><a href="https://www.facebook.com/esclare.aesthetic" target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#E8D5B5]"><Facebook size={17} /> Follow Naga <ArrowUpRight size={15} /></a></div><div><h2 className="text-xs font-bold uppercase tracking-[0.14em] text-[#C6A467]">Explore</h2><nav className="mt-5 grid gap-3 text-sm text-[#E7DAD0]"><Link href="/treatments">Treatments & prices</Link><Link href="/diode-laser">4D Diode laser</Link><Link href="/gallery">Clinic gallery</Link><Link href="/appointment-request">Request appointment</Link><Link href="/branches">Our branches</Link><Link href="/about">About ESCLARE</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact</Link></nav></div><div><h2 className="text-xs font-bold uppercase tracking-[0.14em] text-[#C6A467]">Visit us</h2><div className="mt-5 space-y-5">{clinicBranches.map((branch) => <div key={branch.code} className="text-sm"><p className="font-semibold text-white">{branch.name}</p><p className="mt-1 flex gap-2 leading-6 text-[#D7C5B7]"><MapPin className="mt-1 shrink-0" size={14} /> {branch.address}</p><a className="mt-1 flex items-center gap-2 text-[#E8D5B5]" href={`tel:${branch.phoneHref}`}><Phone size={14} /> {branch.phone}</a></div>)}</div></div></div><div className="border-t border-white/10"><div className="public-container flex flex-col gap-3 py-5 text-[11px] text-[#BCAAA0] sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} ESCLARE Aesthetic & Wellness Clinic.</p><div className="flex gap-5"><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/login">Staff access</Link></div></div></div></footer>;
+  return (
+    <footer className="bg-[#3B0D14] text-[#FAF4EC]">
+      <div className="public-container grid gap-12 py-16 md:grid-cols-[1.2fr_0.8fr_1fr]">
+        <div>
+          <Link href="/home" className="font-serif text-4xl tracking-[0.08em]">
+            ESCLARE
+          </Link>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-[#E6D6CC]">
+            Aesthetic and wellness care shaped by thoughtful assessment, clear guidance, and warm
+            hospitality.
+          </p>
+          <a
+            href="https://www.facebook.com/esclare.aesthetic"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-7 inline-flex items-center gap-2 text-sm text-[#E2BF83]"
+          >
+            <Facebook size={16} /> Facebook
+          </a>
+        </div>
+        <div>
+          <h2 className="text-xs uppercase tracking-[0.2em] text-[#D6B078]">Explore</h2>
+          <nav className="mt-5 grid gap-3 text-sm text-[#F2E8DF]">
+            <Link href="/treatments">Treatments</Link>
+            <Link href="/about">About</Link>
+            <Link href={"/aftercare" as Route}>Aftercare</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/appointment-request">Book a consultation</Link>
+            <Link href="/login">Staff access</Link>
+          </nav>
+        </div>
+        <div>
+          <h2 className="text-xs uppercase tracking-[0.2em] text-[#D6B078]">Our clinics</h2>
+          <div className="mt-5 space-y-6">
+            {clinicBranches.map((branch) => (
+              <div key={branch.code} className="text-sm">
+                <p className="font-serif text-xl">{branch.name}</p>
+                <p className="mt-2 flex gap-2 leading-6 text-[#E6D6CC]">
+                  <MapPin className="mt-1 shrink-0 text-[#D6B078]" size={14} /> {branch.address}
+                </p>
+                <a
+                  className="mt-2 flex items-center gap-2 text-[#E2BF83]"
+                  href={`tel:${branch.phoneHref}`}
+                >
+                  <Phone size={14} /> {branch.phone}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <div className="public-container flex flex-col gap-3 py-5 text-[11px] text-[#CDBDB5] sm:flex-row sm:justify-between">
+          <p>© {new Date().getFullYear()} ESCLARE Aesthetic & Wellness Clinic.</p>
+          <div className="flex gap-5">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }

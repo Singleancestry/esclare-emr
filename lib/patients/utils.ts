@@ -32,7 +32,9 @@ export function maskPhilippineMobile(mobile: string) {
   return `${local.slice(0, 4)} *** ${local.slice(7)}`;
 }
 
-export function formatPatientName(patient: Pick<PatientDirectoryRecord, "firstName" | "lastName" | "preferredName">) {
+export function formatPatientName(
+  patient: Pick<PatientDirectoryRecord, "firstName" | "lastName" | "preferredName">,
+) {
   return patient.preferredName
     ? `${patient.firstName} "${patient.preferredName}" ${patient.lastName}`
     : `${patient.firstName} ${patient.lastName}`;

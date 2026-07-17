@@ -123,7 +123,9 @@ export async function getPatientProfile(
 
   if (!supabase) {
     const patient = demoPatients.find((item) => item.id === patientId);
-    return patient && staff.branches.some((branch) => branch.id === patient.homeBranchId) ? patient : null;
+    return patient && staff.branches.some((branch) => branch.id === patient.homeBranchId)
+      ? patient
+      : null;
   }
 
   const { data: patientData, error: patientError } = await supabase
@@ -141,8 +143,16 @@ export async function getPatientProfile(
   const base = mapDirectoryRow(patientData as unknown as PatientRow);
   const [addressResult, emergencyResult, physicalResult, medicalResult] = await Promise.all([
     supabase.from("patient_addresses").select("*").eq("patient_id", patientId).maybeSingle(),
-    supabase.from("patient_emergency_contacts").select("*").eq("patient_id", patientId).maybeSingle(),
-    supabase.from("patient_physical_information").select("*").eq("patient_id", patientId).maybeSingle(),
+    supabase
+      .from("patient_emergency_contacts")
+      .select("*")
+      .eq("patient_id", patientId)
+      .maybeSingle(),
+    supabase
+      .from("patient_physical_information")
+      .select("*")
+      .eq("patient_id", patientId)
+      .maybeSingle(),
     supabase.from("patient_medical_profiles").select("*").eq("patient_id", patientId).maybeSingle(),
   ]);
 
@@ -224,16 +234,18 @@ export async function getPatientAudit(patientId?: string): Promise<PatientAuditR
     return [];
   }
 
-  return (data as unknown as Array<{
-    id: string;
-    action: string;
-    entity_type: string;
-    reason: string | null;
-    actor_role: string | null;
-    branch_id: string | null;
-    created_at: string;
-    success: boolean;
-  }>).map((event) => ({
+  return (
+    data as unknown as Array<{
+      id: string;
+      action: string;
+      entity_type: string;
+      reason: string | null;
+      actor_role: string | null;
+      branch_id: string | null;
+      created_at: string;
+      success: boolean;
+    }>
+  ).map((event) => ({
     id: event.id,
     action: event.action,
     entityType: event.entity_type,

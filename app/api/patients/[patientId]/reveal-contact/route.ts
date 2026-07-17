@@ -5,10 +5,7 @@ import { getCurrentStaffContext } from "@/lib/auth/session";
 import { getPatientFullContact, getPatientProfile } from "@/lib/patients/data";
 import { hasPermission } from "@/lib/permissions/checks";
 
-export async function POST(
-  request: Request,
-  context: { params: Promise<{ patientId: string }> },
-) {
+export async function POST(request: Request, context: { params: Promise<{ patientId: string }> }) {
   const staff = await getCurrentStaffContext();
 
   if (!staff || !hasPermission(staff, "patients.reveal_contact")) {

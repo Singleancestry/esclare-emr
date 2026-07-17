@@ -14,5 +14,14 @@ export function SpotlightCard({ children, className, as: Element = "div" }: Spot
   }
 
   const style: SpotlightStyle = { "--spot-x": "50%", "--spot-y": "50%" };
-  return <Element data-spotlight-card onPointerMove={trackPointer} style={style} className={cn("spotlight-card", className)}>{children}</Element>;
+  return (
+    <Element
+      data-spotlight-card
+      onPointerMove={trackPointer}
+      style={style}
+      className={cn("spotlight-card", className)}
+    >
+      {children}
+    </Element>
+  );
 }

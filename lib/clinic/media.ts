@@ -22,20 +22,86 @@ export type ClinicGalleryImage = {
 };
 
 export const nagaClinicGallery: ReadonlyArray<ClinicGalleryImage> = [
-  { src: nagaReception, alt: "ESCLARE Naga reception logo wall beneath a crystal chandelier", title: "Naga reception", detail: "The branch's textured logo wall and signature chandelier", branch: "Naga" },
-  { src: nagaWaiting, alt: "ESCLARE Naga waiting area with warm lighting and upholstered chairs", title: "Waiting area", detail: "A calm welcome beside the Naga reception desk", branch: "Naga" },
-  { src: nagaHallway, alt: "ESCLARE Naga treatment hallway with warm framed wall mouldings", title: "Treatment hallway", detail: "Private treatment spaces with warm neutral finishes", branch: "Naga" },
-  { src: nagaTreatment, alt: "ESCLARE Naga treatment room with framed mirrors and treatment bed", title: "Treatment room", detail: "A clean, organized room prepared for clinic services", branch: "Naga" },
-  { src: nagaPrep, alt: "ESCLARE Naga preparation area with cabinetry and clinical sink", title: "Preparation area", detail: "Dedicated storage and preparation surfaces", branch: "Naga" },
-  { src: nagaFrontDesk, alt: "ESCLARE Naga front desk with warm wall mouldings and clinic permits", title: "Front desk", detail: "The first point of welcome at the Naga clinic", branch: "Naga" },
-  { src: nagaEntrance, alt: "Entrance to the ESCLARE Naga clinic", title: "Clinic entrance", detail: "The street-level arrival at ESCLARE Naga", branch: "Naga" },
+  {
+    src: nagaReception,
+    alt: "ESCLARE Naga reception logo wall beneath a crystal chandelier",
+    title: "Naga reception",
+    detail: "The branch's textured logo wall and signature chandelier",
+    branch: "Naga",
+  },
+  {
+    src: nagaWaiting,
+    alt: "ESCLARE Naga waiting area with warm lighting and upholstered chairs",
+    title: "Waiting area",
+    detail: "A calm welcome beside the Naga reception desk",
+    branch: "Naga",
+  },
+  {
+    src: nagaHallway,
+    alt: "ESCLARE Naga treatment hallway with warm framed wall mouldings",
+    title: "Treatment hallway",
+    detail: "Private treatment spaces with warm neutral finishes",
+    branch: "Naga",
+  },
+  {
+    src: nagaTreatment,
+    alt: "ESCLARE Naga treatment room with framed mirrors and treatment bed",
+    title: "Treatment room",
+    detail: "A clean, organized room prepared for clinic services",
+    branch: "Naga",
+  },
+  {
+    src: nagaPrep,
+    alt: "ESCLARE Naga preparation area with cabinetry and clinical sink",
+    title: "Preparation area",
+    detail: "Dedicated storage and preparation surfaces",
+    branch: "Naga",
+  },
+  {
+    src: nagaFrontDesk,
+    alt: "ESCLARE Naga front desk with warm wall mouldings and clinic permits",
+    title: "Front desk",
+    detail: "The first point of welcome at the Naga clinic",
+    branch: "Naga",
+  },
+  {
+    src: nagaEntrance,
+    alt: "Entrance to the ESCLARE Naga clinic",
+    title: "Clinic entrance",
+    detail: "The street-level arrival at ESCLARE Naga",
+    branch: "Naga",
+  },
 ];
 
 export const daetClinicGallery: ReadonlyArray<ClinicGalleryImage> = [
-  { src: daetReception, alt: "ESCLARE Daet reception with the illuminated ESCLARE wall sign", title: "Daet reception", detail: "The bright Daet welcome desk and illuminated wordmark", branch: "Daet" },
-  { src: daetTreatmentBays, alt: "ESCLARE Daet treatment bays with privacy curtains and warm pendant lights", title: "Treatment bays", detail: "Curtained treatment spaces beneath warm pendant lighting", branch: "Daet" },
-  { src: daetTreatmentArea, alt: "ESCLARE Daet treatment area looking toward the daylight entrance", title: "Treatment area", detail: "A bright view through the branch's treatment spaces", branch: "Daet" },
-  { src: daetNailCare, alt: "ESCLARE Daet nail care station with colorful artwork and organized supplies", title: "Nail care station", detail: "A dedicated care station inside the Daet clinic", branch: "Daet" },
+  {
+    src: daetReception,
+    alt: "ESCLARE Daet reception with the illuminated ESCLARE wall sign",
+    title: "Daet reception",
+    detail: "The bright Daet welcome desk and illuminated wordmark",
+    branch: "Daet",
+  },
+  {
+    src: daetTreatmentBays,
+    alt: "ESCLARE Daet treatment bays with privacy curtains and warm pendant lights",
+    title: "Treatment bays",
+    detail: "Curtained treatment spaces beneath warm pendant lighting",
+    branch: "Daet",
+  },
+  {
+    src: daetTreatmentArea,
+    alt: "ESCLARE Daet treatment area looking toward the daylight entrance",
+    title: "Treatment area",
+    detail: "A bright view through the branch's treatment spaces",
+    branch: "Daet",
+  },
+  {
+    src: daetNailCare,
+    alt: "ESCLARE Daet nail care station with colorful artwork and organized supplies",
+    title: "Nail care station",
+    detail: "A dedicated care station inside the Daet clinic",
+    branch: "Daet",
+  },
 ];
 
 export const clinicGallery = [...nagaClinicGallery, ...daetClinicGallery] as const;

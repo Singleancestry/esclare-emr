@@ -45,7 +45,10 @@ export const patientRegistrationSchema = z
     privacyAcknowledged: z.literal("on", {
       error: "Privacy-notice acknowledgement is required.",
     }),
-    identityVerificationMethod: z.string().trim().min(1, "Identity verification method is required."),
+    identityVerificationMethod: z
+      .string()
+      .trim()
+      .min(1, "Identity verification method is required."),
     verifiedBy: z.string().trim().min(1, "Verifier is required."),
     branchId: z.string().uuid("Branch is required."),
   })
@@ -57,7 +60,10 @@ export const patientRegistrationSchema = z
     email: value.email || null,
     heightCm: value.heightCm === "" ? null : value.heightCm,
     weightKg: value.weightKg === "" ? null : value.weightKg,
-    bmi: calculateBmi(value.heightCm === "" ? null : value.heightCm, value.weightKg === "" ? null : value.weightKg),
+    bmi: calculateBmi(
+      value.heightCm === "" ? null : value.heightCm,
+      value.weightKg === "" ? null : value.weightKg,
+    ),
   }));
 
 export const patientSearchSchema = z.object({
