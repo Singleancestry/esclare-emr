@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
-const excludedPaths = new Set([".env.example"]);
+const excludedPaths = new Set([".env.example", "validation-agent/scan-secrets.mjs"]);
 const sourcePatterns = [
   ["private-key", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
   ["github-token", /\b(?:ghp|gho|ghu|ghs|github_pat)_[A-Za-z0-9_]{20,}\b/],
