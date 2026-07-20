@@ -2,7 +2,8 @@ import "server-only";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
 import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import type { StaffContext } from "@/lib/permissions/types";
-import { calculateAge, calculateBmi, maskPhilippineMobile } from "./utils";
+import { hasPermission } from "@/lib/permissions/checks";
+import { calculateAge, calculateBmi } from "./utils";
 import { demoPatientAudit, demoPatients } from "./demo-data";
 import type { PatientAuditRecord, PatientDirectoryRecord, PatientProfile } from "./types";
 
@@ -16,8 +17,7 @@ type PatientRow = {
   sex_at_birth: string;
   date_of_birth: string;
   home_branch_id: string;
-  mobile: string;
-  email: string | null;
+  masked_mobile: string | null;
   remaining_sessions_demo: number;
   outstanding_balance_demo: number;
   loyalty_points: number;
@@ -26,24 +26,6 @@ type PatientRow = {
   clinical_alert_level: PatientDirectoryRecord["clinicalAlertLevel"];
   archived_at: string | null;
   branches: { name: string } | null;
-};
-
-type AddressRow = {
-  country: string;
-  region: string | null;
-  province: string | null;
-  city_municipality: string | null;
-  barangay: string | null;
-  street: string | null;
-  building: string | null;
-  postal_code: string | null;
-};
-
-type EmergencyContactRow = {
-  name: string;
-  relationship: string;
-  mobile: string;
-  secondary_contact: string | null;
 };
 
 type PhysicalInfoRow = {
@@ -79,9 +61,7 @@ function mapDirectoryRow(row: PatientRow): PatientDirectoryRecord {
     dateOfBirth: row.date_of_birth,
     homeBranchId: row.home_branch_id,
     homeBranchName: row.branches?.name ?? "Assigned branch",
-    maskedMobile: maskPhilippineMobile(row.mobile),
-    mobile: row.mobile,
-    email: row.email,
+    maskedMobile: row.masked_mobile ?? "Contact hidden",
     remainingSessions: row.remaining_sessions_demo,
     outstandingBalance: row.outstanding_balance_demo,
     loyaltyPoints: row.loyalty_points,
@@ -93,23 +73,42 @@ function mapDirectoryRow(row: PatientRow): PatientDirectoryRecord {
 }
 
 export async function getPatientDirectory(staff: StaffContext): Promise<PatientDirectoryRecord[]> {
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
+  const branchIds = staff.branches
+    .filter((branch) => hasPermission(staff, "patients.view_basic", branch.id))
+    .map((branch) => branch.id);
 
   if (!supabase) {
-    return demoPatients.filter((patient) =>
-      staff.branches.some((branch) => branch.id === patient.homeBranchId),
-    );
+    if (process.env.NODE_ENV === "production") return [];
+    return demoPatients.filter((patient) => branchIds.includes(patient.homeBranchId));
   }
 
-  const { data, error } = await supabase
+  if (branchIds.length === 0) return [];
+
+  let { data, error } = await supabase
     .from("patients")
     .select(
-      "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, mobile, email, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
+      "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, masked_mobile, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
     )
-    .order("last_name", { ascending: true });
+    .in("home_branch_id", branchIds)
+    .order("last_name", { ascending: true })
+    .limit(500);
+
+  if (error?.code === "42703") {
+    const fallback = await supabase
+      .from("patients")
+      .select(
+        "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
+      )
+      .in("home_branch_id", branchIds)
+      .order("last_name", { ascending: true })
+      .limit(500);
+    data = fallback.data as typeof data;
+    error = fallback.error;
+  }
 
   if (error || !data) {
-    return [];
+    throw new Error("Patient directory is temporarily unavailable.");
   }
 
   return (data as unknown as PatientRow[]).map(mapDirectoryRow);
@@ -119,71 +118,78 @@ export async function getPatientProfile(
   staff: StaffContext,
   patientId: string,
 ): Promise<PatientProfile | null> {
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
+  const branchIds = staff.branches
+    .filter((branch) => hasPermission(staff, "patients.view_basic", branch.id))
+    .map((branch) => branch.id);
 
   if (!supabase) {
+    if (process.env.NODE_ENV === "production") return null;
     const patient = demoPatients.find((item) => item.id === patientId);
-    return patient && staff.branches.some((branch) => branch.id === patient.homeBranchId)
-      ? patient
-      : null;
+    return patient && branchIds.includes(patient.homeBranchId) ? patient : null;
   }
 
-  const { data: patientData, error: patientError } = await supabase
+  let { data: patientData, error: patientError } = await supabase
     .from("patients")
     .select(
-      "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, mobile, email, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
+      "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, masked_mobile, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
     )
     .eq("id", patientId)
+    .in("home_branch_id", branchIds)
     .maybeSingle();
 
+  if (patientError?.code === "42703") {
+    const fallback = await supabase
+      .from("patients")
+      .select(
+        "id, patient_number, first_name, middle_name, last_name, preferred_name, sex_at_birth, date_of_birth, home_branch_id, remaining_sessions_demo, outstanding_balance_demo, loyalty_points, last_visit_at, next_appointment_at, clinical_alert_level, archived_at, branches:home_branch_id(name)",
+      )
+      .eq("id", patientId)
+      .in("home_branch_id", branchIds)
+      .maybeSingle();
+    patientData = fallback.data as typeof patientData;
+    patientError = fallback.error;
+  }
+
   if (patientError || !patientData) {
+    if (patientError) throw new Error("Patient profile is temporarily unavailable.");
     return null;
   }
 
   const base = mapDirectoryRow(patientData as unknown as PatientRow);
-  const [addressResult, emergencyResult, physicalResult, medicalResult] = await Promise.all([
-    supabase.from("patient_addresses").select("*").eq("patient_id", patientId).maybeSingle(),
-    supabase
-      .from("patient_emergency_contacts")
-      .select("*")
-      .eq("patient_id", patientId)
-      .maybeSingle(),
-    supabase
-      .from("patient_physical_information")
-      .select("*")
-      .eq("patient_id", patientId)
-      .maybeSingle(),
-    supabase.from("patient_medical_profiles").select("*").eq("patient_id", patientId).maybeSingle(),
+  const admin = supabase;
+  const canViewFullMedical = hasPermission(staff, "medical.view_full", base.homeBranchId);
+  const canViewMedicalSummary =
+    canViewFullMedical || hasPermission(staff, "medical.view_summary", base.homeBranchId);
+  const [physicalResult, medicalResult] = await Promise.all([
+    admin && canViewFullMedical
+      ? admin
+          .from("patient_physical_information")
+          .select("height_cm, weight_kg")
+          .eq("patient_id", patientId)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+    admin && canViewMedicalSummary
+      ? admin
+          .from("patient_medical_profiles")
+          .select(
+            canViewFullMedical
+              ? "alert_level, alert_reason, allergies, current_medications, medical_conditions, pregnancy_status, breastfeeding, keloid_history, photosensitivity, diabetes, hypertension, other_clinical_notes, updated_at"
+              : "alert_level, updated_at",
+          )
+          .eq("patient_id", patientId)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
   ]);
 
-  const address = addressResult.data as unknown as AddressRow | null;
-  const emergency = emergencyResult.data as unknown as EmergencyContactRow | null;
   const physical = physicalResult.data as unknown as PhysicalInfoRow | null;
-  const medical = medicalResult.data as unknown as MedicalProfileRow | null;
+  const medical = medicalResult.data as unknown as Partial<MedicalProfileRow> | null;
 
   return {
     ...base,
     age: calculateAge(base.dateOfBirth),
-    address: address
-      ? {
-          country: address.country,
-          region: address.region,
-          province: address.province,
-          cityMunicipality: address.city_municipality,
-          barangay: address.barangay,
-          street: address.street,
-          building: address.building,
-          postalCode: address.postal_code,
-        }
-      : null,
-    emergencyContact: emergency
-      ? {
-          name: emergency.name,
-          relationship: emergency.relationship,
-          mobile: emergency.mobile,
-          secondaryContact: emergency.secondary_contact,
-        }
-      : null,
+    address: null,
+    emergencyContact: null,
     physicalInfo: physical
       ? {
           heightCm: physical.height_cm,
@@ -193,19 +199,19 @@ export async function getPatientProfile(
       : null,
     medicalProfile: medical
       ? {
-          alertLevel: medical.alert_level,
-          alertReason: medical.alert_reason,
+          alertLevel: medical.alert_level ?? "none",
+          alertReason: medical.alert_reason ?? null,
           allergies: medical.allergies ?? [],
           currentMedications: medical.current_medications ?? [],
           medicalConditions: medical.medical_conditions ?? [],
-          pregnancyStatus: medical.pregnancy_status,
-          breastfeeding: medical.breastfeeding,
-          keloidHistory: medical.keloid_history,
-          photosensitivity: medical.photosensitivity,
-          diabetes: medical.diabetes,
-          hypertension: medical.hypertension,
-          otherClinicalNotes: medical.other_clinical_notes,
-          updatedAt: medical.updated_at,
+          pregnancyStatus: medical.pregnancy_status ?? "unknown",
+          breastfeeding: medical.breastfeeding ?? null,
+          keloidHistory: medical.keloid_history ?? null,
+          photosensitivity: medical.photosensitivity ?? null,
+          diabetes: medical.diabetes ?? null,
+          hypertension: medical.hypertension ?? null,
+          otherClinicalNotes: medical.other_clinical_notes ?? null,
+          updatedAt: medical.updated_at ?? new Date(0).toISOString(),
         }
       : null,
   };
@@ -215,6 +221,7 @@ export async function getPatientAudit(patientId?: string): Promise<PatientAuditR
   const supabase = await createSupabaseServerClient();
 
   if (!supabase) {
+    if (process.env.NODE_ENV === "production") return [];
     return demoPatientAudit;
   }
 
@@ -231,7 +238,7 @@ export async function getPatientAudit(patientId?: string): Promise<PatientAuditR
   const { data, error } = await query;
 
   if (error || !data) {
-    return [];
+    throw new Error("Audit history is temporarily unavailable.");
   }
 
   return (
@@ -255,25 +262,4 @@ export async function getPatientAudit(patientId?: string): Promise<PatientAuditR
     createdAt: event.created_at,
     success: event.success,
   }));
-}
-
-export async function getPatientFullContact(patientId: string) {
-  const demoPatient = demoPatients.find((patient) => patient.id === patientId);
-  const admin = createSupabaseAdminClient();
-
-  if (!admin) {
-    return demoPatient ? { mobile: demoPatient.mobile, email: demoPatient.email } : null;
-  }
-
-  const { data, error } = await admin
-    .from("patients")
-    .select("mobile, email")
-    .eq("id", patientId)
-    .maybeSingle();
-
-  if (error || !data) {
-    return null;
-  }
-
-  return data as { mobile: string; email: string | null };
 }

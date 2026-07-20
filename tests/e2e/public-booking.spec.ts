@@ -12,7 +12,7 @@ test("public booking prepares a request with only full name required", async ({ 
   await expect(page.getByText("No deposit is required.")).toBeVisible();
 });
 
-test("development appointment inbox is protected and reports persistence state", async ({
+test("@staff development appointment inbox is protected and reports persistence state", async ({
   page,
 }) => {
   await page.goto("/appointments");

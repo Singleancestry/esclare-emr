@@ -17,6 +17,7 @@ const baseStaff: StaffContext = {
   activeBranch: { id: "branch-1", code: "NAGA", name: "ESCLARE Naga" },
   activeRole: { key: "owner", name: "Owner" },
   permissions: rolePermissions.owner,
+  branchPermissions: { "branch-1": rolePermissions.owner },
 };
 
 describe("evaluateStaffContext", () => {

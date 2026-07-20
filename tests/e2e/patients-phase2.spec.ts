@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("patient directory renders cards and table view", async ({ page }) => {
+test("@staff patient directory renders cards and table view", async ({ page }) => {
   await page.goto("/patients");
 
   await expect(page.getByRole("heading", { name: "Patient Directory" })).toBeVisible();
@@ -11,7 +11,7 @@ test("patient directory renders cards and table view", async ({ page }) => {
   await expect(page.getByRole("columnheader", { name: "Patient" })).toBeVisible();
 });
 
-test("patient registration validates weak mobile input", async ({ page }) => {
+test("@staff patient registration validates weak mobile input", async ({ page }) => {
   await page.goto("/patients/new");
 
   await expect(page.getByRole("heading", { name: "Add Patient" })).toBeVisible();
@@ -32,7 +32,7 @@ test("patient registration validates weak mobile input", async ({ page }) => {
   await expect(page.getByText("Use a valid Philippine mobile number.")).toBeVisible();
 });
 
-test("patient profile masks contact and hides full medical notes only when allowed", async ({
+test("@staff patient profile masks contact and hides full medical notes only when allowed", async ({
   page,
 }) => {
   await page.goto("/patients/10000000-0000-4000-8000-000000000001");

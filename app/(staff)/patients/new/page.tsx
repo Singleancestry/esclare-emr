@@ -1,10 +1,12 @@
 import { PatientRegistrationForm } from "@/components/patients/patient-registration-form";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { requireFeature } from "@/lib/features/flags";
 import { requirePermission } from "@/lib/permissions/checks";
 
 export default async function NewPatientPage() {
   const staff = await getCurrentStaffContext();
   requirePermission(staff, "patients.create");
+  requireFeature("patients", staff.employee.id);
 
   return (
     <main className="grid gap-5 p-4 sm:p-6">

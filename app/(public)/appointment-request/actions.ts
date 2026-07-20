@@ -1,9 +1,11 @@
 "use server";
 
+import { createHmac } from "node:crypto";
+import { headers } from "next/headers";
 import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
-import { recordAuditEvent } from "@/lib/audit/audit-events";
 import { getBranch } from "@/lib/clinic/details";
 import type { BranchCode } from "@/lib/clinic/details";
+import { isFeatureEnabled } from "@/lib/features/flags";
 import { treatments } from "@/lib/services/catalog";
 import { appointmentRequestSchema } from "@/lib/validation/appointment-request";
 
@@ -25,11 +27,19 @@ export async function submitPublicAppointmentRequest(
   formData: FormData,
 ): Promise<PublicAppointmentRequestState> {
   const parsed = appointmentRequestSchema.safeParse(Object.fromEntries(formData));
+  const idempotencyKey = String(formData.get("idempotencyKey") ?? "");
 
-  if (!parsed.success) {
+  if (
+    !parsed.success ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      idempotencyKey,
+    )
+  ) {
     return {
       status: "error",
-      message: parsed.error.issues[0]?.message ?? "Check your request details.",
+      message: parsed.success
+        ? "Refresh the form before submitting this request."
+        : (parsed.error.issues[0]?.message ?? "Check your request details."),
       reference: null,
       preparedMessage: null,
       submittedBranchCode: null,
@@ -53,9 +63,10 @@ export async function submitPublicAppointmentRequest(
     };
   }
 
-  const admin = createSupabaseAdminClient();
+  const admin = isFeatureEnabled("publicBookingPersistence") ? createSupabaseAdminClient() : null;
+  const rateLimitSecret = process.env.APPOINTMENT_REQUEST_RATE_LIMIT_SECRET;
 
-  if (!admin) {
+  if (!admin || !rateLimitSecret) {
     return {
       status: "prepared",
       message:
@@ -67,6 +78,12 @@ export async function submitPublicAppointmentRequest(
   }
 
   const branchCode = parsed.data.branchCode.toUpperCase();
+  const requestHeaders = await headers();
+  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const clientAddress = forwardedFor || requestHeaders.get("x-real-ip") || "unavailable";
+  const requestFingerprint = createHmac("sha256", rateLimitSecret)
+    .update(clientAddress)
+    .digest("hex");
   const { data: branch, error: branchError } = await admin
     .from("branches")
     .select("id")
@@ -94,19 +111,21 @@ export async function submitPublicAppointmentRequest(
     serviceId = service?.id ?? null;
   }
 
-  const requestId = crypto.randomUUID();
   const reference = createPublicReference();
-  const { error } = await admin.from("appointment_requests").insert({
-    id: requestId,
-    public_reference: reference,
-    branch_id: branch.id,
-    full_name: parsed.data.fullName,
-    service_id: serviceId,
-    requested_service: treatment?.name ?? null,
-    preferred_date: parsed.data.preferredDate || null,
-    preferred_time: parsed.data.preferredTime || null,
-    source: "website",
-  });
+  const { data: savedReference, error } = await admin.rpc(
+    "create_public_appointment_request_atomic",
+    {
+      p_idempotency_key: idempotencyKey,
+      p_request_fingerprint: requestFingerprint,
+      p_public_reference: reference,
+      p_branch_id: branch.id,
+      p_full_name: parsed.data.fullName,
+      p_service_id: serviceId,
+      p_requested_service: treatment?.name ?? null,
+      p_preferred_date: parsed.data.preferredDate || null,
+      p_preferred_time: parsed.data.preferredTime || null,
+    },
+  );
 
   if (error) {
     return {
@@ -118,22 +137,11 @@ export async function submitPublicAppointmentRequest(
     };
   }
 
-  await recordAuditEvent({
-    actorRole: "public",
-    branchId: branch.id,
-    action: "appointment_request.create",
-    entityType: "appointment_requests",
-    entityId: requestId,
-    newValue: { reference, status: "pending", source: "website" },
-    reason: "Public website appointment request",
-    success: true,
-  });
-
   return {
     status: "saved",
     message:
       "Request saved for the ESCLARE team. Continue through an official channel to confirm your appointment.",
-    reference,
+    reference: typeof savedReference === "string" ? savedReference : reference,
     preparedMessage,
     submittedBranchCode: parsed.data.branchCode,
   };

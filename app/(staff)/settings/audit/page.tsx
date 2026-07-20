@@ -1,10 +1,12 @@
 import { AuditLogTable } from "@/components/security/audit-log-table";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { requireFeature } from "@/lib/features/flags";
 import { getPatientAudit } from "@/lib/patients/data";
 import { requirePermission } from "@/lib/permissions/checks";
 
 export default async function AuditLogsPage() {
   const staff = await getCurrentStaffContext();
+  requireFeature("auditRead", staff?.employee.id);
   requirePermission(staff, "security.view_audit");
   const events = await getPatientAudit();
 

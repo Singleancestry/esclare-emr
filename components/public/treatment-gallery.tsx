@@ -13,12 +13,20 @@ export function TreatmentGallery() {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const openerIndexRef = useRef<number | null>(null);
+  const imageButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const category = treatmentGalleryCategories[categoryIndex];
   const activeImage = imageIndex === null ? null : category.images[imageIndex];
 
+  const isOpen = imageIndex !== null;
+
   useEffect(() => {
-    if (imageIndex === null) return;
+    if (!isOpen) return;
     const overflow = document.body.style.overflow;
+    const openerIndex = openerIndexRef.current;
+    const opener = openerIndex === null ? null : imageButtonRefs.current[openerIndex];
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
     function keydown(event: KeyboardEvent) {
@@ -31,13 +39,29 @@ export function TreatmentGallery() {
         setImageIndex((current) =>
           current === null ? null : (current - 1 + category.images.length) % category.images.length,
         );
+      if (event.key === "Tab") {
+        const focusable = Array.from(
+          dialogRef.current?.querySelectorAll<HTMLElement>("button:not([disabled])") ?? [],
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     }
     document.addEventListener("keydown", keydown);
     return () => {
       document.body.style.overflow = overflow;
       document.removeEventListener("keydown", keydown);
+      opener?.focus();
     };
-  }, [imageIndex, category.images.length]);
+  }, [isOpen, category.images.length]);
 
   function selectCategory(index: number) {
     setCategoryIndex(index);
@@ -64,12 +88,32 @@ export function TreatmentGallery() {
         >
           {treatmentGalleryCategories.map((item, index) => (
             <button
+              ref={(element) => {
+                tabRefs.current[index] = element;
+              }}
               key={item.id}
               id={`treatment-tab-${item.id}`}
               role="tab"
               aria-selected={categoryIndex === index}
               aria-controls="treatment-gallery-panel"
+              tabIndex={categoryIndex === index ? 0 : -1}
               onClick={() => selectCategory(index)}
+              onKeyDown={(event) => {
+                if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                event.preventDefault();
+                const last = treatmentGalleryCategories.length - 1;
+                const next =
+                  event.key === "Home"
+                    ? 0
+                    : event.key === "End"
+                      ? last
+                      : event.key === "ArrowRight"
+                        ? (index + 1) % treatmentGalleryCategories.length
+                        : (index - 1 + treatmentGalleryCategories.length) %
+                          treatmentGalleryCategories.length;
+                selectCategory(next);
+                tabRefs.current[next]?.focus();
+              }}
               className={`min-h-11 shrink-0 rounded-lg border px-4 text-xs font-bold transition-colors ${categoryIndex === index ? "border-[#5B1830] bg-[#5B1830] text-white" : "border-[#CCBCA7] bg-[#FBF8F2] text-[#481827] hover:border-[#8F6A35]"}`}
             >
               {item.name}
@@ -108,8 +152,14 @@ export function TreatmentGallery() {
                   className={category.images.length === 1 ? "sm:col-span-2" : ""}
                 >
                   <button
+                    ref={(element) => {
+                      imageButtonRefs.current[index] = element;
+                    }}
                     type="button"
-                    onClick={() => setImageIndex(index)}
+                    onClick={() => {
+                      openerIndexRef.current = index;
+                      setImageIndex(index);
+                    }}
                     aria-label={`Open ${category.name} image: ${image.caption}`}
                     className="group relative block aspect-[4/3] w-full overflow-hidden rounded-lg bg-[#E7DED1]"
                   >
@@ -149,6 +199,7 @@ export function TreatmentGallery() {
         typeof document !== "undefined" &&
         createPortal(
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-label={`${category.name} image viewer`}

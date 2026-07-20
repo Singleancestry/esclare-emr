@@ -253,6 +253,12 @@ export default function TreatmentsPage() {
                         <p className="text-sm font-bold text-[#6F263D]">
                           {formatTreatmentPrice(item)}
                         </p>
+                        <Link
+                          href={`/treatments/${item.slug}` as Route}
+                          className="mt-3 inline-flex min-h-11 items-center gap-2 text-xs font-bold text-[#6F263D]"
+                        >
+                          Treatment guide <ArrowRight size={14} aria-hidden="true" />
+                        </Link>
                       </div>
                     </article>
                   ))}

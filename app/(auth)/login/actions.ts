@@ -41,5 +41,11 @@ export async function signInAction(
     return { error: access.reason };
   }
 
-  redirect("/dashboard");
+  redirect("/services");
+}
+
+export async function signOutAction() {
+  const supabase = await createSupabaseServerClient();
+  if (supabase) await supabase.auth.signOut();
+  redirect("/login");
 }

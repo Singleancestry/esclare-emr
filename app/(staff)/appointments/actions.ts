@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { recordAuditEvent } from "@/lib/audit/audit-events";
 import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { isFeatureEnabled } from "@/lib/features/flags";
 import { hasBranchAccess, hasPermission } from "@/lib/permissions/checks";
 import {
   appointmentRequestStatusUpdateSchema,
@@ -29,15 +29,20 @@ export async function createAppointmentAction(
   formData: FormData,
 ): Promise<AppointmentActionState> {
   const staff = await getCurrentStaffContext();
-  if (!staff || !hasPermission(staff, "appointments.create"))
-    return { status: "error", message: "You do not have permission to schedule appointments." };
+  if (!staff) return { status: "error", message: "Staff session is required." };
+  if (!isFeatureEnabled("appointments", staff.employee.id)) {
+    return { status: "error", message: "Appointment scheduling is not enabled." };
+  }
   const parsed = appointmentCreateSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success)
     return {
       status: "error",
       message: parsed.error.issues[0]?.message ?? "Check the appointment details.",
     };
-  if (!hasBranchAccess(staff, parsed.data.branchId))
+  if (
+    !hasBranchAccess(staff, parsed.data.branchId) ||
+    !hasPermission(staff, "appointments.create", parsed.data.branchId)
+  )
     return { status: "error", message: "You do not have access to this branch." };
   const admin = createSupabaseAdminClient();
   if (!admin)
@@ -75,22 +80,17 @@ export async function createAppointmentAction(
     if (!room) return { status: "error", message: "Room is not available at the selected branch." };
   }
 
-  const { data: appointment, error } = await admin
-    .from("appointments")
-    .insert({
-      branch_id: parsed.data.branchId,
-      patient_id: parsed.data.patientId,
-      service_id: parsed.data.serviceId,
-      provider_employee_id: parsed.data.providerEmployeeId,
-      room_id: parsed.data.roomId,
-      starts_at: new Date(parsed.data.startsAt).toISOString(),
-      ends_at: new Date(parsed.data.endsAt).toISOString(),
-      booking_note: parsed.data.bookingNote || null,
-      status: "scheduled",
-      created_by: staff.employee.id,
-    })
-    .select("id")
-    .single();
+  const { error } = await admin.rpc("create_appointment_atomic", {
+    p_branch_id: parsed.data.branchId,
+    p_patient_id: parsed.data.patientId,
+    p_service_id: parsed.data.serviceId,
+    p_provider_employee_id: parsed.data.providerEmployeeId,
+    p_room_id: parsed.data.roomId,
+    p_starts_at: new Date(parsed.data.startsAt).toISOString(),
+    p_ends_at: new Date(parsed.data.endsAt).toISOString(),
+    p_booking_note: parsed.data.bookingNote,
+    p_actor_employee_id: staff.employee.id,
+  });
   if (error)
     return {
       status: "error",
@@ -100,25 +100,6 @@ export async function createAppointmentAction(
           : "The appointment could not be scheduled.",
     };
 
-  await admin.from("appointment_events").insert({
-    appointment_id: appointment.id,
-    branch_id: parsed.data.branchId,
-    to_status: "scheduled",
-    reason: "Appointment created",
-    actor_employee_id: staff.employee.id,
-  });
-  await recordAuditEvent({
-    actorEmployeeId: staff.employee.id,
-    actorRole: staff.activeRole.key,
-    branchId: parsed.data.branchId,
-    patientId: parsed.data.patientId,
-    action: "appointment.create",
-    entityType: "appointments",
-    entityId: appointment.id,
-    newValue: { status: "scheduled", startsAt: parsed.data.startsAt, endsAt: parsed.data.endsAt },
-    reason: "Scheduled by staff",
-    success: true,
-  });
   revalidatePath("/appointments");
   return { status: "success", message: "Appointment scheduled." };
 }
@@ -138,6 +119,9 @@ export async function transitionAppointmentAction(
   formData: FormData,
 ): Promise<AppointmentActionState> {
   const staff = await getCurrentStaffContext();
+  if (staff && !isFeatureEnabled("appointments", staff.employee.id)) {
+    return { status: "error", message: "Appointment scheduling is not enabled." };
+  }
   const parsed = appointmentTransitionSchema.safeParse(Object.fromEntries(formData));
   if (!staff || !parsed.success)
     return {
@@ -146,9 +130,6 @@ export async function transitionAppointmentAction(
         ? "Staff session is required."
         : (parsed.error.issues[0]?.message ?? "Check the status update."),
     };
-  const permission = transitionPermission[parsed.data.status];
-  if (!hasPermission(staff, permission))
-    return { status: "error", message: "You do not have permission for this appointment action." };
   const admin = createSupabaseAdminClient();
   if (!admin)
     return { status: "error", message: "Configure Supabase before updating appointments." };
@@ -160,54 +141,31 @@ export async function transitionAppointmentAction(
     .maybeSingle();
   if (!current || !hasBranchAccess(staff, current.branch_id))
     return { status: "error", message: "Appointment was not found for your branch." };
+  const permission = transitionPermission[parsed.data.status];
+  if (!hasPermission(staff, permission, current.branch_id))
+    return { status: "error", message: "You do not have permission for this appointment action." };
   const fromStatus = current.status as AppointmentStatus;
   if (!canTransitionAppointment(fromStatus, parsed.data.status))
     return {
       status: "error",
       message: `A ${fromStatus.replaceAll("_", " ")} appointment cannot move to ${parsed.data.status.replaceAll("_", " ")}.`,
     };
-  const now = new Date().toISOString();
-  const timestamps =
-    parsed.data.status === "checked_in"
-      ? { checked_in_at: now }
-      : parsed.data.status === "in_progress"
-        ? { started_at: now }
-        : parsed.data.status === "completed"
-          ? { completed_at: now }
-          : ["cancelled", "no_show"].includes(parsed.data.status)
-            ? {
-                cancelled_at: now,
-                cancelled_by: staff.employee.id,
-                cancellation_reason: parsed.data.reason,
-              }
-            : {};
-  const { error } = await admin
-    .from("appointments")
-    .update({ status: parsed.data.status, ...timestamps })
-    .eq("id", current.id)
-    .eq("status", fromStatus);
-  if (error) return { status: "error", message: "The appointment status could not be updated." };
-  await admin.from("appointment_events").insert({
-    appointment_id: current.id,
-    branch_id: current.branch_id,
-    from_status: fromStatus,
-    to_status: parsed.data.status,
-    reason: parsed.data.reason || null,
-    actor_employee_id: staff.employee.id,
+  const { error } = await admin.rpc("transition_appointment_atomic", {
+    p_appointment_id: current.id,
+    p_expected_status: fromStatus,
+    p_new_status: parsed.data.status,
+    p_reason: parsed.data.reason,
+    p_actor_employee_id: staff.employee.id,
   });
-  await recordAuditEvent({
-    actorEmployeeId: staff.employee.id,
-    actorRole: staff.activeRole.key,
-    branchId: current.branch_id,
-    patientId: current.patient_id,
-    action: "appointment.status_update",
-    entityType: "appointments",
-    entityId: current.id,
-    previousValue: { status: fromStatus },
-    newValue: { status: parsed.data.status },
-    reason: parsed.data.reason || "Operational transition",
-    success: true,
-  });
+  if (error) {
+    return {
+      status: "error",
+      message:
+        error.code === "40001"
+          ? "This appointment changed while you were working. Refresh before trying again."
+          : "The appointment status, history, and audit record could not be saved.",
+    };
+  }
   revalidatePath("/appointments");
   return {
     status: "success",
@@ -220,11 +178,14 @@ export async function updateAppointmentRequestStatusAction(
   formData: FormData,
 ): Promise<AppointmentRequestUpdateState> {
   const staff = await getCurrentStaffContext();
-  if (!staff || !hasPermission(staff, "appointments.confirm")) {
+  if (!staff) {
     return {
       status: "error",
       message: "You do not have permission to update appointment requests.",
     };
+  }
+  if (!isFeatureEnabled("appointments", staff.employee.id)) {
+    return { status: "error", message: "Appointment scheduling is not enabled." };
   }
 
   const parsed = appointmentRequestStatusUpdateSchema.safeParse(Object.fromEntries(formData));
@@ -254,6 +215,9 @@ export async function updateAppointmentRequestStatusAction(
   if (!hasBranchAccess(staff, current.branch_id)) {
     return { status: "error", message: "You do not have access to this request's branch." };
   }
+  if (!hasPermission(staff, "appointments.confirm", current.branch_id)) {
+    return { status: "error", message: "You do not have permission to update this request." };
+  }
 
   const currentStatus = current.status as AppointmentRequestStatus;
   if (!canTransitionAppointmentRequest(currentStatus, parsed.data.status)) {
@@ -263,37 +227,23 @@ export async function updateAppointmentRequestStatusAction(
     };
   }
 
-  const now = new Date().toISOString();
-  const update = {
-    status: parsed.data.status,
-    status_reason: parsed.data.reason,
-    handled_by: staff.employee.id,
-    handled_at: now,
-    archived_at: parsed.data.status === "archived" ? now : null,
-    archived_by: parsed.data.status === "archived" ? staff.employee.id : null,
-    archive_reason: parsed.data.status === "archived" ? parsed.data.reason : null,
-  };
-  const { error: updateError } = await admin
-    .from("appointment_requests")
-    .update(update)
-    .eq("id", current.id);
+  const { error: updateError } = await admin.rpc("transition_appointment_request_atomic", {
+    p_request_id: current.id,
+    p_expected_status: currentStatus,
+    p_new_status: parsed.data.status,
+    p_reason: parsed.data.reason,
+    p_actor_employee_id: staff.employee.id,
+  });
 
   if (updateError) {
-    return { status: "error", message: updateError.message };
+    return {
+      status: "error",
+      message:
+        updateError.code === "40001"
+          ? "This request changed while you were working. Refresh before trying again."
+          : "The request status and audit record could not be saved.",
+    };
   }
-
-  await recordAuditEvent({
-    actorEmployeeId: staff.employee.id,
-    actorRole: staff.activeRole.key,
-    branchId: current.branch_id,
-    action: "appointment_request.status_update",
-    entityType: "appointment_requests",
-    entityId: current.id,
-    previousValue: { status: currentStatus },
-    newValue: { status: parsed.data.status },
-    reason: parsed.data.reason,
-    success: true,
-  });
 
   revalidatePath("/appointments");
   return { status: "success", message: `Request marked ${parsed.data.status}.` };

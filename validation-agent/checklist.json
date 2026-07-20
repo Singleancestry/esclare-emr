@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-07-20T01:56:03.940Z",
+  "mode": "full",
+  "ready": true,
+  "checks": [
+    {
+      "name": "dependency lock check",
+      "status": "PASS",
+      "durationMs": 2924
+    },
+    {
+      "name": "format",
+      "status": "PASS",
+      "durationMs": 5156
+    },
+    {
+      "name": "environment contract",
+      "status": "PASS",
+      "durationMs": 854
+    },
+    {
+      "name": "lint",
+      "status": "PASS",
+      "durationMs": 12111
+    },
+    {
+      "name": "typecheck",
+      "status": "PASS",
+      "durationMs": 6602
+    },
+    {
+      "name": "unit tests",
+      "status": "PASS",
+      "durationMs": 7204
+    },
+    {
+      "name": "dependency audit",
+      "status": "PASS",
+      "durationMs": 2318
+    },
+    {
+      "name": "secret scan",
+      "status": "PASS",
+      "durationMs": 999
+    },
+    {
+      "name": "production build",
+      "status": "PASS",
+      "durationMs": 26651
+    },
+    {
+      "name": "production server",
+      "status": "PASS",
+      "durationMs": 0
+    },
+    {
+      "name": "responsive Playwright flows",
+      "status": "PASS",
+      "durationMs": 10217
+    },
+    {
+      "name": "load smoke",
+      "status": "PASS",
+      "durationMs": 15146
+    },
+    {
+      "name": "Lighthouse mobile and desktop",
+      "status": "PASS",
+      "durationMs": 37318
+    }
+  ]
+}

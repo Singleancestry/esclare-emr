@@ -1,0 +1,46 @@
+# Production Remediation Plan
+
+Evidence cut: 2026-07-18 08:35 +08:00. Branch: `audit/production-readiness-20260718`.
+Local HEAD and pre-audit production commit: `68bbfbced9930a76abcb95e007b8aee7dd3e97c1`.
+
+The accepted baseline remains 5.1/10 overall and 8.0/10 for the public website. No
+production migration, production data mutation, push, or deployment was performed.
+
+## Remediation Matrix
+
+| Finding                                          | Severity                | Original evidence                           | Remediation and files                                                                                                                         | Required real test                                 | Status                            | Blocking dependency               |
+| ------------------------------------------------ | ----------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | --------------------------------- | --------------------------------- |
+| CR-001 raw patient columns                       | Critical                | Patient RLS allowed raw contact selection   | Revoke all direct patient access; server-only explicit reads in `202607181200_sensitive_patient_column_access.sql` and `lib/patients/data.ts` | Direct REST/GraphQL reads for every role           | Source fixed; DB unverified       | Restored staging Supabase         |
+| CR-002 full medical row under summary permission | Critical                | Row policy could not enforce column scope   | Direct child-table reads revoked; server selects summary/full fields after branch permission                                                  | Summary/full/cross-branch JWT matrix               | Source fixed; DB unverified       | Staging roles and migrated schema |
+| CR-003 forgeable appointment events              | Critical                | Authenticated insert policy/grant           | Event/audit writes are service-only and atomic                                                                                                | Direct insert denial plus injected rollback        | Source fixed; DB unverified       | Staging migration                 |
+| CR-004 cross-branch permission bleed             | Critical                | Permissions flattened across assignments    | `branchPermissions` context and target-branch checks in `202607181320_branch_scoped_staff_context.sql`                                        | Mixed doctor/receptionist role test                | Source fixed; DB unverified       | Staging roles                     |
+| CR-005 direct appointment mutation bypass        | Critical                | Authenticated insert/update grant           | Direct writes revoked; atomic service RPCs only                                                                                               | Direct REST insert/update denial                   | Source fixed; DB unverified       | Staging migration                 |
+| CR-006 patient-link escalation                   | Critical                | Authenticated link insertion                | Patient/link writes revoked from generated APIs                                                                                               | Cross-branch link insertion denial                 | Source fixed; DB unverified       | Staging migration                 |
+| PR-005 appointment partial writes                | High                    | Separate state/event/audit calls            | Atomic create/transition RPCs with row lock and optimistic status                                                                             | Concurrent transition and fault injection          | Source fixed; behavior unverified | Real PostgreSQL test              |
+| PR-018 patient registration partial writes       | Critical                | Parent plus seven independent writes        | `create_patient_atomic` commits all intake rows and audit                                                                                     | Failure at every child insert                      | Source fixed; behavior unverified | Real PostgreSQL test              |
+| PR-007 public request replay                     | High                    | No idempotency boundary                     | Form nonce and atomic idempotent RPC                                                                                                          | Twenty concurrent same-key submissions             | Source fixed; behavior unverified | Real PostgreSQL test              |
+| PR-019 request transition lost update            | High                    | Update/audit split without status predicate | Atomic request transition with `FOR UPDATE`                                                                                                   | Two concurrent staff transitions                   | Source fixed; behavior unverified | Real PostgreSQL test              |
+| PR-006 MFA/session enforcement                   | High                    | `mfaRequired` not enforced at AAL           | No complete fix in this pass                                                                                                                  | AAL2, expiry, suspension, revocation               | Open                              | Supabase auth test accounts       |
+| PR-001 clinical EMR                              | High                    | Placeholder clinical surface                | None; keep disabled                                                                                                                           | Synthetic clinical/consent/addendum workflow       | Open                              | Product implementation            |
+| PR-002 payments/packages                         | High                    | Placeholder finance/package surfaces        | None; keep disabled                                                                                                                           | Atomic ledger, replay, concurrency, reconciliation | Open                              | Product implementation            |
+| PR-009 clinical photos                           | High before use         | No bucket/policy implementation             | None; keep disabled                                                                                                                           | Storage path, signed URL, isolation, restore       | Open                              | Storage design and staging        |
+| PR-003 production schema/RLS                     | High                    | No project access or migration history      | Ordered migrations and read-only checks prepared                                                                                              | Apply/verify each migration in restored staging    | Blocked                           | Supabase admin and backup         |
+| PR-004 backup/restore                            | High                    | No restorable evidence                      | Evidence template and stop gate created                                                                                                       | Controlled isolated restore                        | Blocked                           | Supabase backup/export access     |
+| PR-008 monitoring                                | Medium/high operational | No verified alerting                        | Requirements documented only                                                                                                                  | Trigger and receive each critical alert            | Open                              | Monitoring accounts/owners        |
+| PR-012 cross-browser                             | Medium                  | Chromium only                               | Accessibility and hero lifecycle fixes                                                                                                        | Firefox, WebKit, physical mobile                   | Open                              | Browser binaries/devices          |
+| PR-020 exact release match                       | High release gate       | Audited tree uncommitted                    | No release attempted                                                                                                                          | Local = GitHub = Vercel hash                       | Blocked                           | All earlier gates and GitHub auth |
+
+## Local Evidence
+
+- `npm run format:check`: pass.
+- `npm run lint`: pass.
+- `npm run typecheck`: pass.
+- `npm test`: 46/46 pass across 12 files.
+- `npm audit --audit-level=moderate`: zero vulnerabilities.
+- Production build and current full E2E are scheduled after the fresh adversarial pass.
+
+## Stop Decision
+
+Production rollout is stopped. Missing backup/restore, staging, credentials, real negative
+authorization tests, MFA evidence, unfinished clinical/financial/photo domains, and exact
+commit deployment prevent production approval.

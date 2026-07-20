@@ -18,8 +18,6 @@ export type PatientDirectoryRecord = {
   homeBranchId: string;
   homeBranchName: string;
   maskedMobile: string;
-  mobile: string;
-  email: string | null;
   remainingSessions: number;
   outstandingBalance: number;
   loyaltyPoints: number;

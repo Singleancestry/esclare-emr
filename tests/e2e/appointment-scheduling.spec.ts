@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("appointment workspace exposes scheduling and validates patient selection", async ({
+test("@staff appointment workspace exposes scheduling and validates patient selection", async ({
   page,
 }) => {
   await page.goto("/appointments");

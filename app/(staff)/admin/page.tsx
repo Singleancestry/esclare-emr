@@ -1,8 +1,10 @@
 import { ShieldCheck } from "lucide-react";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { requireFeature } from "@/lib/features/flags";
 import { requirePermission } from "@/lib/permissions/checks";
 
 export default async function AdminPage() {
+  requireFeature("administration");
   const staff = await getCurrentStaffContext();
   requirePermission(staff, "security.manage_roles");
 

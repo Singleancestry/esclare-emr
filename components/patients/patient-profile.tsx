@@ -1,11 +1,4 @@
-import {
-  AlertTriangle,
-  CalendarDays,
-  CircleDollarSign,
-  Gift,
-  HeartPulse,
-  ShieldCheck,
-} from "lucide-react";
+import { AlertTriangle, CalendarDays, HeartPulse } from "lucide-react";
 import type { PatientProfile as PatientProfileType } from "@/lib/patients/types";
 import { alertTone, formatPatientName } from "@/lib/patients/utils";
 
@@ -14,22 +7,7 @@ type PatientProfileProps = {
   canViewFullMedical: boolean;
 };
 
-const tabs = [
-  "Overview",
-  "Medical Profile",
-  "Allergies",
-  "Health Concerns",
-  "Appointments",
-  "Treatment History",
-  "Packages and Sessions",
-  "Clinical Photos",
-  "Consent Forms",
-  "Payments",
-  "Aftercare",
-  "Communications",
-  "Documents",
-  "Audit History",
-];
+const tabs = ["Overview", "Medical Profile"];
 
 export function PatientProfile({ patient, canViewFullMedical }: PatientProfileProps) {
   return (
@@ -55,22 +33,7 @@ export function PatientProfile({ patient, canViewFullMedical }: PatientProfilePr
             {patient.clinicalAlertLevel.replaceAll("_", " ")}
           </span>
         </div>
-        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          <HeaderMetric
-            icon={CircleDollarSign}
-            label="Outstanding balance"
-            value={`PHP ${patient.outstandingBalance.toLocaleString()}`}
-          />
-          <HeaderMetric
-            icon={Gift}
-            label="Remaining sessions"
-            value={patient.remainingSessions.toString()}
-          />
-          <HeaderMetric
-            icon={ShieldCheck}
-            label="Loyalty points"
-            value={patient.loyaltyPoints.toString()}
-          />
+        <div className="mt-5 max-w-sm">
           <HeaderMetric
             icon={CalendarDays}
             label="Next appointment"
@@ -100,7 +63,10 @@ export function PatientProfile({ patient, canViewFullMedical }: PatientProfilePr
         <article className="rounded border border-[#D9DDE3] bg-white p-5 shadow-sm">
           <h2 className="text-xl font-semibold text-[#481827]">Overview</h2>
           <dl className="mt-4 grid gap-3 text-sm">
-            <Info label="Email" value={patient.email ?? "Not provided"} />
+            <Info
+              label="Contact details"
+              value="Use the audited reveal action from the directory."
+            />
             <Info
               label="Address"
               value={

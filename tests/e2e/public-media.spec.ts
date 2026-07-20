@@ -99,7 +99,53 @@ test("treatment gallery filters verified media and preserves booking selection",
 test("premium homepage respects reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/home");
-  const hero = page.locator(".cinematic-hero-image");
-  await expect(hero).toBeVisible();
-  await expect(hero).toHaveCSS("animation-duration", "1e-05s");
+  const hero = page.locator(".hero-media");
+  await expect(hero.locator(".hero-media-poster img")).toBeVisible();
+  await expect(hero).toHaveAttribute("data-playback-state", "poster");
+  await expect(hero.locator("video source")).toHaveCount(0);
+});
+
+test("hero retains its poster and actions when video playback fails", async ({
+  page,
+  browserName,
+}) => {
+  if (browserName !== "webkit") {
+    await page.route("**/media/esclare-hero-final-no-logo-v3.mp4*", (route) =>
+      route.fulfill({ status: 503, contentType: "video/mp4", body: "" }),
+    );
+  }
+  await page.goto("/home");
+
+  const hero = page.locator(".hero-media");
+  const heroStage = page.locator(".hero-stage");
+  if (browserName === "webkit") {
+    await expect(hero).toHaveAttribute("data-playback-state", /playing|complete/);
+    await hero.locator("video").evaluate((video: HTMLVideoElement) => {
+      video.pause();
+      video.querySelectorAll("source").forEach((source) => source.remove());
+      video.src = "/media/forced-missing-video.mp4";
+      video.load();
+    });
+  }
+  await expect(hero.locator(".hero-media-poster img")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Reveal Your Most Radiant Self/ })).toBeVisible();
+  await expect(heroStage.getByRole("link", { name: "Explore treatments" })).toBeVisible();
+  await expect(heroStage.getByRole("link", { name: "Book a consultation" })).toBeVisible();
+  await expect(hero).toHaveAttribute("data-playback-state", "fallback");
+});
+
+test("hero remains usable after route navigation on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/home");
+  await expect(page.locator(".hero-media-poster img")).toBeVisible();
+  await page.goto("/treatments");
+  await page.goBack();
+
+  await expect(page.getByRole("heading", { name: /Reveal Your Most Radiant Self/ })).toBeVisible();
+  await expect(
+    page.locator(".hero-stage").getByRole("link", { name: "Book a consultation" }),
+  ).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
 });

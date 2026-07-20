@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { rolePermissions } from "@/lib/permissions/permissions";
 import type { StaffContext } from "@/lib/permissions/types";
 import { createSupabaseServerClient } from "./supabase-server";
@@ -20,9 +21,13 @@ const demoStaff: StaffContext = {
   activeBranch: { id: "00000000-0000-4000-8000-000000000101", code: "NAGA", name: "ESCLARE Naga" },
   activeRole: { key: "owner", name: "Owner" },
   permissions: rolePermissions.owner,
+  branchPermissions: {
+    "00000000-0000-4000-8000-000000000101": rolePermissions.owner,
+    "00000000-0000-4000-8000-000000000102": rolePermissions.owner,
+  },
 };
 
-export async function getCurrentStaffContext(): Promise<StaffContext | null> {
+export const getCurrentStaffContext = cache(async (): Promise<StaffContext | null> => {
   const supabase = await createSupabaseServerClient();
 
   if (!supabase) {
@@ -43,5 +48,13 @@ export async function getCurrentStaffContext(): Promise<StaffContext | null> {
     return null;
   }
 
-  return data as StaffContext;
-}
+  const staff = data as StaffContext;
+
+  if (staff.employee.mfaRequired) {
+    const { data: assurance, error: assuranceError } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError || assurance.currentLevel !== "aal2") return null;
+  }
+
+  return staff;
+});

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
-import { Bell, LockKeyhole, Search } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { signOutAction } from "@/app/(auth)/login/actions";
 import { getAuthorizedNavigation } from "@/lib/permissions/navigation";
 import type { StaffContext } from "@/lib/permissions/types";
 
@@ -16,7 +17,7 @@ export function StaffShell({ staff, children }: StaffShellProps) {
     <div className="min-h-screen bg-[#F4F6F8] text-[#262626] lg:grid lg:grid-cols-[288px_1fr]">
       <aside className="border-r border-[#D9DDE3] bg-white">
         <div className="flex h-16 items-center border-b border-[#D9DDE3] px-5">
-          <Link href="/dashboard" className="font-serif text-2xl font-semibold text-[#6F263D]">
+          <Link href="/services" className="font-serif text-2xl font-semibold text-[#6F263D]">
             ESCLARE
           </Link>
         </div>
@@ -54,50 +55,18 @@ export function StaffShell({ staff, children }: StaffShellProps) {
       <div className="min-w-0">
         <header className="sticky top-0 z-10 border-b border-[#D9DDE3] bg-white/95 px-4 py-3 backdrop-blur">
           <div className="flex flex-wrap items-center gap-3">
-            <label className="sr-only" htmlFor="branch">
-              Active branch
-            </label>
-            <select
-              id="branch"
-              className="focus-ring min-h-10 rounded border border-[#D9DDE3] bg-white px-3 text-sm font-semibold text-[#481827]"
-              defaultValue={staff.activeBranch.id}
-            >
-              {staff.branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.name}
-                </option>
-              ))}
-            </select>
-            <div className="relative min-w-[240px] flex-1">
-              <Search
-                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#6F263D]"
-                size={17}
-                aria-hidden
-              />
-              <label className="sr-only" htmlFor="patient-search">
-                Global patient search
-              </label>
-              <input
-                id="patient-search"
-                className="focus-ring min-h-10 w-full rounded border border-[#D9DDE3] bg-white pl-10 pr-3 text-sm"
-                placeholder="Search patients by name, ID, or mobile"
-                type="search"
-              />
-            </div>
-            <button
-              className="focus-ring inline-flex min-h-10 w-10 items-center justify-center rounded border border-[#D9DDE3] bg-white text-[#481827]"
-              aria-label="Notifications"
-              type="button"
-            >
-              <Bell size={18} aria-hidden />
-            </button>
-            <Link
-              className="focus-ring inline-flex min-h-10 w-10 items-center justify-center rounded border border-[#D9DDE3] bg-white text-[#481827]"
-              href="/lock"
-              aria-label="Lock workspace"
-            >
-              <LockKeyhole size={18} aria-hidden />
-            </Link>
+            <p className="min-w-[180px] flex-1 text-sm font-semibold text-[#481827]">
+              {staff.activeBranch.name}
+            </p>
+            <form action={signOutAction}>
+              <button
+                className="focus-ring inline-flex min-h-10 w-10 items-center justify-center rounded border border-[#D9DDE3] bg-white text-[#481827]"
+                aria-label="Sign out"
+                type="submit"
+              >
+                <LogOut size={18} aria-hidden />
+              </button>
+            </form>
             <div className="min-w-[180px] rounded border border-[#D9DDE3] bg-[#F8F4ED] px-3 py-2">
               <p className="truncate text-sm font-semibold text-[#262626]">
                 {staff.employee.displayName}

@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 const links = [
   ["Home", "/home"],
   ["Treatments", "/treatments"],
+  ["Skin Education", "/skin-education"],
   ["About", "/about"],
   ["Branches", "/branches"],
   ["Aftercare", "/aftercare"],
@@ -26,6 +27,14 @@ export function SiteHeader() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    const background = Array.from(
+      document.querySelectorAll<HTMLElement>(".page-enter, .public-site > footer"),
+    );
+    for (const element of background) {
+      element.inert = open;
+      if (open) element.setAttribute("aria-hidden", "true");
+      else element.removeAttribute("aria-hidden");
+    }
     if (open) firstLinkRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && open) {
@@ -53,6 +62,10 @@ export function SiteHeader() {
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = "";
+      for (const element of background) {
+        element.inert = false;
+        element.removeAttribute("aria-hidden");
+      }
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
@@ -62,18 +75,23 @@ export function SiteHeader() {
   return (
     <>
       <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D6B078]/30 bg-[#FAF4EC]/95 backdrop-blur-xl">
-        <div className="public-container flex h-[76px] items-center justify-between gap-5">
-          <Link href="/home" aria-label="ESCLARE home" className="shrink-0">
+        <div className="site-header-container flex h-[76px] items-center justify-between gap-4">
+          <Link
+            href="/home"
+            aria-label="ESCLARE home"
+            className="site-logo-link shrink-0 rounded-md"
+          >
             <Image
-              src="/images/optimized/logo/esclare-official-wordmark-640.webp"
+              src="/images/optimized/logo/esclare-official-wordmark-transparent-v2.png"
               alt="ESCLARE Aesthetic Center"
-              width={640}
-              height={200}
+              width={2048}
+              height={683}
+              sizes="(min-width: 640px) 144px, 120px"
               priority
-              className="h-10 w-auto sm:h-12"
+              className="h-10 w-auto object-contain sm:h-12"
             />
           </Link>
-          <nav aria-label="Main navigation" className="hidden items-center gap-5 xl:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-4 xl:flex 2xl:gap-5">
             {links.map(([label, href]) => {
               const active =
                 pathname === href || (href !== "/home" && pathname.startsWith(`${href}/`));
@@ -82,7 +100,7 @@ export function SiteHeader() {
                   key={href}
                   href={href as Route}
                   aria-current={active ? "page" : undefined}
-                  className={`public-link py-3 text-[0.72rem] ${active ? "text-[#59141D]" : "text-[#43201E]"}`}
+                  className={`public-link min-h-11 content-center whitespace-nowrap py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold ${active ? "text-[#59141D]" : "text-[#43201E]"}`}
                 >
                   {label}
                 </Link>
@@ -92,7 +110,7 @@ export function SiteHeader() {
           <div className="hidden items-center gap-4 lg:flex">
             <Link
               href="/branches"
-              className="inline-flex items-center gap-2 text-xs text-[#43201E]"
+              className="hidden min-h-11 items-center gap-2 text-xs text-[#43201E] 2xl:inline-flex"
             >
               Naga City <span className="text-[#B98A4D]">&bull;</span> Daet{" "}
               <ChevronDown size={13} />
@@ -117,6 +135,9 @@ export function SiteHeader() {
       {open && (
         <div
           ref={mobileMenuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
           className="fixed inset-x-0 bottom-0 top-[76px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 xl:hidden"
         >
           <nav
@@ -130,7 +151,12 @@ export function SiteHeader() {
                 key={href}
                 href={href as Route}
                 onClick={closeMenu}
-                className="flex items-center justify-between border-b border-[#D6B078]/35 py-4 font-serif text-2xl text-[#59141D]"
+                aria-current={
+                  pathname === href || (href !== "/home" && pathname.startsWith(`${href}/`))
+                    ? "page"
+                    : undefined
+                }
+                className="flex min-h-14 items-center justify-between border-b border-[#D6B078]/35 py-4 font-serif text-2xl text-[#59141D]"
               >
                 <span>{label}</span>
                 <span className="font-sans text-[10px] text-[#B98A4D]">0{index + 1}</span>

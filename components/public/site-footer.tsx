@@ -28,6 +28,7 @@ export function SiteFooter() {
           <h2 className="text-xs uppercase tracking-[0.2em] text-[#D6B078]">Explore</h2>
           <nav className="mt-5 grid gap-3 text-sm text-[#F2E8DF]">
             <Link href="/treatments">Treatments</Link>
+            <Link href={"/skin-education" as Route}>Skin Education</Link>
             <Link href="/about">About</Link>
             <Link href={"/aftercare" as Route}>Aftercare</Link>
             <Link href="/faq">FAQ</Link>

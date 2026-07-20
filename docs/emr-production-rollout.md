@@ -4,7 +4,8 @@ This runbook starts the next EMR phase safely. Do not use real patient data unti
 
 ## Current Gate
 
-- GitHub and Vercel code deployment is already synced.
+- GitHub `main` and Vercel are synced to the pre-audit commit `68bbfbc`.
+- The audited remediation branch is uncommitted and is not deployed.
 - Live public site and Supabase Auth reachability were verified through Vercel.
 - Production Supabase schema changes are not applied from this workspace because there is no local Supabase CLI, production database URL, or backup credential.
 
@@ -38,10 +39,23 @@ Do not continue unless the backup is complete and restorable.
 
 ## Step 2: Apply Appointment Scheduling Migration
 
-Apply this file exactly once:
+Apply these files exactly once, in order:
 
 ```text
 database/migrations/202607121200_appointment_scheduling.sql
+database/migrations/202607181100_harden_audit_and_api_grants.sql
+database/migrations/202607181200_sensitive_patient_column_access.sql
+database/migrations/202607181300_atomic_appointment_workflows.sql
+database/migrations/202607181310_atomic_patient_registration.sql
+database/migrations/202607181320_branch_scoped_staff_context.sql
+database/migrations/202607181330_atomic_appointment_request_workflows.sql
+database/migrations/202607181340_atomic_contact_reveal.sql
+database/migrations/202607181350_operational_query_indexes.sql
+database/migrations/202607181360_enforce_database_mfa_boundary.sql
+database/migrations/202607181370_appointment_request_rate_limit_index.sql
+database/migrations/202607181380_lock_down_identity_tables.sql
+database/migrations/202607181385_lock_down_operational_tables.sql
+database/migrations/202607181390_release_readiness_marker.sql
 ```
 
 The migration adds:
@@ -49,9 +63,16 @@ The migration adds:
 - `public.appointment_status`.
 - `public.appointments`.
 - `public.appointment_events`.
-- Provider and room overlap constraints.
+- Provider, room, and patient overlap constraints.
 - RLS policies for appointment reads, creates, updates, and event inserts.
-- Append-only appointment event behavior for authenticated users.
+- Server-only atomic create/transition functions that commit appointment state,
+  append-only history, and audit events together.
+- Server-only atomic patient registration that commits the patient, required intake
+  records, and audit event together.
+- Branch-scoped permission context that rejects future-dated assignments.
+- Replay-safe public request creation and optimistic staff request transitions.
+- Atomic contact reveal that records both access ledgers before returning sensitive fields.
+- Growth-aligned indexes for patient, appointment-request, assignment, room, and audit reads.
 
 Do not edit or delete existing patient, appointment request, audit, finance, or clinical records during this step.
 
@@ -61,6 +82,19 @@ Run the read-only verification script:
 
 ```text
 database/verification/202607121200_appointment_scheduling_check.sql
+database/verification/202607181100_harden_audit_and_api_grants_check.sql
+database/verification/202607181200_sensitive_patient_column_access_check.sql
+database/verification/202607181300_atomic_appointment_workflows_check.sql
+database/verification/202607181310_atomic_patient_registration_check.sql
+database/verification/202607181320_branch_scoped_staff_context_check.sql
+database/verification/202607181330_atomic_appointment_request_workflows_check.sql
+database/verification/202607181340_atomic_contact_reveal_check.sql
+database/verification/202607181350_operational_query_indexes_check.sql
+database/verification/202607181360_enforce_database_mfa_boundary_check.sql
+database/verification/202607181370_appointment_request_rate_limit_index_check.sql
+database/verification/202607181380_lock_down_identity_tables_check.sql
+database/verification/202607181385_lock_down_operational_tables_check.sql
+database/verification/202607181390_release_readiness_marker_check.sql
 ```
 
 Every `passed` value should be `true`.
@@ -80,6 +114,7 @@ In Vercel production settings, confirm these variables exist:
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
+APPOINTMENT_REQUEST_RATE_LIMIT_SECRET
 NEXT_PUBLIC_SITE_URL
 GOOGLE_SHEETS_PROVIDER
 GOOGLE_SERVICE_ACCOUNT_EMAIL
@@ -87,7 +122,7 @@ GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
 GOOGLE_SHEETS_CATALOG_ID
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` and Google service account values must be server-only secrets. Never expose them in client code, logs, screenshots, or public docs.
+`SUPABASE_SERVICE_ROLE_KEY`, `APPOINTMENT_REQUEST_RATE_LIMIT_SECRET`, and Google service account values must be server-only secrets. Never expose them in client code, logs, screenshots, or public docs.
 
 ## Step 5: Staff Role Smoke Test
 
@@ -119,6 +154,8 @@ Test:
 8. Attempt overlapping provider and room times and confirm the database rejects them.
 9. Confirm `appointment_events` records are appended.
 10. Confirm authenticated users cannot update or delete `appointment_events`.
+11. Force an event or audit insert failure in staging and confirm the appointment write rolls back.
+12. Run two simultaneous transitions from the same starting status and confirm only one commits.
 
 ## Step 7: Next Feature Phase
 

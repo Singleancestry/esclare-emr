@@ -25,4 +25,5 @@ export type StaffContext = {
     name: string;
   };
   permissions: Permission[];
+  branchPermissions: Record<string, Permission[]>;
 };

@@ -19,10 +19,10 @@ export async function recordAuditEvent(event: AuditEventInput) {
   const admin = createSupabaseAdminClient();
 
   if (!admin) {
-    return;
+    return false;
   }
 
-  await admin.from("audit_events").insert({
+  const { error } = await admin.from("audit_events").insert({
     actor_employee_id: event.actorEmployeeId ?? null,
     actor_role: event.actorRole,
     branch_id: event.branchId,
@@ -35,4 +35,6 @@ export async function recordAuditEvent(event: AuditEventInput) {
     reason: event.reason,
     success: event.success,
   });
+
+  return !error;
 }

@@ -1,11 +1,14 @@
 import type { MetadataRoute } from "next";
+import { educationArticles, educationCategories } from "@/lib/content/skin-education";
+import { treatments } from "@/lib/services/catalog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://127.0.0.1:3000";
-  return [
+  const staticPaths = [
     "/home",
     "/treatments",
+    "/skin-education",
     "/diode-laser",
     "/gallery",
     "/appointment-request",
@@ -16,6 +19,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
     "/terms",
+  ];
+  const treatmentPaths = treatments
+    .filter((treatment) => treatment.public)
+    .map((treatment) => `/treatments/${treatment.slug}`);
+  const educationCategoryPaths = educationCategories.map(
+    (category) => `/skin-education/category/${category.slug}`,
+  );
+  const approvedArticlePaths = educationArticles
+    .filter((article) => article.published)
+    .map((article) => `/skin-education/${article.slug}`);
+
+  return [
+    ...staticPaths,
+    ...treatmentPaths,
+    ...educationCategoryPaths,
+    ...approvedArticlePaths,
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),

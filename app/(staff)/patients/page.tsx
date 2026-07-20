@@ -3,12 +3,14 @@ import type { Route } from "next";
 import { Plus } from "lucide-react";
 import { PatientDirectory } from "@/components/patients/patient-directory";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { requireFeature } from "@/lib/features/flags";
 import { getPatientDirectory } from "@/lib/patients/data";
 import { hasPermission, requirePermission } from "@/lib/permissions/checks";
 
 export default async function PatientsPage() {
   const staff = await getCurrentStaffContext();
   requirePermission(staff, "patients.view_basic");
+  requireFeature("patients", staff.employee.id);
   const patients = await getPatientDirectory(staff);
 
   return (

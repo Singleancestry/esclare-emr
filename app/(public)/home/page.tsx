@@ -114,8 +114,7 @@ export default function PublicHomePage() {
       <section className="editorial-section bg-[#F4E8DA]">
         <div className="public-container">
           <div className="text-center" data-reveal>
-            <p className="public-eyebrow">A considered edit</p>
-            <h2 className="public-subheading mt-4">Our Signature Treatments</h2>
+            <h2 className="public-subheading">Our Signature Treatments</h2>
             <div className="editorial-rule mx-auto mt-6" />
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-5">

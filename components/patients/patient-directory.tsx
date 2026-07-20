@@ -37,7 +37,7 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
 
   const filteredPatients = patients.filter((patient) => {
     const text =
-      `${patient.firstName} ${patient.lastName} ${patient.patientNumber} ${patient.mobile}`.toLowerCase();
+      `${patient.firstName} ${patient.lastName} ${patient.patientNumber} ${patient.maskedMobile}`.toLowerCase();
     const matchesQuery = text.includes(query.toLowerCase());
     const matchesBranch = branch === "all" || patient.homeBranchId === branch;
     return matchesQuery && matchesBranch && !patient.archivedAt;
@@ -160,12 +160,6 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
                   label="Mobile"
                   value={revealed[patient.id]?.mobile ?? patient.maskedMobile}
                 />
-                <Metric label="Sessions" value={patient.remainingSessions.toString()} />
-                <Metric
-                  label="Balance"
-                  value={`PHP ${patient.outstandingBalance.toLocaleString()}`}
-                />
-                <Metric label="Loyalty" value={patient.loyaltyPoints.toString()} />
                 <Metric
                   label="Last visit"
                   value={
@@ -192,18 +186,6 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
                     <Eye size={16} aria-hidden /> Reveal
                   </Button>
                 ) : null}
-                <button
-                  className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold"
-                  type="button"
-                >
-                  Archive
-                </button>
-                <button
-                  className="focus-ring rounded border border-[#D9DDE3] px-3 py-2 text-sm font-semibold"
-                  type="button"
-                >
-                  Mark duplicate
-                </button>
               </div>
             </article>
           ))}
@@ -217,8 +199,6 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
                 <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">Branch</th>
                 <th className="px-4 py-3">Mobile</th>
-                <th className="px-4 py-3">Sessions</th>
-                <th className="px-4 py-3">Balance</th>
                 <th className="px-4 py-3">Alert</th>
                 <th className="px-4 py-3">Action</th>
               </tr>
@@ -234,8 +214,6 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
                   <td className="px-4 py-3">
                     {revealed[patient.id]?.mobile ?? patient.maskedMobile}
                   </td>
-                  <td className="px-4 py-3">{patient.remainingSessions}</td>
-                  <td className="px-4 py-3">PHP {patient.outstandingBalance.toLocaleString()}</td>
                   <td className="px-4 py-3">{patient.clinicalAlertLevel.replaceAll("_", " ")}</td>
                   <td className="px-4 py-3">
                     <Link

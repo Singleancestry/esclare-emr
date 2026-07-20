@@ -2,8 +2,14 @@ import { notFound } from "next/navigation";
 import type { Permission } from "./permissions";
 import type { StaffContext } from "./types";
 
-export function hasPermission(staff: StaffContext | null, permission: Permission) {
-  return Boolean(staff?.permissions.includes(permission));
+export function hasPermission(
+  staff: StaffContext | null,
+  permission: Permission,
+  branchId?: string,
+) {
+  if (!staff) return false;
+  if (!branchId) return staff.permissions.includes(permission);
+  return Boolean(staff.branchPermissions?.[branchId]?.includes(permission));
 }
 
 export function hasBranchAccess(staff: StaffContext | null, branchId: string) {

@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-07-19T07:24:54.780Z",
+  "baseUrl": "http://127.0.0.1:3100",
+  "results": [
+    {
+      "path": "/home",
+      "connections": 10,
+      "durationSeconds": 30,
+      "requestsPerSecond": 510.2,
+      "throughputBytesPerSecond": 79656823.47,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 14,
+        "p95UpperBound": 39,
+        "p99": 45
+      }
+    },
+    {
+      "path": "/home",
+      "connections": 50,
+      "durationSeconds": 30,
+      "requestsPerSecond": 714.6,
+      "throughputBytesPerSecond": 111570670.94,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 68,
+        "p95UpperBound": 92,
+        "p99": 100
+      }
+    },
+    {
+      "path": "/home",
+      "connections": 200,
+      "durationSeconds": 30,
+      "requestsPerSecond": 701.94,
+      "throughputBytesPerSecond": 109598037.34,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 282,
+        "p95UpperBound": 328,
+        "p99": 332
+      }
+    },
+    {
+      "path": "/treatments",
+      "connections": 10,
+      "durationSeconds": 30,
+      "requestsPerSecond": 661.37,
+      "throughputBytesPerSecond": 130340181.34,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 13,
+        "p95UpperBound": 24,
+        "p99": 29
+      }
+    },
+    {
+      "path": "/treatments",
+      "connections": 50,
+      "durationSeconds": 30,
+      "requestsPerSecond": 648.07,
+      "throughputBytesPerSecond": 127710003.2,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 75,
+        "p95UpperBound": 98,
+        "p99": 104
+      }
+    },
+    {
+      "path": "/treatments",
+      "connections": 200,
+      "durationSeconds": 30,
+      "requestsPerSecond": 629.37,
+      "throughputBytesPerSecond": 124035618.14,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 315,
+        "p95UpperBound": 361,
+        "p99": 369
+      }
+    },
+    {
+      "path": "/api/health",
+      "connections": 10,
+      "durationSeconds": 30,
+      "requestsPerSecond": 1452.67,
+      "throughputBytesPerSecond": 1727180.8,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 4,
+        "p95UpperBound": 25,
+        "p99": 30
+      }
+    },
+    {
+      "path": "/api/health",
+      "connections": 50,
+      "durationSeconds": 30,
+      "requestsPerSecond": 1455.2,
+      "throughputBytesPerSecond": 1730218.67,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 31,
+        "p95UpperBound": 83,
+        "p99": 107
+      }
+    },
+    {
+      "path": "/api/health",
+      "connections": 200,
+      "durationSeconds": 30,
+      "requestsPerSecond": 1449.2,
+      "throughputBytesPerSecond": 1723050.67,
+      "errorRate": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "non2xx": 0,
+      "latencyMs": {
+        "p50": 159,
+        "p95UpperBound": 294,
+        "p99": 317
+      }
+    }
+  ]
+}

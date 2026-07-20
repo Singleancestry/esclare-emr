@@ -70,8 +70,13 @@ const organizationSchema = {
 export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="public-site">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <SiteHeader />
-      <div className="page-enter">{children}</div>
+      <div id="main-content" tabIndex={-1} className="page-enter">
+        {children}
+      </div>
       <SiteFooter />
       <script
         type="application/ld+json"

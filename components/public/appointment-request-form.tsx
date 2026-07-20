@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import {
   CalendarDays,
   CheckCircle2,
@@ -40,6 +40,7 @@ export function AppointmentRequestForm({
   const [time, setTime] = useState("");
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
+  const idempotencyRef = useRef<HTMLInputElement>(null);
   const [state, formAction, isPending] = useActionState(
     submitPublicAppointmentRequest,
     initialPublicAppointmentRequestState,
@@ -69,7 +70,22 @@ export function AppointmentRequestForm({
 
   return (
     <div className="grid gap-0 overflow-hidden rounded-lg border border-[#D8C9B4] bg-white shadow-[0_24px_70px_rgba(55,28,37,0.1)] lg:grid-cols-[1fr_0.72fr]">
-      <form action={formAction} noValidate className="p-5 sm:p-9 lg:p-11">
+      <form
+        action={formAction}
+        noValidate
+        onSubmit={() => {
+          if (idempotencyRef.current && !idempotencyRef.current.value) {
+            idempotencyRef.current.value = crypto.randomUUID();
+          }
+        }}
+        onInput={() => {
+          if (idempotencyRef.current && !idempotencyRef.current.value) {
+            idempotencyRef.current.value = crypto.randomUUID();
+          }
+        }}
+        className="p-5 sm:p-9 lg:p-11"
+      >
+        <input ref={idempotencyRef} type="hidden" name="idempotencyKey" />
         <div className="mb-8">
           <p className="public-eyebrow">Step 1</p>
           <h2 className="mt-3 text-3xl text-[#481827]">Plan your request</h2>
@@ -83,6 +99,7 @@ export function AppointmentRequestForm({
             <span className="font-normal normal-case tracking-normal text-[#77716A]">Required</span>
             <input
               name="fullName"
+              required
               aria-invalid={Boolean(error)}
               aria-describedby={error ? "booking-error" : undefined}
               value={fullName}

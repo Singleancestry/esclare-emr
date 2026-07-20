@@ -1,6 +1,8 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
+import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import type { StaffContext } from "@/lib/permissions/types";
+import { hasPermission } from "@/lib/permissions/checks";
 import type { AppointmentRequestStatus } from "@/lib/validation/appointment-request";
 import type {
   AppointmentRequestInbox,
@@ -32,7 +34,9 @@ export async function getAppointmentRequestInbox(
     return { requests: [], persistenceConfigured: false };
   }
 
-  const branchIds = staff.branches.map((branch) => branch.id);
+  const branchIds = staff.branches
+    .filter((branch) => hasPermission(staff, "appointments.view", branch.id))
+    .map((branch) => branch.id);
   const { data, error } = await supabase
     .from("appointment_requests")
     .select(
@@ -44,7 +48,7 @@ export async function getAppointmentRequestInbox(
     .limit(100);
 
   if (error || !data) {
-    return { requests: [], persistenceConfigured: true };
+    throw new Error("Appointment requests are temporarily unavailable.");
   }
 
   const requests = (data as unknown as AppointmentRequestRow[]).map<AppointmentRequestRecord>(
@@ -68,7 +72,7 @@ export async function getAppointmentRequestInbox(
 }
 
 export async function getAppointmentWorkspace(staff: StaffContext): Promise<AppointmentWorkspace> {
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
   if (!supabase) {
     return {
       appointments: [],
@@ -80,7 +84,19 @@ export async function getAppointmentWorkspace(staff: StaffContext): Promise<Appo
     };
   }
 
-  const branchIds = staff.branches.map((branch) => branch.id);
+  const branchIds = staff.branches
+    .filter((branch) => hasPermission(staff, "appointments.view", branch.id))
+    .map((branch) => branch.id);
+  if (branchIds.length === 0) {
+    return {
+      appointments: [],
+      patients: [],
+      services: [],
+      providers: [],
+      rooms: [],
+      persistenceConfigured: true,
+    };
+  }
   const [appointmentResult, patientResult, serviceResult, providerResult, roomResult] =
     await Promise.all([
       supabase
@@ -112,6 +128,16 @@ export async function getAppointmentWorkspace(staff: StaffContext): Promise<Appo
         .eq("active", true)
         .order("name"),
     ]);
+
+  if (
+    appointmentResult.error ||
+    patientResult.error ||
+    serviceResult.error ||
+    providerResult.error ||
+    roomResult.error
+  ) {
+    throw new Error("Appointment workspace is temporarily unavailable.");
+  }
 
   const rows = (appointmentResult.data ?? []) as unknown as Array<Record<string, unknown>>;
   const providers = new Map<string, { id: string; label: string; branchId: string }>();

@@ -32,7 +32,7 @@ where oid = 'public.appointment_events'::regclass;
 
 select
   'appointment policies present' as check_name,
-  count(*) = 5 as passed,
+  count(*) = 4 as passed,
   array_agg(policyname order by policyname) as policies
 from pg_policies
 where schemaname = 'public'
@@ -41,7 +41,6 @@ where schemaname = 'public'
     'appointments_staff_create',
     'appointments_staff_read',
     'appointments_staff_update',
-    'appointment_events_staff_insert',
     'appointment_events_staff_read'
   );
 

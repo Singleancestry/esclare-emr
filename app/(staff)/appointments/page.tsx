@@ -4,6 +4,7 @@ import { AppointmentScheduler } from "@/components/appointments/appointment-sche
 import { AppointmentStatusForm } from "@/components/appointments/appointment-status-form";
 import { getAppointmentRequestInbox, getAppointmentWorkspace } from "@/lib/appointments/data";
 import { getCurrentStaffContext } from "@/lib/auth/session";
+import { requireFeature } from "@/lib/features/flags";
 import { hasPermission, requirePermission } from "@/lib/permissions/checks";
 
 function formatSubmittedAt(value: string) {
@@ -17,6 +18,7 @@ function formatSubmittedAt(value: string) {
 export default async function AppointmentsPage() {
   const staff = await getCurrentStaffContext();
   requirePermission(staff, "appointments.view");
+  requireFeature("appointments", staff.employee.id);
   const [inbox, workspace] = await Promise.all([
     getAppointmentRequestInbox(staff),
     getAppointmentWorkspace(staff),

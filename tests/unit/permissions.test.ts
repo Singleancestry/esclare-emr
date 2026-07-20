@@ -19,6 +19,7 @@ function staffWithRole(role: "owner" | "receptionist" | "cashier" | "doctor"): S
     activeBranch: { id: "branch-1", code: "NAGA", name: "ESCLARE Naga" },
     activeRole: { key: role, name: role },
     permissions: rolePermissions[role],
+    branchPermissions: { "branch-1": rolePermissions[role] },
   };
 }
 
@@ -30,12 +31,20 @@ describe("permissions", () => {
     expect(nav.map((item) => item.href)).toContain("/patients");
   });
 
-  it("keeps POS visible for cashier but clinical records hidden", () => {
+  it("keeps unfinished cashier and clinical modules hidden by default", () => {
     const nav = getAuthorizedNavigation(staffWithRole("cashier"));
     const hrefs = nav.map((item) => item.href);
 
-    expect(hrefs).toContain("/pos");
+    expect(hrefs).not.toContain("/pos");
     expect(hrefs).not.toContain("/clinical");
+  });
+
+  it("keeps enabled pilot workflows visible in non-production environments", () => {
+    const hrefs = getAuthorizedNavigation(staffWithRole("receptionist")).map((item) => item.href);
+
+    expect(hrefs).toContain("/patients");
+    expect(hrefs).toContain("/appointments");
+    expect(hrefs).not.toContain("/patients/archived");
   });
 
   it("maps protected routes to explicit permissions", () => {

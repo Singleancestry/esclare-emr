@@ -1,6 +1,11 @@
 import { calculateAge, calculateBmi, maskPhilippineMobile } from "./utils";
 import type { PatientAuditRecord, PatientProfile } from "./types";
 
+type DemoPatientProfile = PatientProfile & {
+  mobile: string;
+  email: string | null;
+};
+
 const nagaBranch = {
   id: "00000000-0000-4000-8000-000000000101",
   name: "ESCLARE Naga",
@@ -11,7 +16,7 @@ const daetBranch = {
   name: "ESCLARE Daet",
 };
 
-export const demoPatients: PatientProfile[] = [
+export const demoPatients: DemoPatientProfile[] = [
   {
     id: "10000000-0000-4000-8000-000000000001",
     patientNumber: "ESC-P-0001",

@@ -18,11 +18,23 @@ test("login validates weak credentials", async ({ page }) => {
   await expect(page.getByText("Password must be at least 12 characters.")).toBeVisible();
 });
 
-test("development dashboard shell renders protected staff navigation", async ({ page }) => {
-  await page.goto("/dashboard");
+test("@staff development staff shell exposes only working or pilot navigation", async ({
+  page,
+}) => {
+  await page.goto("/services");
 
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
-  await expect(page.getByLabel("Active branch")).toBeVisible();
-  await expect(page.getByLabel("Global patient search")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Administration" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Treatments and Services" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Patients", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Appointments", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Administration" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Clinical Records" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Point of Sale" })).toHaveCount(0);
+});
+
+test("@staff disabled staff modules reject direct navigation", async ({ page }) => {
+  for (const path of ["/dashboard", "/clinical", "/pos", "/packages", "/inventory", "/reports"]) {
+    const response = await page.goto(path);
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole("heading", { name: "This page is not available." })).toBeVisible();
+  }
 });
