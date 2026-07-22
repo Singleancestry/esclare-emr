@@ -21,6 +21,33 @@ const contentSecurityPolicy = [
   "worker-src 'self' blob:",
 ].join("; ");
 
+const noStorePageHeaders = [
+  {
+    key: "Cache-Control",
+    value: "private, no-store, no-cache, must-revalidate, max-age=0",
+  },
+];
+
+const privatePageRoutes = [
+  "/login",
+  "/lock",
+  "/admin/:path*",
+  "/appointments/:path*",
+  "/clinical/:path*",
+  "/dashboard/:path*",
+  "/employees/:path*",
+  "/finance/:path*",
+  "/integrations/:path*",
+  "/inventory/:path*",
+  "/marketing/:path*",
+  "/packages/:path*",
+  "/patients/:path*",
+  "/pos/:path*",
+  "/reports/:path*",
+  "/services/:path*",
+  "/settings/:path*",
+];
+
 const nextConfig: NextConfig = {
   typedRoutes: true,
   output: "standalone",
@@ -32,6 +59,10 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      ...privatePageRoutes.map((source) => ({
+        source,
+        headers: noStorePageHeaders,
+      })),
       {
         source: "/images/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
