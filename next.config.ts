@@ -31,6 +31,9 @@ const noStorePageHeaders = [
 const privatePageRoutes = [
   "/login",
   "/lock",
+  "/forgot-password",
+  "/update-password",
+  "/auth/:path*",
   "/admin/:path*",
   "/appointments/:path*",
   "/clinical/:path*",

@@ -2,10 +2,12 @@
 
 import { useActionState } from "react";
 import { Eye, LogIn } from "lucide-react";
+import Link from "next/link";
+import type { Route } from "next";
 import { signInAction } from "@/app/(auth)/login/actions";
 import { Button } from "@/components/ui/button";
 
-export function LoginForm() {
+export function LoginForm({ message }: { message?: string }) {
   const [state, formAction, isPending] = useActionState(signInAction, { error: null });
 
   return (
@@ -17,6 +19,12 @@ export function LoginForm() {
       <p className="mt-2 text-sm leading-6 text-[#5F6368]">
         Use your individual employee account. Privileged roles require MFA.
       </p>
+
+      {message ? (
+        <p className="mt-4 rounded border border-[#7A9B76] bg-[#F4FAF3] px-3 py-2 text-sm text-[#315A2D]">
+          {message}
+        </p>
+      ) : null}
 
       <label className="mt-6 block text-sm font-semibold text-[#262626]" htmlFor="email">
         Email
@@ -45,6 +53,15 @@ export function LoginForm() {
         <button type="button" className="px-3 text-[#6F263D]" aria-label="Password visibility">
           <Eye size={18} aria-hidden />
         </button>
+      </div>
+
+      <div className="mt-3 text-right">
+        <Link
+          className="text-sm font-semibold text-[#6F263D] underline-offset-4 hover:underline"
+          href={"/forgot-password" as Route}
+        >
+          Forgot password?
+        </Link>
       </div>
 
       {state.error ? (

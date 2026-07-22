@@ -1,6 +1,12 @@
 import { LoginForm } from "@/components/auth/login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ password?: string }>;
+}) {
+  const { password } = await searchParams;
+
   return (
     <main className="grid min-h-screen grid-cols-1 bg-[#F4F6F8] lg:grid-cols-[0.9fr_1.1fr]">
       <section className="flex flex-col justify-between bg-[#481827] px-8 py-8 text-white lg:px-14">
@@ -15,7 +21,11 @@ export default function LoginPage() {
         <p className="text-sm text-white/70">Aesthetic & Wellness Clinic</p>
       </section>
       <section className="flex items-center justify-center px-6 py-10">
-        <LoginForm />
+        <LoginForm
+          message={
+            password === "updated" ? "Password updated. Sign in with your new password." : undefined
+          }
+        />
       </section>
     </main>
   );
