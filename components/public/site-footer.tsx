@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { Facebook, MapPin, Phone } from "lucide-react";
 import type { Route } from "next";
 import { clinicBranches } from "@/lib/clinic/details";
+import { useSelectedBranch } from "@/components/public/branch-provider";
+import { trackPublicEvent } from "@/lib/analytics/public-events";
 
 export function SiteFooter() {
+  const { branch } = useSelectedBranch();
   return (
     <footer className="bg-[#3B0D14] text-[#FAF4EC]">
       <div className="public-container grid gap-12 py-16 md:grid-cols-[1.2fr_0.8fr_1fr]">
@@ -16,9 +21,16 @@ export function SiteFooter() {
             hospitality.
           </p>
           <a
-            href="https://www.facebook.com/esclare.aesthetic"
+            href={branch.facebook}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label={`Open ${branch.name} Facebook Page`}
+            onClick={() =>
+              trackPublicEvent("facebook_page_clicked", {
+                branch: branch.code,
+                route: window.location.pathname,
+              })
+            }
             className="mt-7 inline-flex items-center gap-2 text-sm text-[#E2BF83]"
           >
             <Facebook size={16} /> Facebook
@@ -28,6 +40,7 @@ export function SiteFooter() {
           <h2 className="text-xs uppercase tracking-[0.2em] text-[#D6B078]">Explore</h2>
           <nav className="mt-5 grid gap-3 text-sm text-[#F2E8DF]">
             <Link href="/treatments">Treatments</Link>
+            <Link href={"/glp-1-slimming" as Route}>GLP-1 Slimming</Link>
             <Link href={"/skin-education" as Route}>Skin Education</Link>
             <Link href="/about">About</Link>
             <Link href={"/aftercare" as Route}>Aftercare</Link>

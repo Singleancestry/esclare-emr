@@ -1,4 +1,4 @@
-import type { Treatment } from "@/lib/services/catalog";
+import { GLP1_PROGRAM_LABEL, type Treatment } from "@/lib/services/catalog";
 
 export type TreatmentDetail = {
   concerns: ReadonlyArray<string>;
@@ -49,6 +49,12 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
     "Selected pigmentation and fine lines",
   ],
   "mccm-pdrn": ["Dullness", "Dehydration", "Eye-area dryness", "Uneven-looking texture"],
+  "glp-1-slimming": [
+    "Medically guided appetite regulation",
+    "Structured weight-management goals",
+    "Progress and side-effect monitoring",
+    "Nutrition, activity, and lifestyle support",
+  ],
   "hikari-drip": ["Wellness goals considered only after clinical screening"],
   "zaguta-drip": ["Wellness goals considered only after clinical screening"],
   "laser-circumcision": [
@@ -57,6 +63,8 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
 };
 
 function categoryMechanism(treatment: Treatment) {
+  if (treatment.slug === "glp-1-slimming")
+    return "GLP-1 medicines act on hormone-signaling pathways involved in appetite, fullness, digestion, and glucose regulation. When a qualified prescriber considers treatment appropriate, medication is combined with practical nutrition, activity, and follow-up guidance. The exact medicine and dose are selected individually and are not confirmed from website information alone.";
   if (treatment.slug.startsWith("pico-"))
     return "The Pico platform delivers very short laser pulses selected for the pigment concern and skin response. Wavelength, treatment mode, and settings are chosen after assessment; not every pigmentation pattern should be treated the same way.";
   if (treatment.slug.includes("hifu"))
@@ -71,6 +79,8 @@ function categoryMechanism(treatment: Treatment) {
 }
 
 function durationFor(treatment: Treatment) {
+  if (treatment.slug === "glp-1-slimming")
+    return "The listed program covers four weeks. Appointment length and follow-up timing are set after consultation and may vary with the selected medicine, monitoring needs, and clinical response.";
   if (treatment.slug === "laser-circumcision")
     return "About 60-120 minutes including doctor review, preparation, procedure, and discharge guidance.";
   if (treatment.category === "Doctor Procedures")
@@ -85,6 +95,8 @@ function durationFor(treatment: Treatment) {
 }
 
 function sessionsFor(treatment: Treatment) {
+  if (treatment.slug === "glp-1-slimming")
+    return "The four-week program includes medically directed follow-up and progress monitoring as appropriate. Eligibility, medication selection, dose changes, and continuation beyond four weeks require reassessment by a qualified medical professional.";
   if (treatment.category === "Doctor Procedures")
     return "The doctor determines whether one procedure, staged treatment, or maintenance review is appropriate. No fixed course should be assumed before assessment.";
   if (treatment.slug.includes("hifu"))
@@ -120,6 +132,68 @@ function careFor(treatment: Treatment) {
 }
 
 export function getTreatmentDetail(treatment: Treatment): TreatmentDetail {
+  if (treatment.slug === "glp-1-slimming") {
+    return {
+      concerns: concernOverrides[treatment.slug],
+      howItWorks: categoryMechanism(treatment),
+      potentialBenefits: [
+        "May support appetite regulation and fullness when prescribed for an eligible patient.",
+        "Provides a structured four-week period for medical monitoring and practical goal setting.",
+        "Can combine prescription care with individualized nutrition, activity, sleep, and habit guidance.",
+      ],
+      suitableFor:
+        "Adults who meet appropriate clinical criteria may be considered after consultation. GLP-1 medicine is not suitable for everyone, and the website price does not confirm eligibility, a prescription, or a particular product.",
+      medicalClearance: [
+        "Pregnancy, breastfeeding, or plans for pregnancy",
+        "A personal or family history that may make a GLP-1 medicine inappropriate, including relevant thyroid or endocrine conditions",
+        "Pancreatitis, gallbladder disease, significant digestive symptoms, or severe gastrointestinal disease",
+        "Diabetes treatment, medicines that may interact, allergies, or another condition requiring prescriber review",
+      ],
+      duration: durationFor(treatment),
+      sessions: sessionsFor(treatment),
+      downtime:
+        "There is usually no procedure downtime, but nausea, vomiting, diarrhea, constipation, abdominal discomfort, reduced appetite, headache, or fatigue may occur. Seek prompt medical advice for severe or persistent abdominal pain, repeated vomiting, dehydration, allergic symptoms, or any rapidly worsening reaction.",
+      beforecare: [
+        "Bring an accurate medical history and current list of prescriptions, supplements, allergies, and previous weight-management medicines.",
+        "Disclose pregnancy or breastfeeding, diabetes, digestive, pancreatic, gallbladder, kidney, thyroid, or endocrine concerns.",
+        "Do not purchase, share, start, stop, or change a prescription medicine without guidance from a qualified prescriber.",
+      ],
+      aftercare: [
+        "Follow the prescribed dose and administration instructions exactly; do not increase or repeat a dose unless directed.",
+        "Follow the clinician's hydration, nutrition, activity, side-effect, and follow-up guidance.",
+        "Record relevant symptoms and progress, and contact the clinic before the next dose if side effects are severe, persistent, or concerning.",
+      ],
+      expectedResults:
+        "Progress differs with health history, medicine response, dose, nutrition, activity, sleep, and adherence. ESCLARE does not promise a specific amount or rate of weight loss. Medication selection and continuation depend on ongoing assessment by a qualified medical professional.",
+      faqs: [
+        {
+          question: "What is included in the listed price?",
+          answer: `${GLP1_PROGRAM_LABEL}. Exact medication, dose, monitoring, and program inclusions are confirmed after consultation and assessment.`,
+        },
+        {
+          question: "Will I receive a GLP-1 medicine automatically?",
+          answer:
+            "No. A qualified medical professional must assess eligibility, contraindications, current medicines, and treatment goals before selecting any medication. Another approach may be recommended.",
+        },
+        {
+          question: "How much weight will I lose in four weeks?",
+          answer:
+            "No specific amount can be promised. Responses vary, and safe medical care focuses on tolerability, health, sustainable habits, and individualized progress rather than a guaranteed number.",
+        },
+        {
+          question: "Can I continue after four weeks?",
+          answer:
+            "Continuation is not automatic. The prescriber must review response, side effects, adherence, and ongoing suitability before recommending another period or changing treatment.",
+        },
+        {
+          question: "When should I contact the clinic?",
+          answer:
+            "Contact the clinic for troublesome or persistent side effects. Seek urgent medical care for severe abdominal pain, repeated vomiting, dehydration, breathing difficulty, facial swelling, or another serious reaction.",
+        },
+      ],
+    };
+  }
+
   const care = careFor(treatment);
   const concerns = concernOverrides[treatment.slug] ?? [treatment.summary];
   const doctorLanguage = treatment.doctorRequired

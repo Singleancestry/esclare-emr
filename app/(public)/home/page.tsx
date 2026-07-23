@@ -18,6 +18,7 @@ import {
   diodeMachine,
   nagaClinicGallery,
 } from "@/lib/clinic/media";
+import { GLP1_PROGRAM_LABEL } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
   title: "Aesthetic & Wellness Clinic in Naga and Daet",
@@ -28,13 +29,12 @@ export const metadata: Metadata = {
 
 const signatureTreatments = [
   {
-    name: "GLP-1 Weight Management",
+    name: "GLP-1 Slimming",
     category: "Medically guided wellness",
-    description:
-      "A clinician-led pathway built around assessment, appropriate monitoring, and individual goals.",
-    benefits: ["Clinical assessment", "Individual follow-up"],
-    href: "/treatments#wellness",
-    bookingSlug: "",
+    description: `${GLP1_PROGRAM_LABEL}. Eligibility, medication selection, and continuation depend on consultation and assessment by a qualified medical professional.`,
+    benefits: ["Four-week program", "Medical assessment and follow-up"],
+    href: "/glp-1-slimming",
+    bookingSlug: "glp-1-slimming",
     image: null,
     alt: "",
   },

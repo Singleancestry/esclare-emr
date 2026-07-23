@@ -1,3 +1,5 @@
+import { GLP1_PROGRAM_LABEL } from "@/lib/services/catalog";
+
 export const faqCategories = [
   "Underarm & Diode",
   "Facials & Skin",
@@ -94,11 +96,24 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
       "No. Weight change varies with health history, nutrition, activity, adherence, sleep and medication response. A responsible plan uses measurable goals, follow-up and medical supervision when prescription treatment is involved.",
   },
   {
+    id: "glp1-program",
+    category: "Weight & Body",
+    question: "What does the GLP-1 Slimming program include?",
+    answer: `${GLP1_PROGRAM_LABEL}. The program begins with a qualified medical professional's consultation and assessment and may include an appropriate prescription, education, progress monitoring, and follow-up. Exact inclusions and medication are confirmed only after assessment.`,
+  },
+  {
     id: "glp1-assessment",
     category: "Weight & Body",
     question: "Can anyone receive GLP-1 weight-management medicine?",
     answer:
       "No. Prescription medicines require a licensed clinician's assessment, including medical history, current medicines, contraindications and appropriate weight-related criteria such as BMI and health risk. Availability does not mean automatic suitability.",
+  },
+  {
+    id: "glp1-continuation",
+    category: "Weight & Body",
+    question: "What happens after the four-week GLP-1 program?",
+    answer:
+      "The clinician reviews progress, side effects, adherence, nutrition, activity, and whether treatment remains appropriate. Eligibility, medication selection, dose, and continuation depend on a new clinical assessment; treatment is not automatically renewed and no specific amount of weight loss is promised.",
   },
   {
     id: "lipo-drip",

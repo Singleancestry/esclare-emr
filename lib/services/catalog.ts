@@ -9,9 +9,12 @@ export type Treatment = {
   priceMin?: number;
   priceMax?: number;
   unit?: string;
+  displayPrice?: string;
   doctorRequired: boolean;
   public: boolean;
 };
+
+export const GLP1_PROGRAM_LABEL = "GLP-1 Slimming — ₱21,500 for a 4-week treatment program";
 
 export type DiodePackage = {
   area: string;
@@ -295,6 +298,19 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "glp-1-slimming",
+    name: "GLP-1 Slimming",
+    category: "Wellness",
+    summary:
+      "A four-week, medically guided weight-management program with consultation, eligibility screening, individualized medication selection where appropriate, and progress monitoring.",
+    priceKind: "fixed",
+    priceMin: 21500,
+    unit: "4-week treatment program",
+    displayPrice: GLP1_PROGRAM_LABEL,
+    doctorRequired: true,
+    public: true,
+  },
+  {
     slug: "hikari-drip",
     name: "Hikari Drip",
     category: "Wellness",
@@ -350,6 +366,7 @@ export const diodePackages: ReadonlyArray<DiodePackage> = [
 }));
 
 export function formatTreatmentPrice(treatment: Treatment) {
+  if (treatment.displayPrice) return treatment.displayPrice;
   if (treatment.priceKind === "assessment" || treatment.priceMin === undefined)
     return "By assessment";
   const money = (amount: number) =>

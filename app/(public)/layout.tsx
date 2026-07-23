@@ -1,5 +1,7 @@
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
+import { BranchProvider } from "@/components/public/branch-provider";
+import { FloatingMessenger } from "@/components/public/floating-messenger";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://127.0.0.1:3000";
@@ -14,8 +16,8 @@ const organizationSchema = {
       url: siteUrl,
       email: "esclarenaga@gmail.com",
       sameAs: [
-        "https://www.facebook.com/esclare.aesthetic",
-        "https://www.facebook.com/esclaredaet",
+        "https://www.facebook.com/EsclareLaserCenter/",
+        "https://www.facebook.com/esclaredaet/",
       ],
     },
     {
@@ -69,21 +71,24 @@ const organizationSchema = {
 
 export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="public-site">
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
-      <SiteHeader />
-      <div id="main-content" tabIndex={-1} className="page-enter">
-        {children}
+    <BranchProvider>
+      <div className="public-site">
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <SiteHeader />
+        <div id="main-content" tabIndex={-1} className="page-enter">
+          {children}
+        </div>
+        <SiteFooter />
+        <FloatingMessenger />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c"),
+          }}
+        />
       </div>
-      <SiteFooter />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c"),
-        }}
-      />
-    </div>
+    </BranchProvider>
   );
 }

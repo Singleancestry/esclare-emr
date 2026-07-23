@@ -2,14 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { BranchSelector } from "@/components/public/branch-selector";
 
 const links = [
   ["Home", "/home"],
   ["Treatments", "/treatments"],
+  ["GLP-1 Slimming", "/glp-1-slimming"],
   ["Skin Education", "/skin-education"],
   ["About", "/about"],
   ["Branches", "/branches"],
@@ -108,13 +110,9 @@ export function SiteHeader() {
             })}
           </nav>
           <div className="hidden items-center gap-4 lg:flex">
-            <Link
-              href="/branches"
-              className="hidden min-h-11 items-center gap-2 text-xs text-[#43201E] 2xl:inline-flex"
-            >
-              Naga City <span className="text-[#B98A4D]">&bull;</span> Daet{" "}
-              <ChevronDown size={13} />
-            </Link>
+            <div className="hidden 2xl:block">
+              <BranchSelector />
+            </div>
             <Link href="/appointment-request" className="luxury-button">
               Book a consultation
             </Link>
@@ -165,10 +163,8 @@ export function SiteHeader() {
             <Link href="/appointment-request" onClick={closeMenu} className="luxury-button mt-8">
               Book a consultation
             </Link>
-            <div className="mt-5 flex justify-center gap-3 text-xs text-[#43201E]">
-              <Link href="/branches">Naga City</Link>
-              <span>&bull;</span>
-              <Link href={"/branches/daet" as Route}>Daet</Link>
+            <div className="mt-5">
+              <BranchSelector mobile />
             </div>
           </nav>
         </div>

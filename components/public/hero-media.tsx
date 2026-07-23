@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const VIDEO_SOURCE = "/media/esclare-hero-final-no-logo-v3.mp4";
-const DESKTOP_POSTER = "/images/optimized/clinic/esclare-hero-final-poster-v3.webp";
-const MOBILE_POSTER = DESKTOP_POSTER;
+const VIDEO_SOURCE = "/media/esclare-hero-no-logo-v4.mp4";
+const INITIAL_POSTER = "/images/optimized/clinic/esclare-hero-poster-v4.webp";
+const FINAL_FRAME = "/images/optimized/clinic/esclare-hero-final-frame-v4.webp";
 
 type MotionPreference = "unknown" | "allow" | "reduce";
 type PlaybackState = "poster" | "playing" | "complete" | "fallback";
@@ -44,6 +44,8 @@ export function HeroMedia() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finalFrame = new Image();
+    finalFrame.src = FINAL_FRAME;
     const updatePreference = () => {
       setMotionPreference(mediaQuery.matches ? "reduce" : "allow");
       if (mediaQuery.matches) {
@@ -102,13 +104,14 @@ export function HeroMedia() {
     };
   }, [attemptPlayback, motionPreference]);
 
-  const videoVisible = playbackState === "playing" || playbackState === "complete";
+  const videoVisible = playbackState === "playing";
+  const posterSource = playbackState === "complete" ? FINAL_FRAME : INITIAL_POSTER;
 
   return (
     <div className="hero-media" data-playback-state={playbackState} aria-hidden="true">
       <picture className="hero-media-poster cinematic-hero-image">
-        <source media="(max-width: 767px)" srcSet={MOBILE_POSTER} />
-        <img src={DESKTOP_POSTER} alt="" fetchPriority="high" />
+        <source media="(max-width: 767px)" srcSet={posterSource} />
+        <img src={posterSource} alt="" fetchPriority="high" />
       </picture>
       <video
         ref={videoRef}
@@ -117,7 +120,7 @@ export function HeroMedia() {
         muted
         playsInline
         preload="auto"
-        poster={DESKTOP_POSTER}
+        poster={INITIAL_POSTER}
         disablePictureInPicture
         tabIndex={-1}
         onCanPlay={() => {
@@ -129,6 +132,7 @@ export function HeroMedia() {
           setPlaybackState("playing");
         }}
         onEnded={() => {
+          videoRef.current?.pause();
           completedRef.current = true;
           canPlayRef.current = false;
           setPlaybackState("complete");

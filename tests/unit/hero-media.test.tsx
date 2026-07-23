@@ -44,24 +44,18 @@ describe("HeroMedia", () => {
 
     const poster = container.querySelector(".hero-media-poster img");
     const video = container.querySelector("video");
-    expect(poster).toHaveAttribute(
-      "src",
-      "/images/optimized/clinic/esclare-hero-final-poster-v3.webp",
-    );
+    expect(poster).toHaveAttribute("src", "/images/optimized/clinic/esclare-hero-poster-v4.webp");
     expect(video).toHaveAttribute("autoplay");
     expect(video).not.toHaveAttribute("loop");
     expect(video).toHaveProperty("loop", false);
     expect(video).toHaveProperty("muted", true);
     expect(video).toHaveAttribute("playsinline");
     expect(video).toHaveAttribute("preload", "auto");
-    expect(video).toHaveAttribute(
-      "poster",
-      "/images/optimized/clinic/esclare-hero-final-poster-v3.webp",
-    );
+    expect(video).toHaveAttribute("poster", "/images/optimized/clinic/esclare-hero-poster-v4.webp");
     await waitFor(() =>
       expect(video?.querySelector("source")).toHaveAttribute(
         "src",
-        "/media/esclare-hero-final-no-logo-v3.mp4",
+        "/media/esclare-hero-no-logo-v4.mp4",
       ),
     );
   });
@@ -163,7 +157,11 @@ describe("HeroMedia", () => {
       "data-playback-state",
       "complete",
     );
-    expect(video).toHaveClass("is-visible");
+    expect(video).not.toHaveClass("is-visible");
+    expect(container.querySelector(".hero-media-poster img")).toHaveAttribute(
+      "src",
+      "/images/optimized/clinic/esclare-hero-final-frame-v4.webp",
+    );
     expect(play).toHaveBeenCalledTimes(1);
   });
 });

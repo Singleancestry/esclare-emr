@@ -31,7 +31,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.525.0",
-    "next": "16.2.10",
+    "next": "16.2.11",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.60.0",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@opennextjs/cloudflare": "^1.20.1",
+    "@opennextjs/cloudflare": "^1.20.2",
     "@playwright/test": "^1.54.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.3",
@@ -57,9 +57,11 @@
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4",
-    "wrangler": "^4.110.0"
+    "wrangler": "^4.113.0"
   },
   "overrides": {
+    "esbuild": "0.28.1",
+    "sharp": "0.35.3",
     "postcss": "8.5.16"
   }
 }
