@@ -346,23 +346,24 @@ export const treatments: ReadonlyArray<Treatment> = [
 ];
 
 export const diodePackages: ReadonlyArray<DiodePackage> = [
-  ["4D Face", "Face", [3060, 4410, 5760, 7020, 8190]],
-  ["4D Upper Lip", "Face", [1260, 1890, 2430, 2970, 3420]],
-  ["4D Lower Lip", "Face", [1260, 1890, 2430, 2970, 3420]],
-  ["4D Underarms", "Upper Body", [2070, 2970, 3870, 4680, 5400]],
-  ["4D Full Arms", "Upper Body", [5310, 7740, 10080, 12060, 14040]],
-  ["4D Chest", "Upper Body", [7560, 11160, 14400, 17460, 20520]],
-  ["4D Full Back", "Upper Body", [7560, 11160, 14400, 17460, 20520]],
-  ["4D Navel", "Upper Body", [2340, 3330, 4320, 5220, 6030]],
-  ["4D Brazilian", "Intimate", [4500, 6480, 8460, 10170, 11700]],
-  ["4D Bikini Line", "Intimate", [2340, 3870, 4860, 5760, 6480]],
-  ["4D Upper Legs", "Lower Body", [6030, 8820, 11250, 13500, 15570]],
-  ["4D Lower Legs", "Lower Body", [6840, 10080, 12960, 15840, 18180]],
-  ["4D Full Legs", "Lower Body", [11520, 16740, 21600, 26100, 30240]],
+  ["Face", "Face", [2000, 3600, 5400, 7200, 9000, 10800]],
+  ["Upper Lip", "Face", [900, 1620, 2430, 3240, 4050, 4860]],
+  ["Lower Lip", "Face", [900, 1620, 2430, 3240, 4050, 4860]],
+  ["Full Beard", "Face", [1800, 3240, 4860, 6480, 8100, 9720]],
+  ["Underarms", "Upper Body", [1500, 2700, 4050, 5400, 6750, 8100]],
+  ["Full Arms", "Upper Body", [2300, 4140, 6210, 8280, 10350, 12420]],
+  ["Chest", "Upper Body", [4500, 8100, 12150, 16200, 20250, 24300]],
+  ["Full Back", "Upper Body", [5000, 9000, 13500, 18000, 22500, 27000]],
+  ["Navel", "Upper Body", [1500, 2700, 4050, 5400, 6750, 8100]],
+  ["Brazilian", "Intimate", [3000, 5400, 8100, 10800, 13500, 16200]],
+  ["Bikini Line", "Intimate", [1800, 3240, 4860, 6480, 8100, 9720]],
+  ["Upper Legs", "Lower Body", [3900, 7020, 10530, 14040, 17550, 21060]],
+  ["Lower Legs", "Lower Body", [4200, 7560, 11340, 15120, 18900, 22680]],
+  ["Full Legs", "Lower Body", [7000, 12600, 18900, 25200, 31500, 37800]],
 ].map(([area, category, prices]) => ({
   area: area as string,
   category: category as string,
-  options: (prices as number[]).map((price, index) => ({ sessions: index + 2, price })),
+  options: (prices as number[]).map((price, index) => ({ sessions: index + 1, price })),
 }));
 
 export function formatTreatmentPrice(treatment: Treatment) {

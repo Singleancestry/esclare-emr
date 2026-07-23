@@ -10,8 +10,21 @@ test("public treatment catalog shows regular prices and doctor labels", async ({
     .filter({ has: page.getByRole("heading", { name: "Korean Facial" }) });
   await expect(koreanFacial).toBeVisible();
   await expect(koreanFacial.getByText(/1,800 \/ session/)).toBeVisible();
-  await expect(page.getByRole("heading", { name: "4D Diode packages" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "4D Wavelength Diode Laser Hair Removal" }),
+  ).toBeVisible();
+  await expect(page.getByRole("columnheader", { name: "1 session" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "6 sessions" })).toBeVisible();
+  const fullBeard = page
+    .getByRole("row")
+    .filter({ has: page.getByRole("rowheader", { name: /Full Beard/ }) });
+  await expect(fullBeard).toContainText("₱1,800");
+  await expect(fullBeard).toContainText("₱9,720");
+  const fullLegs = page
+    .getByRole("row")
+    .filter({ has: page.getByRole("rowheader", { name: /Full Legs/ }) });
+  await expect(fullLegs).toContainText("₱7,000");
+  await expect(fullLegs).toContainText("₱37,800");
 });
 
 test("GLP-1 Slimming uses the approved four-week program terms", async ({ page }) => {

@@ -26,7 +26,7 @@ const organizationSchema = {
       parentOrganization: { "@id": `${siteUrl}/#organization` },
       name: "ESCLARE Naga",
       telephone: "+639207351379",
-      priceRange: "PHP 399-30240",
+      priceRange: "PHP 399-37800",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Elias Angeles Street corner Paz Street",
@@ -49,7 +49,7 @@ const organizationSchema = {
       parentOrganization: { "@id": `${siteUrl}/#organization` },
       name: "ESCLARE Daet",
       telephone: "+639391421928",
-      priceRange: "PHP 399-30240",
+      priceRange: "PHP 399-37800",
       address: {
         "@type": "PostalAddress",
         streetAddress: "J. Lukban Street",

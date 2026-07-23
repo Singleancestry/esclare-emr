@@ -272,9 +272,11 @@ export default function TreatmentsPage() {
           <div className="grid gap-8 lg:grid-cols-[0.3fr_0.7fr]">
             <div data-reveal>
               <p className="public-eyebrow">Package menu</p>
-              <h2 className="mt-3 text-3xl text-[#481827]">4D Diode packages</h2>
+              <h2 className="mt-3 text-3xl text-[#481827]">
+                4D Wavelength Diode Laser Hair Removal
+              </h2>
               <p className="mt-4 text-sm leading-7 text-[#6B6264]">
-                Package totals for 2-6 sessions. Diode laser supports long-term hair reduction
+                Regular prices for 1-6 sessions. Diode laser supports long-term hair reduction
                 rather than permanent removal; the appropriate course and interval vary by area and
                 response.
               </p>
@@ -291,13 +293,13 @@ export default function TreatmentsPage() {
               className="overflow-x-auto rounded-lg border border-[#D8C9B4] bg-white shadow-[0_12px_30px_rgba(65,30,42,0.07)]"
               data-reveal
             >
-              <table className="w-full min-w-[680px] border-collapse text-left text-sm">
+              <table className="w-full min-w-[780px] border-collapse text-left text-sm">
                 <thead className="bg-[#5B1830] text-white">
                   <tr>
                     <th className="p-4">Treatment area</th>
-                    {[2, 3, 4, 5, 6].map((count) => (
+                    {[1, 2, 3, 4, 5, 6].map((count) => (
                       <th className="p-4" key={count}>
-                        {count} sessions
+                        {count} {count === 1 ? "session" : "sessions"}
                       </th>
                     ))}
                   </tr>
