@@ -8,10 +8,13 @@ Baseline commit: `2baebe7fe8548aeac6196112bac258499bb42e35`
 
 ## Scope and evidence
 
-This is a redacted, read-only mapping of the repository and locally available environment. It is
-based on the application routes, server actions, permission code, feature flags, database
-migrations, verification SQL, existing runbooks, and automated tests. No patient record, payment,
-appointment, Supabase row, Google file, or Google Calendar event was created or modified.
+This is a redacted, read-only mapping of the repository, locally available environment, and an
+authorized authenticated EaseThetics session. It is based on the application routes, server
+actions, permission code, feature flags, database migrations, verification SQL, existing runbooks,
+automated tests, and live source-system workflow structure. No patient chart or row-level source
+record was opened, and no patient record, payment, appointment, Supabase row, Google file, or
+Google Calendar event was created or modified. The detailed source map is in
+`docs/easethetics-live-emr-map-2026-07-27.md`.
 
 The local workspace has no `.env` or `.env.local` file. The existing backup evidence states that
 there is no Supabase CLI, database URL, backup credential, isolated restore target, or verified
@@ -104,7 +107,7 @@ Unverified against production:
 | EMR-002 | Hardened migrations are not proven applied                                  | Verified production schema and grants                          | Source-reviewed files only                                     | High          | Required                      | Run staging restore and verification before pilot                   |
 | EMR-003 | Most requested EMR lifecycle modules are placeholders                       | Working clinical, package, finance, file, and export workflows | Feature-disabled placeholder pages                             | High          | Requires redesign             | Do not represent these modules as complete                          |
 | EMR-004 | Patient balance and remaining-session fields are demo counters              | Ledger-derived immutable balances                              | `remaining_sessions_demo` and `outstanding_balance_demo`       | High          | Unsafe for production finance | Replace only after approved ledger design                           |
-| EMR-005 | No approved migration source was supplied                                   | Structured authorized export and mapping                       | No source file/database/API available                          | Critical gate | Required                      | Do not import or infer patient data                                 |
+| EMR-005 | Live EaseThetics source identified, but no approved export/API supplied     | Structured authorized export and mapping                       | Read-only workflow map only; no record data or stable IDs      | Critical gate | Required                      | Obtain vendor-supported export/API; do not scrape patient data      |
 | EMR-006 | Local runtime has no Supabase configuration                                 | Isolated test project for Reagan-Test                          | Development fallback only                                      | High          | Required                      | Synthetic persistence testing deferred                              |
 | EMR-007 | Public request omits contact details by design                              | Minimum-necessary request plus approved contact workflow       | Name and preferences only; user continues via official channel | Low           | Relevant and beneficial       | Retain until privacy-approved contact storage exists                |
 | EMR-008 | Protected-route visual inspection was unavailable in the controlled browser | Read-only local protected-route review                         | Browser policy rejected the protected route                    | Medium        | Test limitation               | Rely on source/unit evidence; require authorized staging smoke test |
@@ -124,8 +127,9 @@ Unverified against production:
 ### Patient-data migration
 
 - Classification: required, currently blocked.
-- Reason: no authorized source export, field map, destination backup, stable source identifiers, or
-  reconciliation baseline is available.
+- Reason: the source system and workflow surface are now mapped, but no authorized structured
+  export/API, destination backup, stable source identifiers, or reconciliation baseline is
+  available.
 - Decision: no export, import, merge, or production mutation.
 - Required next evidence: approved source, aggregate counts, encrypted private backup location,
   isolated restore, destination schema verification, idempotency key strategy, and rollback plan.
