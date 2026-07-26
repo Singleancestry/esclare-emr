@@ -44,7 +44,7 @@ export type MedicalProfileSummary = {
 };
 
 export type PatientProfile = PatientDirectoryRecord & {
-  age: number;
+  age: number | null;
   address: {
     country: string;
     region: string | null;

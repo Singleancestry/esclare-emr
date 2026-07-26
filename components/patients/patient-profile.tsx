@@ -24,7 +24,9 @@ export function PatientProfile({ patient, canViewFullMedical }: PatientProfilePr
             </p>
             <h1 className="text-3xl font-semibold text-[#481827]">{formatPatientName(patient)}</h1>
             <p className="mt-1 text-sm text-[#5F6368]">
-              {patient.homeBranchName} · {patient.age} years · {patient.maskedMobile}
+              {patient.homeBranchName} ·{" "}
+              {patient.age === null ? "Age unavailable" : `${patient.age} years`} ·{" "}
+              {patient.maskedMobile}
             </p>
           </div>
           <span

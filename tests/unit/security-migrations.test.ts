@@ -53,6 +53,10 @@ const operationalLockdownMigration = readFileSync(
   "database/migrations/202607181385_lock_down_operational_tables.sql",
   "utf8",
 ).toLowerCase();
+const patientBirthDateGuardMigration = readFileSync(
+  "database/migrations/202607271200_reject_future_patient_birth_dates.sql",
+  "utf8",
+).toLowerCase();
 
 describe("security hardening migrations", () => {
   it("prevents authenticated clients from forging audit and appointment history", () => {
@@ -187,5 +191,15 @@ describe("security hardening migrations", () => {
     expect(operationalLockdownMigration).toContain("public.audit_events");
     expect(operationalLockdownMigration).toContain("from anon, authenticated");
     expect(operationalLockdownMigration).toContain("to service_role");
+  });
+
+  it("rejects future patient birth dates at the database boundary", () => {
+    expect(patientBirthDateGuardMigration).toContain("reject_future_patient_birth_date");
+    expect(patientBirthDateGuardMigration).toContain(
+      "future patient birth dates require protected manual review",
+    );
+    expect(patientBirthDateGuardMigration).toContain("new.date_of_birth > current_date");
+    expect(patientBirthDateGuardMigration).toContain("before insert or update of date_of_birth");
+    expect(patientBirthDateGuardMigration).toContain("on public.patients");
   });
 });

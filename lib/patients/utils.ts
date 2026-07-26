@@ -2,6 +2,11 @@ import type { ClinicalAlertLevel, PatientDirectoryRecord } from "./types";
 
 export function calculateAge(dateOfBirth: string, now = new Date()) {
   const dob = new Date(`${dateOfBirth}T00:00:00`);
+
+  if (Number.isNaN(dob.getTime()) || dob > now) {
+    return null;
+  }
+
   let age = now.getFullYear() - dob.getFullYear();
   const monthDelta = now.getMonth() - dob.getMonth();
 

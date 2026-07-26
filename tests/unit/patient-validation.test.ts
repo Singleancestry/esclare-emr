@@ -69,4 +69,14 @@ describe("patientRegistrationSchema", () => {
 
     expect(result.success).toBe(false);
   });
+
+  it("rejects a future date of birth", () => {
+    const result = patientRegistrationSchema.safeParse({
+      ...validRegistration,
+      dateOfBirth: "2999-01-01",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.message).toBe("Date of birth cannot be in the future.");
+  });
 });

@@ -32,6 +32,26 @@ test("@staff patient registration validates weak mobile input", async ({ page })
   await expect(page.getByText("Use a valid Philippine mobile number.")).toBeVisible();
 });
 
+test("@staff patient registration rejects a future date of birth", async ({ page }) => {
+  await page.goto("/patients/new");
+
+  await page.getByLabel("First name").fill("Test");
+  await page.getByLabel("Last name").fill("Patient");
+  await page.getByLabel("Date of birth").fill("2999-01-01");
+  await page.getByLabel("Mobile", { exact: true }).first().fill("09171234567");
+  await page.getByLabel("Region").fill("Bicol Region");
+  await page.getByLabel("Province").fill("Camarines Sur");
+  await page.getByLabel("City or municipality").fill("Naga City");
+  await page.getByLabel("Barangay").fill("Demo");
+  await page.getByLabel("Name", { exact: true }).fill("Emergency Contact");
+  await page.getByLabel("Relationship").fill("Sibling");
+  await page.getByLabel("Mobile", { exact: true }).nth(1).fill("09181234567");
+  await page.getByLabel("Privacy notice acknowledged").check();
+  await page.getByRole("button", { name: "Create patient" }).click();
+
+  await expect(page.getByText("Date of birth cannot be in the future.")).toBeVisible();
+});
+
 test("@staff patient profile masks contact and hides full medical notes only when allowed", async ({
   page,
 }) => {

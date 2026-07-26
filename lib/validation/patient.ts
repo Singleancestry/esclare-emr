@@ -1,6 +1,25 @@
 import { z } from "zod";
 import { calculateBmi } from "@/lib/patients/utils";
 
+function getClinicDate(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Manila",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+
+  return `${year}-${month}-${day}`;
+}
+
+const dateOfBirthSchema = z
+  .string()
+  .date("Date of birth is required.")
+  .refine((value) => value <= getClinicDate(), "Date of birth cannot be in the future.");
+
 export const philippineMobileSchema = z
   .string()
   .trim()
@@ -12,7 +31,7 @@ export const patientRegistrationSchema = z
     middleName: z.string().trim().optional(),
     lastName: z.string().trim().min(1, "Last name is required."),
     preferredName: z.string().trim().optional(),
-    dateOfBirth: z.string().date("Date of birth is required."),
+    dateOfBirth: dateOfBirthSchema,
     sexAtBirth: z.enum(["female", "male", "intersex", "prefer_not_to_say"]),
     gender: z.string().trim().optional(),
     civilStatus: z.string().trim().optional(),
