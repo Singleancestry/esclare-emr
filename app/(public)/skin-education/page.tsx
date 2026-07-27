@@ -21,8 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default function SkinEducationPage() {
-  const includeDrafts = process.env.NODE_ENV !== "production";
-  const articles = getVisibleEducationArticles(includeDrafts);
+  const articles = getVisibleEducationArticles(true);
   const featured = articles[0];
 
   return (
@@ -66,7 +65,7 @@ export default function SkinEducationPage() {
               />
             </div>
             <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-              <p className="public-eyebrow">Featured guide</p>
+              <p className="public-eyebrow">Guide preview</p>
               <h2
                 id="featured-article-heading"
                 className="mt-4 text-3xl leading-tight text-[#481827] sm:text-4xl"
@@ -82,28 +81,22 @@ export default function SkinEducationPage() {
                   <span className="font-bold text-[#6F263D]">Local editorial preview</span>
                 )}
               </div>
-              <Link
-                href={`/skin-education/${featured.slug}` as Route}
-                className="luxury-button mt-8 self-start"
-              >
-                Read the guide <ArrowRight size={16} aria-hidden="true" />
-              </Link>
+              {featured.published ? (
+                <Link
+                  href={`/skin-education/${featured.slug}` as Route}
+                  className="luxury-button mt-8 self-start"
+                >
+                  Read the guide <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              ) : (
+                <p className="mt-8 self-start border-l border-[#B98A4D] pl-4 text-sm font-bold text-[#6F263D]">
+                  Full guide pending medical review
+                </p>
+              )}
             </div>
           </div>
         </section>
-      ) : (
-        <section className="py-16" aria-label="Editorial review status">
-          <div className="public-container border-y border-[#D8C9B4] py-12 text-center">
-            <h2 className="text-3xl text-[#481827]">
-              The education library is in clinical review.
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#62595C]">
-              Draft treatment and medicine guides remain unpublished until ESCLARE completes its
-              medical and editorial approval workflow.
-            </p>
-          </div>
-        </section>
-      )}
+      ) : null}
 
       <section
         className="border-y border-[#D8C9B4] bg-white py-12"
@@ -138,9 +131,13 @@ export default function SkinEducationPage() {
           <h2 id="article-library-heading" className="mt-3 text-3xl text-[#481827] sm:text-4xl">
             Learn at your own pace
           </h2>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#62595C]">
+            Browse the topics currently in ESCLARE&apos;s medical and editorial review queue. Full
+            guides remain unavailable until a qualified reviewer approves them.
+          </p>
           {articles.length > 0 ? (
             <div className="mt-8">
-              <SkinEducationExplorer articles={articles} />
+              <SkinEducationExplorer articles={articles} linkEnabled={false} />
             </div>
           ) : (
             <p className="mt-6 text-sm leading-7 text-[#62595C]">

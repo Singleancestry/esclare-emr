@@ -18,24 +18,37 @@ type ArticlePreview = Pick<
   | "status"
 >;
 
-export function EducationArticleCard({ article }: { article: ArticlePreview }) {
+export function EducationArticleCard({
+  article,
+  linkEnabled = true,
+}: {
+  article: ArticlePreview;
+  linkEnabled?: boolean;
+}) {
   const category = educationCategories.find((item) => item.slug === article.category);
+  const media = (
+    <Image
+      src={article.heroImage}
+      alt={article.heroAlt}
+      fill
+      sizes="(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 94vw"
+      className="object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none"
+    />
+  );
 
   return (
     <article className="education-card group grid min-h-full grid-rows-[auto_1fr] overflow-hidden">
-      <Link
-        href={`/skin-education/${article.slug}` as Route}
-        aria-label={`Read ${article.title}`}
-        className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]"
-      >
-        <Image
-          src={article.heroImage}
-          alt={article.heroAlt}
-          fill
-          sizes="(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 94vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none"
-        />
-      </Link>
+      {linkEnabled ? (
+        <Link
+          href={`/skin-education/${article.slug}` as Route}
+          aria-label={`Read ${article.title}`}
+          className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]"
+        >
+          {media}
+        </Link>
+      ) : (
+        <div className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]">{media}</div>
+      )}
       <div className="flex flex-col p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2 text-[0.72rem] font-semibold text-[#765A44]">
           <span className="rounded-md bg-[#F0E5D8] px-2.5 py-1">{category?.name}</span>
@@ -44,12 +57,16 @@ export function EducationArticleCard({ article }: { article: ArticlePreview }) {
           </span>
           {article.status === "medical-review-required" && (
             <span className="rounded-md border border-[#B98A4D]/60 px-2.5 py-1 text-[#6F263D]">
-              Review draft
+              Medical review pending
             </span>
           )}
         </div>
         <h2 className="mt-4 text-[clamp(1.35rem,2vw,1.75rem)] leading-tight text-[#481827]">
-          <Link href={`/skin-education/${article.slug}` as Route}>{article.title}</Link>
+          {linkEnabled ? (
+            <Link href={`/skin-education/${article.slug}` as Route}>{article.title}</Link>
+          ) : (
+            article.title
+          )}
         </h2>
         <p className="mt-3 text-sm leading-7 text-[#62595C]">{article.excerpt}</p>
         <div className="mt-auto flex items-center justify-between gap-4 pt-6 text-xs text-[#746A6D]">
@@ -59,12 +76,16 @@ export function EducationArticleCard({ article }: { article: ArticlePreview }) {
               new Date(article.updatedAt),
             )}
           </time>
-          <Link
-            href={`/skin-education/${article.slug}` as Route}
-            className="inline-flex min-h-11 items-center gap-1.5 font-bold text-[#6F263D]"
-          >
-            Read <ArrowUpRight size={15} aria-hidden="true" />
-          </Link>
+          {linkEnabled ? (
+            <Link
+              href={`/skin-education/${article.slug}` as Route}
+              className="inline-flex min-h-11 items-center gap-1.5 font-bold text-[#6F263D]"
+            >
+              Read <ArrowUpRight size={15} aria-hidden="true" />
+            </Link>
+          ) : (
+            <span className="font-bold text-[#6F263D]">Preview</span>
+          )}
         </div>
       </div>
     </article>

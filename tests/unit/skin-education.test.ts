@@ -40,6 +40,22 @@ describe("skin education editorial controls", () => {
     expect(routeSource).toContain('process.env.NODE_ENV !== "production"');
   });
 
+  it("populates production landing and category pages with non-clickable draft previews", () => {
+    const landingSource = readFileSync(
+      resolve(process.cwd(), "app/(public)/skin-education/page.tsx"),
+      "utf8",
+    );
+    const categorySource = readFileSync(
+      resolve(process.cwd(), "app/(public)/skin-education/category/[category]/page.tsx"),
+      "utf8",
+    );
+
+    expect(landingSource).toContain("getVisibleEducationArticles(true)");
+    expect(landingSource).toContain("linkEnabled={false}");
+    expect(categorySource).toContain("getCategoryArticles(category.slug, true)");
+    expect(categorySource).toContain("linkEnabled={article.published}");
+  });
+
   it("covers all education categories in preview mode", () => {
     for (const category of educationCategories) {
       expect(getCategoryArticles(category.slug, true).length).toBeGreaterThan(0);

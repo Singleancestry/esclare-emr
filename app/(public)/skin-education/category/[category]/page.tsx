@@ -30,8 +30,7 @@ export default async function EducationCategoryPage({ params }: Props) {
   const { category: slug } = await params;
   const category = getEducationCategory(slug);
   if (!category) notFound();
-  const includeDrafts = process.env.NODE_ENV !== "production";
-  const articles = getCategoryArticles(category.slug, includeDrafts);
+  const articles = getCategoryArticles(category.slug, true);
 
   return (
     <main>
@@ -60,7 +59,11 @@ export default async function EducationCategoryPage({ params }: Props) {
           {articles.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {articles.map((article) => (
-                <EducationArticleCard key={article.slug} article={article} />
+                <EducationArticleCard
+                  key={article.slug}
+                  article={article}
+                  linkEnabled={article.published}
+                />
               ))}
             </div>
           ) : (

@@ -19,7 +19,13 @@ type ArticlePreview = Pick<
   | "status"
 >;
 
-export function SkinEducationExplorer({ articles }: { articles: ReadonlyArray<ArticlePreview> }) {
+export function SkinEducationExplorer({
+  articles,
+  linkEnabled = true,
+}: {
+  articles: ReadonlyArray<ArticlePreview>;
+  linkEnabled?: boolean;
+}) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"all" | EducationCategorySlug>("all");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -81,7 +87,11 @@ export function SkinEducationExplorer({ articles }: { articles: ReadonlyArray<Ar
       {filtered.length > 0 ? (
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((article) => (
-            <EducationArticleCard key={article.slug} article={article} />
+            <EducationArticleCard
+              key={article.slug}
+              article={article}
+              linkEnabled={linkEnabled || article.status === "published"}
+            />
           ))}
         </div>
       ) : (
