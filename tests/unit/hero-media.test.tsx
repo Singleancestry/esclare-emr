@@ -151,6 +151,7 @@ describe("HeroMedia", () => {
     await waitFor(() => expect(play).toHaveBeenCalledTimes(1));
     fireEvent.playing(video);
     fireEvent.ended(video);
+    fireEvent.playing(video);
     fireEvent.canPlay(video);
     expect(video).not.toHaveAttribute("loop");
     expect(container.querySelector(".hero-media")).toHaveAttribute(

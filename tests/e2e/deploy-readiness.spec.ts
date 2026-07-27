@@ -21,7 +21,7 @@ for (const viewport of viewports) {
       ).toBe(true);
       await page.screenshot({
         path: `test-results/deploy-readiness/${viewport.name}-${path.slice(1).replaceAll("/", "-")}.png`,
-        fullPage: true,
+        fullPage: false,
       });
     }
   });

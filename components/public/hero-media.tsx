@@ -128,6 +128,10 @@ export function HeroMedia() {
           void attemptPlayback();
         }}
         onPlaying={() => {
+          if (completedRef.current) {
+            videoRef.current?.pause();
+            return;
+          }
           playbackBlockedRef.current = false;
           setPlaybackState("playing");
         }}

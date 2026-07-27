@@ -57,6 +57,10 @@ const patientBirthDateGuardMigration = readFileSync(
   "database/migrations/202607271200_reject_future_patient_birth_dates.sql",
   "utf8",
 ).toLowerCase();
+const packagedPatientBirthDateGuardMigration = readFileSync(
+  "supabase/migrations/202607271200_reject_future_patient_birth_dates.sql",
+  "utf8",
+).toLowerCase();
 
 describe("security hardening migrations", () => {
   it("prevents authenticated clients from forging audit and appointment history", () => {
@@ -201,5 +205,6 @@ describe("security hardening migrations", () => {
     expect(patientBirthDateGuardMigration).toContain("new.date_of_birth > current_date");
     expect(patientBirthDateGuardMigration).toContain("before insert or update of date_of_birth");
     expect(patientBirthDateGuardMigration).toContain("on public.patients");
+    expect(packagedPatientBirthDateGuardMigration).toBe(patientBirthDateGuardMigration);
   });
 });
