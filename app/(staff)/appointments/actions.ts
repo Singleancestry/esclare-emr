@@ -44,6 +44,7 @@ export async function createAppointmentAction(
     !hasPermission(staff, "appointments.create", parsed.data.branchId)
   )
     return { status: "error", message: "You do not have access to this branch." };
+  // Appointment workflow RPCs are currently executable only by service_role.
   const admin = createSupabaseAdminClient();
   if (!admin)
     return { status: "error", message: "Configure Supabase before scheduling appointments." };
@@ -130,6 +131,7 @@ export async function transitionAppointmentAction(
         ? "Staff session is required."
         : (parsed.error.issues[0]?.message ?? "Check the status update."),
     };
+  // Appointment workflow RPCs are currently executable only by service_role.
   const admin = createSupabaseAdminClient();
   if (!admin)
     return { status: "error", message: "Configure Supabase before updating appointments." };
@@ -196,6 +198,7 @@ export async function updateAppointmentRequestStatusAction(
     };
   }
 
+  // Appointment workflow RPCs are currently executable only by service_role.
   const admin = createSupabaseAdminClient();
   if (!admin) {
     return { status: "error", message: "Configure Supabase before updating appointment requests." };

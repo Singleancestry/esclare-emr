@@ -24,6 +24,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, requestId }, { status: 404, headers });
   }
 
+  // Infrastructure readiness has no user session and requires the protected readiness RPC.
   const admin = createSupabaseAdminClient();
   if (!admin) {
     emitOperationalEvent({

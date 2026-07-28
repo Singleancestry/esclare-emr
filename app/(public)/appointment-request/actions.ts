@@ -63,6 +63,7 @@ export async function submitPublicAppointmentRequest(
     };
   }
 
+  // Anonymous booking has no user session; the atomic RPC enforces its server-side controls.
   const admin = isFeatureEnabled("publicBookingPersistence") ? createSupabaseAdminClient() : null;
   const rateLimitSecret = process.env.APPOINTMENT_REQUEST_RATE_LIMIT_SECRET;
 

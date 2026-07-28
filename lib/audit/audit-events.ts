@@ -16,6 +16,7 @@ type AuditEventInput = {
 };
 
 export async function recordAuditEvent(event: AuditEventInput) {
+  // Audit writes use service role so the actor cannot block their own audit record.
   const admin = createSupabaseAdminClient();
 
   if (!admin) {

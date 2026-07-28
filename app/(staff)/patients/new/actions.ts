@@ -41,6 +41,7 @@ export async function createPatientAction(
     return { status: "error", message: "You do not have access to the selected branch." };
   }
 
+  // The atomic registration RPC is currently executable only by service_role.
   const admin = createSupabaseAdminClient();
 
   if (!admin) {

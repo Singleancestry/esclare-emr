@@ -32,6 +32,7 @@ export async function POST(request: Request, context: { params: Promise<{ patien
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  // Break-glass contact reveal uses service role only after feature, branch, and permission checks.
   const admin = createSupabaseAdminClient();
   if (!admin) {
     return NextResponse.json({ error: "Contact details are unavailable." }, { status: 503 });
