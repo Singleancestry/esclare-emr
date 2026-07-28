@@ -1,6 +1,5 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
-import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import type { StaffContext } from "@/lib/permissions/types";
 import { hasPermission } from "@/lib/permissions/checks";
 import { calculateAge, calculateBmi } from "./utils";
@@ -118,7 +117,7 @@ export async function getPatientProfile(
   staff: StaffContext,
   patientId: string,
 ): Promise<PatientProfile | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = await createSupabaseServerClient();
   const branchIds = staff.branches
     .filter((branch) => hasPermission(staff, "patients.view_basic", branch.id))
     .map((branch) => branch.id);
