@@ -1,6 +1,5 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
-import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import type { StaffContext } from "@/lib/permissions/types";
 import { hasPermission } from "@/lib/permissions/checks";
 import type { AppointmentRequestStatus } from "@/lib/validation/appointment-request";
@@ -72,7 +71,7 @@ export async function getAppointmentRequestInbox(
 }
 
 export async function getAppointmentWorkspace(staff: StaffContext): Promise<AppointmentWorkspace> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = await createSupabaseServerClient();
   if (!supabase) {
     return {
       appointments: [],
