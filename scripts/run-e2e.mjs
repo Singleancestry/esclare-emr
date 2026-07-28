@@ -6,7 +6,8 @@ import { setTimeout as delay } from "node:timers/promises";
 const isWindows = process.platform === "win32";
 const nextBin = "node_modules/next/dist/bin/next";
 const playwrightBin = "node_modules/@playwright/test/cli.js";
-const baseUrl = "http://127.0.0.1:3000";
+const port = process.env.E2E_PORT ?? "3000";
+const baseUrl = process.env.E2E_BASE_URL ?? `http://127.0.0.1:${port}`;
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const useProductionServer = process.env.E2E_USE_PRODUCTION_SERVER === "true";
 const standaloneServer = path.join(".next", "standalone", "server.js");
@@ -80,8 +81,9 @@ const server = spawn(
     env: {
       ...process.env,
       HOSTNAME: "127.0.0.1",
-      PORT: "3000",
+      PORT: port,
       PLAYWRIGHT_MANAGED_SERVER: "true",
+      E2E_AUTH_SCENARIOS: "true",
     },
     stdio: "inherit",
   },
@@ -96,7 +98,7 @@ try {
     [playwrightBin, "test", "--config=playwright.config.ts", ...process.argv.slice(2)],
     {
       cwd: process.cwd(),
-      env: { ...process.env, PLAYWRIGHT_MANAGED_SERVER: "true" },
+      env: { ...process.env, E2E_BASE_URL: baseUrl, PLAYWRIGHT_MANAGED_SERVER: "true" },
       stdio: "inherit",
     },
   );

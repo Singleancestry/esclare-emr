@@ -1,4 +1,5 @@
 import "server-only";
+import { cookies } from "next/headers";
 import { cache } from "react";
 import { rolePermissions } from "@/lib/permissions/permissions";
 import type { StaffContext } from "@/lib/permissions/types";
@@ -27,11 +28,45 @@ const demoStaff: StaffContext = {
   },
 };
 
+async function getDevelopmentStaffContext(): Promise<StaffContext> {
+  if (process.env.E2E_AUTH_SCENARIOS !== "true") return demoStaff;
+
+  const scenario = (await cookies()).get("esclare-e2e-auth-scenario")?.value;
+  if (scenario === "disabled") {
+    return { ...demoStaff, employee: { ...demoStaff.employee, status: "disabled" } };
+  }
+  if (scenario === "branch-a") {
+    const branch = demoStaff.branches[0];
+    return {
+      ...demoStaff,
+      branches: [branch],
+      activeBranch: branch,
+      branchPermissions: { [branch.id]: demoStaff.branchPermissions[branch.id] ?? [] },
+    };
+  }
+  if (scenario === "no-contact-reveal") {
+    const permissions = demoStaff.permissions.filter(
+      (permission) => permission !== "patients.reveal_contact",
+    );
+    return {
+      ...demoStaff,
+      permissions,
+      branchPermissions: Object.fromEntries(
+        Object.entries(demoStaff.branchPermissions).map(([branchId, branchPermissions]) => [
+          branchId,
+          branchPermissions.filter((permission) => permission !== "patients.reveal_contact"),
+        ]),
+      ),
+    };
+  }
+  return demoStaff;
+}
+
 export const getCurrentStaffContext = cache(async (): Promise<StaffContext | null> => {
   const supabase = await createSupabaseServerClient();
 
   if (!supabase) {
-    return process.env.NODE_ENV === "production" ? null : demoStaff;
+    return process.env.NODE_ENV === "production" ? null : getDevelopmentStaffContext();
   }
 
   const {
