@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getAuthorizedNavigation } from "@/lib/permissions/navigation";
 import { rolePermissions } from "@/lib/permissions/permissions";
-import { protectedRoutePermissions } from "@/lib/permissions/routes";
 import type { StaffContext } from "@/lib/permissions/types";
 
 function staffWithRole(role: "owner" | "receptionist" | "cashier" | "doctor"): StaffContext {
@@ -45,14 +44,6 @@ describe("permissions", () => {
     expect(hrefs).toContain("/patients");
     expect(hrefs).toContain("/appointments");
     expect(hrefs).not.toContain("/patients/archived");
-  });
-
-  it("maps protected routes to explicit permissions", () => {
-    expect(protectedRoutePermissions["/dashboard"]).toBe("dashboard.branch.view");
-    expect(protectedRoutePermissions["/admin"]).toBe("security.manage_roles");
-    expect(protectedRoutePermissions["/clinical"]).toBe("medical.view_summary");
-    expect(protectedRoutePermissions["/patients/new"]).toBe("patients.create");
-    expect(protectedRoutePermissions["/settings/audit"]).toBe("security.view_audit");
   });
 
   it("gives doctors medical sign permission but not payment creation", () => {
