@@ -2,62 +2,58 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const auditMigration = readFileSync(
-  "database/migrations/202607181100_harden_audit_and_api_grants.sql",
+  "supabase/migrations/202607181100_harden_audit_and_api_grants.sql",
   "utf8",
 ).toLowerCase();
 const patientMigration = readFileSync(
-  "database/migrations/202607181200_sensitive_patient_column_access.sql",
+  "supabase/migrations/202607181200_sensitive_patient_column_access.sql",
   "utf8",
 ).toLowerCase();
 const appointmentMigration = readFileSync(
-  "database/migrations/202607181300_atomic_appointment_workflows.sql",
+  "supabase/migrations/202607181300_atomic_appointment_workflows.sql",
   "utf8",
 ).toLowerCase();
 const patientRegistrationMigration = readFileSync(
-  "database/migrations/202607181310_atomic_patient_registration.sql",
+  "supabase/migrations/202607181310_atomic_patient_registration.sql",
   "utf8",
 ).toLowerCase();
 const branchPermissionMigration = readFileSync(
-  "database/migrations/202607181320_branch_scoped_staff_context.sql",
+  "supabase/migrations/202607181320_branch_scoped_staff_context.sql",
   "utf8",
 ).toLowerCase();
 const appointmentRequestMigration = readFileSync(
-  "database/migrations/202607181330_atomic_appointment_request_workflows.sql",
+  "supabase/migrations/202607181330_atomic_appointment_request_workflows.sql",
   "utf8",
 ).toLowerCase();
 const contactRevealMigration = readFileSync(
-  "database/migrations/202607181340_atomic_contact_reveal.sql",
+  "supabase/migrations/202607181340_atomic_contact_reveal.sql",
   "utf8",
 ).toLowerCase();
 const operationalIndexMigration = readFileSync(
-  "database/migrations/202607181350_operational_query_indexes.sql",
+  "supabase/migrations/202607181350_operational_query_indexes.sql",
   "utf8",
 ).toLowerCase();
 const databaseMfaMigration = readFileSync(
-  "database/migrations/202607181360_enforce_database_mfa_boundary.sql",
+  "supabase/migrations/202607181360_enforce_database_mfa_boundary.sql",
   "utf8",
 ).toLowerCase();
 const requestRateLimitIndexMigration = readFileSync(
-  "database/migrations/202607181370_appointment_request_rate_limit_index.sql",
+  "supabase/migrations/202607181370_appointment_request_rate_limit_index.sql",
   "utf8",
 ).toLowerCase();
 const identityLockdownMigration = readFileSync(
-  "database/migrations/202607181380_lock_down_identity_tables.sql",
+  "supabase/migrations/202607181380_lock_down_identity_tables.sql",
   "utf8",
 ).toLowerCase();
 const releaseMarkerMigration = readFileSync(
-  "database/migrations/202607181390_release_readiness_marker.sql",
+  "supabase/migrations/202607181390_release_readiness_marker.sql",
   "utf8",
 ).toLowerCase();
 const operationalLockdownMigration = readFileSync(
-  "database/migrations/202607181385_lock_down_operational_tables.sql",
+  "supabase/migrations/202607181385_lock_down_operational_tables.sql",
   "utf8",
 ).toLowerCase();
 const patientBirthDateGuardMigration = readFileSync(
-  "database/migrations/202607271200_reject_future_patient_birth_dates.sql",
-  "utf8",
-).toLowerCase();
-const packagedPatientBirthDateGuardMigration = readFileSync(
   "supabase/migrations/202607271200_reject_future_patient_birth_dates.sql",
   "utf8",
 ).toLowerCase();
@@ -205,6 +201,5 @@ describe("security hardening migrations", () => {
     expect(patientBirthDateGuardMigration).toContain("new.date_of_birth > current_date");
     expect(patientBirthDateGuardMigration).toContain("before insert or update of date_of_birth");
     expect(patientBirthDateGuardMigration).toContain("on public.patients");
-    expect(packagedPatientBirthDateGuardMigration).toBe(patientBirthDateGuardMigration);
   });
 });

@@ -57,7 +57,7 @@ Domain logic belongs in `lib/` modules. UI components belong in `components/`. D
 
 ## Adding Migrations
 
-Add ordered SQL files under `database/migrations` using `YYYYMMDDHHMM_description.sql`. Keep table definitions, indexes, constraints and RLS policy changes together when they protect the same domain.
+Add ordered SQL files under `supabase/migrations` using `YYYYMMDDHHMM_description.sql`. Keep table definitions, indexes, constraints and RLS policy changes together when they protect the same domain.
 
 ## Permission Checks
 
