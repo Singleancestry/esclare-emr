@@ -73,7 +73,7 @@ function mapDirectoryRow(row: PatientRow): PatientDirectoryRecord {
 }
 
 export async function getPatientDirectory(staff: StaffContext): Promise<PatientDirectoryRecord[]> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = await createSupabaseServerClient();
   const branchIds = staff.branches
     .filter((branch) => hasPermission(staff, "patients.view_basic", branch.id))
     .map((branch) => branch.id);
