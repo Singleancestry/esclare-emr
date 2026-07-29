@@ -1,52 +1,52 @@
 {
-  "generatedAt": "2026-07-20T01:56:03.940Z",
+  "generatedAt": "2026-07-29T01:44:02.786Z",
   "mode": "full",
   "ready": true,
   "checks": [
     {
       "name": "dependency lock check",
       "status": "PASS",
-      "durationMs": 2924
+      "durationMs": 1506
     },
     {
       "name": "format",
       "status": "PASS",
-      "durationMs": 5156
+      "durationMs": 3676
     },
     {
       "name": "environment contract",
       "status": "PASS",
-      "durationMs": 854
+      "durationMs": 424
     },
     {
       "name": "lint",
       "status": "PASS",
-      "durationMs": 12111
+      "durationMs": 5940
     },
     {
       "name": "typecheck",
       "status": "PASS",
-      "durationMs": 6602
+      "durationMs": 3443
     },
     {
       "name": "unit tests",
       "status": "PASS",
-      "durationMs": 7204
+      "durationMs": 4569
     },
     {
-      "name": "dependency audit",
+      "name": "production dependency audit",
       "status": "PASS",
-      "durationMs": 2318
+      "durationMs": 1326
     },
     {
       "name": "secret scan",
       "status": "PASS",
-      "durationMs": 999
+      "durationMs": 2085
     },
     {
       "name": "production build",
       "status": "PASS",
-      "durationMs": 26651
+      "durationMs": 19380
     },
     {
       "name": "production server",
@@ -56,17 +56,17 @@
     {
       "name": "responsive Playwright flows",
       "status": "PASS",
-      "durationMs": 10217
+      "durationMs": 6251
     },
     {
       "name": "load smoke",
       "status": "PASS",
-      "durationMs": 15146
+      "durationMs": 15083
     },
     {
       "name": "Lighthouse mobile and desktop",
       "status": "PASS",
-      "durationMs": 37318
+      "durationMs": 60802
     }
   ]
 }

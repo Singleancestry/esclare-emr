@@ -1,18 +1,34 @@
 {
-  "generatedAt": "2026-07-20T01:56:03.430Z",
-  "url": "http://127.0.0.1:3100/home",
+  "generatedAt": "2026-07-29T01:44:02.666Z",
+  "baseUrl": "http://127.0.0.1:3100",
   "results": {
-    "mobile": {
-      "performance": 95,
-      "accessibility": 96,
-      "best-practices": 100,
-      "seo": 92
+    "/home": {
+      "mobile": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "desktop": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
     },
-    "desktop": {
-      "performance": 100,
-      "accessibility": 96,
-      "best-practices": 100,
-      "seo": 92
+    "/treatments": {
+      "mobile": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "desktop": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
     }
   }
 }
