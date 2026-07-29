@@ -7,6 +7,7 @@ import { setTimeout as delay } from "node:timers/promises";
 const baseUrl = process.env.VALIDATION_BASE_URL ?? "http://127.0.0.1:3100";
 const npx = process.platform === "win32" ? "npx.cmd" : "npx";
 const categories = "performance,accessibility,best-practices,seo";
+const paths = ["/home", "/treatments"];
 const results = {};
 const chromeTemp = join(process.cwd(), ".tools", "lighthouse-temp");
 mkdirSync(chromeTemp, { recursive: true });
@@ -58,31 +59,37 @@ for (let attempt = 0; attempt < 60; attempt += 1) {
 }
 
 try {
-  for (const preset of ["mobile", "desktop"]) {
-    const outputPath = join(tmpdir(), `esclare-lighthouse-${preset}-${Date.now()}.json`);
-    const args = [
-      "--yes",
-      "lighthouse",
-      `${baseUrl}/home`,
-      "--quiet",
-      `--port=${debuggingPort}`,
-      "--output=json",
-      `--output-path=${outputPath}`,
-      `--only-categories=${categories}`,
-    ];
-    if (preset === "desktop") args.push("--preset=desktop");
-    const executable = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : npx;
-    const commandArgs = process.platform === "win32" ? ["/d", "/s", "/c", npx, ...args] : args;
-    const run = spawnSync(executable, commandArgs, {
-      encoding: "utf8",
-      stdio: "inherit",
-      env: { ...process.env, TEMP: chromeTemp, TMP: chromeTemp },
-    });
-    if (run.status !== 0) throw new Error(`Lighthouse ${preset} run failed.`);
-    const report = JSON.parse(readFileSync(outputPath, "utf8"));
-    results[preset] = Object.fromEntries(
-      Object.entries(report.categories).map(([key, value]) => [key, Math.round(value.score * 100)]),
-    );
+  for (const path of paths) {
+    results[path] = {};
+    for (const preset of ["mobile", "desktop"]) {
+      const outputPath = join(tmpdir(), `esclare-lighthouse-${preset}-${Date.now()}.json`);
+      const args = [
+        "--yes",
+        "lighthouse",
+        `${baseUrl}${path}`,
+        "--quiet",
+        `--port=${debuggingPort}`,
+        "--output=json",
+        `--output-path=${outputPath}`,
+        `--only-categories=${categories}`,
+      ];
+      if (preset === "desktop") args.push("--preset=desktop");
+      const executable = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : npx;
+      const commandArgs = process.platform === "win32" ? ["/d", "/s", "/c", npx, ...args] : args;
+      const run = spawnSync(executable, commandArgs, {
+        encoding: "utf8",
+        stdio: "inherit",
+        env: { ...process.env, TEMP: chromeTemp, TMP: chromeTemp },
+      });
+      if (run.status !== 0) throw new Error(`Lighthouse ${path} ${preset} run failed.`);
+      const report = JSON.parse(readFileSync(outputPath, "utf8"));
+      results[path][preset] = Object.fromEntries(
+        Object.entries(report.categories).map(([key, value]) => [
+          key,
+          Math.round(value.score * 100),
+        ]),
+      );
+    }
   }
 } finally {
   if (process.platform === "win32") {
@@ -94,10 +101,16 @@ try {
 
 writeFileSync(
   "validation-agent/lighthouse-results.json",
-  `${JSON.stringify({ generatedAt: new Date().toISOString(), url: `${baseUrl}/home`, results }, null, 2)}\n`,
+  `${JSON.stringify({ generatedAt: new Date().toISOString(), baseUrl, results }, null, 2)}\n`,
 );
 console.log(JSON.stringify(results, null, 2));
 
-if (Object.values(results).some((scores) => Object.values(scores).some((score) => score < 80))) {
+if (
+  Object.values(results).some((presets) =>
+    Object.values(presets).some(
+      (scores) => scores.performance < 95 || Object.values(scores).some((score) => score < 80),
+    ),
+  )
+) {
   process.exit(1);
 }

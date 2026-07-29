@@ -110,7 +110,7 @@ test("hero retains its poster and actions when video playback fails", async ({
   browserName,
 }) => {
   if (browserName !== "webkit") {
-    await page.route("**/media/esclare-hero-no-logo-v4.mp4*", (route) =>
+    await page.route("**/media/esclare-hero-no-logo-v4*.mp4*", (route) =>
       route.fulfill({ status: 503, contentType: "video/mp4", body: "" }),
     );
   }
@@ -157,7 +157,7 @@ test("hero completion exposes the pre-generated final frame without restarting",
   const hero = page.locator(".hero-media");
   const video = hero.locator("video");
 
-  await expect(video.locator("source")).toHaveCount(1);
+  await expect(video.locator("source")).toHaveCount(2);
   await video.evaluate((element: HTMLVideoElement) => {
     element.dispatchEvent(new Event("ended"));
   });
@@ -166,6 +166,6 @@ test("hero completion exposes the pre-generated final frame without restarting",
   await expect(video).not.toHaveClass(/is-visible/);
   await expect(hero.locator(".hero-media-poster img")).toHaveAttribute(
     "src",
-    "/images/optimized/clinic/esclare-hero-final-frame-v4.webp",
+    "/images/optimized/clinic/esclare-hero-final-frame-v4-mobile.webp",
   );
 });

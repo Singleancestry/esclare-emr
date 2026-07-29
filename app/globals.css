@@ -204,6 +204,13 @@ a {
   z-index: 60;
 }
 
+.messenger-badge,
+.messenger-tooltip {
+  bottom: calc(100% + 0.65rem);
+  position: absolute;
+  right: 0;
+}
+
 .messenger-button {
   align-items: center;
   background: linear-gradient(145deg, #0795ff, #6652e8);
@@ -242,7 +249,7 @@ a {
   color: #481827;
   max-width: min(19rem, calc(100vw - 2.5rem));
   padding: 0.9rem 2.2rem 0.9rem 1rem;
-  position: relative;
+  width: min(19rem, calc(100vw - 2.5rem));
 }
 
 .messenger-tooltip strong,

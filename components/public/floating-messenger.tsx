@@ -71,7 +71,7 @@ export function FloatingMessenger() {
           </span>
         </div>
       )}
-      {showBadge && <span className="messenger-badge">Chat with us</span>}
+      {showBadge && !showTooltip && <span className="messenger-badge">Chat with us</span>}
       <a
         href={branch.messenger}
         target="_blank"

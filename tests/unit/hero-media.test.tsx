@@ -41,22 +41,29 @@ describe("HeroMedia", () => {
     setReducedMotion(false);
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     const { container } = render(<HeroMedia />);
+    fireEvent.pointerDown(document.body);
 
     const poster = container.querySelector(".hero-media-poster img");
     const video = container.querySelector("video");
-    expect(poster).toHaveAttribute("src", "/images/optimized/clinic/esclare-hero-poster-v4.webp");
+    expect(poster).toHaveAttribute(
+      "src",
+      "/images/optimized/clinic/esclare-hero-poster-v4-mobile.webp",
+    );
     expect(video).toHaveAttribute("autoplay");
     expect(video).not.toHaveAttribute("loop");
     expect(video).toHaveProperty("loop", false);
     expect(video).toHaveProperty("muted", true);
     expect(video).toHaveAttribute("playsinline");
-    expect(video).toHaveAttribute("preload", "auto");
-    expect(video).toHaveAttribute("poster", "/images/optimized/clinic/esclare-hero-poster-v4.webp");
-    await waitFor(() =>
-      expect(video?.querySelector("source")).toHaveAttribute(
-        "src",
-        "/media/esclare-hero-no-logo-v4.mp4",
-      ),
+    expect(video).toHaveAttribute("preload", "none");
+    expect(video).not.toHaveAttribute("poster");
+    await waitFor(() => expect(video?.querySelectorAll("source")).toHaveLength(2));
+    expect(video?.querySelector('source[media="(max-width: 767px)"]')).toHaveAttribute(
+      "src",
+      "/media/esclare-hero-no-logo-v4-mobile.mp4",
+    );
+    expect(video?.querySelector("source:not([media])")).toHaveAttribute(
+      "src",
+      "/media/esclare-hero-no-logo-v4.mp4",
     );
   });
 
@@ -64,6 +71,7 @@ describe("HeroMedia", () => {
     setReducedMotion(false);
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     const { container } = render(<HeroMedia />);
+    fireEvent.pointerDown(document.body);
     const hero = container.querySelector(".hero-media");
     const video = container.querySelector("video");
 
@@ -98,6 +106,7 @@ describe("HeroMedia", () => {
       .spyOn(HTMLMediaElement.prototype, "play")
       .mockRejectedValue(new DOMException("Blocked", "NotAllowedError"));
     const { container } = render(<HeroMedia />);
+    fireEvent.pointerDown(document.body);
     const video = container.querySelector("video");
 
     await waitFor(() => expect(video?.querySelector("source")).toBeTruthy());
@@ -121,6 +130,7 @@ describe("HeroMedia", () => {
       .mockRejectedValueOnce(new DOMException("Blocked", "NotAllowedError"))
       .mockResolvedValue(undefined);
     const { container } = render(<HeroMedia />);
+    fireEvent.pointerDown(document.body);
     const video = container.querySelector("video");
 
     await waitFor(() => expect(video?.querySelector("source")).toBeTruthy());
@@ -144,6 +154,7 @@ describe("HeroMedia", () => {
     setReducedMotion(false);
     const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     const { container } = render(<HeroMedia />);
+    fireEvent.pointerDown(document.body);
     const video = container.querySelector("video")!;
 
     await waitFor(() => expect(video.querySelector("source")).toBeTruthy());
@@ -161,7 +172,7 @@ describe("HeroMedia", () => {
     expect(video).not.toHaveClass("is-visible");
     expect(container.querySelector(".hero-media-poster img")).toHaveAttribute(
       "src",
-      "/images/optimized/clinic/esclare-hero-final-frame-v4.webp",
+      "/images/optimized/clinic/esclare-hero-final-frame-v4-mobile.webp",
     );
     expect(play).toHaveBeenCalledTimes(1);
   });

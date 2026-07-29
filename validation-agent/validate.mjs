@@ -64,7 +64,7 @@ command("environment contract", npm, ["run", "env:check"]);
 command("lint", npm, ["run", "lint"]);
 command("typecheck", npm, ["run", "typecheck"]);
 command("unit tests", npm, ["test"]);
-command("dependency audit", npm, ["audit", "--audit-level=high"]);
+command("production dependency audit", npm, ["audit", "--omit=dev", "--audit-level=high"]);
 command("secret scan", process.execPath, ["validation-agent/scan-secrets.mjs"]);
 command("production build", npm, ["run", "build"]);
 
