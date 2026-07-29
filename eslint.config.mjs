@@ -13,6 +13,7 @@ const ignoredPaths = {
     ".tools/**",
     "dist/**",
     "release/**",
+    "tmp/**",
   ],
 };
 
