@@ -5,6 +5,7 @@ import {
   GLP1_PROGRAM_LABEL,
   treatments,
 } from "@/lib/services/catalog";
+import { treatmentNavigationItems } from "@/lib/services/treatment-navigation";
 
 describe("service catalog", () => {
   it("formats fixed, ranged and starting prices without inventing promotions", () => {
@@ -39,6 +40,20 @@ describe("service catalog", () => {
       "rejuran-eye": 15000,
       "rejuran-scar": 15000,
     });
+  });
+
+  it("keeps product links out of the first-level Treatments navigation", () => {
+    expect(treatmentNavigationItems.map((item) => item.label)).toEqual([
+      "All Treatments",
+      "Facial",
+      "Laser Brightening / Laser Treatments",
+      "4D Diode",
+      "Lifting",
+      "Doctor Procedures",
+      "Wellness",
+      "Skin Support",
+    ]);
+    expect(treatmentNavigationItems.some((item) => /MCCM|Rejuran/.test(item.label))).toBe(false);
   });
 
   it("matches the approved 4D wavelength diode price list exactly", () => {

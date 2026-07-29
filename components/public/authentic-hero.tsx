@@ -14,8 +14,8 @@ const featuredTreatments = [
   ["Diode Laser", "/diode-laser"],
   ["HIFU", "/treatments#lifting-and-contouring"],
   ["Botox", "/treatments#doctor-procedures"],
-  ["Skin Rejuvenation", "/treatments#skin-support"],
-  ["MCCM Renewal", "/treatments#skin-support"],
+  ["Skin Rejuvenation", "/treatments/skin-support"],
+  ["MCCM Renewal", "/treatments/skin-support"],
   ["Doctor Procedures", "/treatments#doctor-procedures"],
   ["Wellness", "/treatments#wellness"],
 ] as const;

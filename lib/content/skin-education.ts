@@ -236,7 +236,7 @@ function rejuranDraft(input: {
     relatedTreatments:
       input.treatmentLabel && input.treatmentHref
         ? [{ label: input.treatmentLabel, href: input.treatmentHref }]
-        : [{ label: "Skin Support review pages", href: "/treatments#skin-support" }],
+        : [{ label: "Skin Support review pages", href: "/treatments/skin-support" }],
   };
 }
 
@@ -1116,7 +1116,7 @@ export const educationArticles: ReadonlyArray<EducationArticle> = [
     ]),
     references: regenerativeReferences,
     relatedArticles: ["mccm-professional-skincare-guide", "pico-laser-facial-pigmentation"],
-    relatedTreatments: [{ label: "Professional skin support", href: "/treatments#skin-support" }],
+    relatedTreatments: [{ label: "Professional skin support", href: "/treatments/skin-support" }],
   },
   {
     slug: "mccm-professional-chemical-peels",

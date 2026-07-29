@@ -1,5 +1,6 @@
 export type SkinSupportContent = {
   slug: string;
+  brand: "MCCM" | "Rejuran";
   positioning: string;
   image: string;
   imageAlt: string;
@@ -37,10 +38,10 @@ const reviewNotice =
 export const skinSupportContent: ReadonlyArray<SkinSupportContent> = [
   {
     slug: "mccm-exosome-pdrn",
+    brand: "MCCM",
     positioning: "Topical professional support for hydrated, smoother-looking skin.",
-    image: "/images/optimized/treatments/skin-support/skin-hydration-editorial.webp",
-    imageAlt:
-      "Unbranded amber ampoules and clean towels illustrating a topical hydration appointment",
+    image: "/images/optimized/treatments/skin-support/products/mccm-exosome-pdrn-studio.webp",
+    imageAlt: "MCCM Exosome PDRN professional-use box and amber vial",
     classification: "Non-doctor treatment under clinic assessment procedures",
     assessment: "A skin assessment is required before the first session.",
     branches: "Proposed for Naga and Daet after exact stock verification",
@@ -98,9 +99,10 @@ export const skinSupportContent: ReadonlyArray<SkinSupportContent> = [
   },
   {
     slug: "mccm-eye-contour",
+    brand: "MCCM",
     positioning: "A topical eye-contour concept held to doctor-review standards at ESCLARE.",
-    image: "/images/optimized/treatments/skin-support/eye-contour-editorial.webp",
-    imageAlt: "Unbranded topical ampoule, mirror, and cotton pads illustrating eye-contour care",
+    image: "/images/optimized/treatments/skin-support/products/mccm-eye-contour-studio.webp",
+    imageAlt: "MCCM Out Contour Cocktail box and amber vial",
     classification: "Doctor-assessed clinic policy; verified product is topical only",
     assessment: "Doctor assessment is required under the proposed ESCLARE policy.",
     branches: "Proposed for Naga and Daet after protocol and product verification",
@@ -158,10 +160,10 @@ export const skinSupportContent: ReadonlyArray<SkinSupportContent> = [
   },
   {
     slug: "mccm-brightening-system",
+    brand: "MCCM",
     positioning: "A complete, area-specific brightening plan rather than a standalone peel.",
-    image: "/images/optimized/treatments/skin-support/brightening-system-editorial.webp",
-    imageAlt:
-      "Unbranded topical vessels, glass dish, and fan brush illustrating a brightening system",
+    image: "/images/optimized/treatments/skin-support/products/mccm-brightening-studio.webp",
+    imageAlt: "MCCM Glutathione Peeling professional product bottle",
     classification: "Non-doctor treatment under clinic assessment procedures",
     assessment: "Area, sensitivity, recent procedures, and product use must be reviewed.",
     branches: "Proposed for Naga and Daet after exact stock verification",
@@ -220,36 +222,43 @@ export const skinSupportContent: ReadonlyArray<SkinSupportContent> = [
   ...[
     {
       slug: "rejuran-h",
+      brand: "Rejuran" as const,
       positioning:
         "A proposed doctor-only polynucleotide skin-support service awaiting Philippine authorization review.",
       focus: "overall skin quality",
-      image: "/images/optimized/treatments/skin-support/product-verification-editorial.webp",
+      image: "/images/optimized/treatments/skin-support/products/rejuran-healer-studio.webp",
+      imageAlt: "Rejuran Healer black and silver product box",
       related: "/skin-education/rejuran-healer-guide",
       relatedLabel: "Read the Rejuran Healer review draft",
     },
     {
       slug: "rejuran-eye",
+      brand: "Rejuran" as const,
       positioning:
         "A proposed doctor-only eye-area polynucleotide service awaiting Philippine authorization review.",
       focus: "the eye-contour area",
-      image: "/images/optimized/treatments/skin-support/product-verification-editorial.webp",
+      image: "/images/optimized/treatments/skin-support/products/rejuran-eye-studio.webp",
+      imageAlt: "Rejuran I silver product box and syringe",
       related: "/skin-education/rejuran-eye-guide",
       relatedLabel: "Read the Rejuran Eye review draft",
     },
     {
       slug: "rejuran-scar",
+      brand: "Rejuran" as const,
       positioning:
         "A proposed doctor-only scar-focused polynucleotide service awaiting Philippine authorization review.",
       focus: "selected scar and texture concerns",
-      image: "/images/optimized/treatments/skin-support/product-verification-editorial.webp",
+      image: "/images/optimized/treatments/skin-support/products/rejuran-s-studio.webp",
+      imageAlt: "Rejuran S blue and silver product box",
       related: "/skin-education/rejuran-s-guide",
       relatedLabel: "Read the Rejuran S review draft",
     },
   ].map((item): SkinSupportContent => ({
     slug: item.slug,
+    brand: item.brand,
     positioning: item.positioning,
     image: item.image,
-    imageAlt: "Clinician reviewing blank unbranded packaging before a proposed treatment",
+    imageAlt: item.imageAlt,
     classification: "Doctor-administered only, if lawfully supplied and authorized",
     assessment:
       "Doctor consultation, history review, suitability assessment, and informed consent required.",

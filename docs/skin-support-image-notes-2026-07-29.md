@@ -18,3 +18,23 @@ below 112 KB each.
 
 Before production, ESCLARE may replace an editorial visual with an authorized official product
 image only after verifying product match, usage rights, source, and current local authorization.
+
+## Owner-Provided Product Pictorial Set
+
+On 29 July 2026, the owner supplied separate packaging references for all six products. Edited
+outputs preserve the visible product identity while standardizing the set to a warm-ivory, 4:3
+studio presentation. Source files remain outside the repository; optimized WebP derivatives are
+stored under `public/images/optimized/treatments/skin-support/products/`.
+
+| Website asset                   | Owner-identified product  | Use limitation                                                                      |
+| ------------------------------- | ------------------------- | ----------------------------------------------------------------------------------- |
+| `mccm-exosome-pdrn-studio.webp` | MCCM Exosome PDRN         | Product-identification visual only; does not establish route or authorization.      |
+| `mccm-eye-contour-studio.webp`  | MCCM Out Contour Cocktail | Product-identification visual only; exact Philippine record remains unverified.     |
+| `mccm-brightening-studio.webp`  | MCCM Glutathione Peeling  | Product-identification visual only; notification does not cover a full clinic plan. |
+| `rejuran-healer-studio.webp`    | Rejuran Healer            | Review-only visual; exact Philippine authorization remains unverified.              |
+| `rejuran-eye-studio.webp`       | Rejuran I / Eye           | Review-only visual; exact Philippine authorization remains unverified.              |
+| `rejuran-s-studio.webp`         | Rejuran S                 | Review-only visual; exact Philippine authorization remains unverified.              |
+
+No certificate, regulatory seal, outcome claim, or clinic endorsement was added. Product
+photography does not replace documentary stock, supplier, lot, expiry, route, or authorization
+checks.

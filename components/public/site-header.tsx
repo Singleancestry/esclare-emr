@@ -7,6 +7,7 @@ import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BranchSelector } from "@/components/public/branch-selector";
+import { treatmentNavigationItems } from "@/lib/services/treatment-navigation";
 
 const links = [
   ["Home", "/home"],
@@ -17,15 +18,6 @@ const links = [
   ["Aftercare", "/aftercare"],
   ["FAQ", "/faq"],
   ["Contact", "/contact"],
-] as const;
-
-const skinSupportLinks = [
-  ["MCCM Exosome PDRN", "/treatments/mccm-exosome-pdrn"],
-  ["MCCM Eye Contour", "/treatments/mccm-eye-contour"],
-  ["MCCM Brightening System", "/treatments/mccm-brightening-system"],
-  ["Rejuran Healer", "/treatments/rejuran-h"],
-  ["Rejuran I / Eye", "/treatments/rejuran-eye"],
-  ["Rejuran S", "/treatments/rejuran-scar"],
 ] as const;
 
 export function SiteHeader() {
@@ -101,7 +93,10 @@ export function SiteHeader() {
               className="h-10 w-auto object-contain sm:h-12"
             />
           </Link>
-          <nav aria-label="Main navigation" className="hidden items-center gap-4 xl:flex 2xl:gap-5">
+          <nav
+            aria-label="Main navigation"
+            className="hidden items-center gap-4 2xl:flex 2xl:gap-5"
+          >
             <details className="group relative">
               <summary className="public-link flex min-h-11 cursor-pointer list-none items-center gap-1 py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold text-[#43201E] marker:hidden">
                 Treatments{" "}
@@ -112,22 +107,13 @@ export function SiteHeader() {
                 />
               </summary>
               <div className="absolute left-0 top-full w-80 border border-[#D6B078]/45 bg-[#FAF4EC] p-3 shadow-[0_18px_45px_rgba(59,13,20,0.14)]">
-                <Link
-                  href="/treatments"
-                  className="block min-h-11 border-b border-[#D6B078]/35 px-3 py-3 font-semibold text-[#59141D]"
-                >
-                  All treatments
-                </Link>
-                <p className="px-3 pb-2 pt-4 text-xs font-bold uppercase text-[#765A44]">
-                  Skin Support
-                </p>
-                {skinSupportLinks.map(([label, href]) => (
+                {treatmentNavigationItems.map((item, index) => (
                   <Link
-                    key={href}
-                    href={href as Route}
-                    className="block min-h-11 px-3 py-3 text-sm text-[#43201E] hover:bg-white focus-visible:bg-white"
+                    key={item.href}
+                    href={item.href as Route}
+                    className={`block min-h-11 px-3 py-3 text-sm text-[#43201E] hover:bg-white focus-visible:bg-white ${index === 0 ? "border-b border-[#D6B078]/35 font-semibold text-[#59141D]" : ""}`}
                   >
-                    {label}
+                    {item.label}
                   </Link>
                 ))}
               </div>
@@ -162,7 +148,7 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen((value) => !value)}
-            className="grid size-11 place-items-center rounded-lg border border-[#D6B078]/65 text-[#59141D] xl:hidden"
+            className="grid size-11 place-items-center rounded-lg border border-[#D6B078]/65 text-[#59141D] 2xl:hidden"
           >
             {open ? <X size={21} /> : <Menu size={21} />}
           </button>
@@ -174,7 +160,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="fixed inset-x-0 bottom-0 top-[76px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 xl:hidden"
+          className="fixed inset-x-0 bottom-0 top-[76px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 2xl:hidden"
         >
           <nav
             id="mobile-navigation"
@@ -190,23 +176,15 @@ export function SiteHeader() {
               <span>Home</span>
               <span className="font-sans text-[10px] text-[#B98A4D]">01</span>
             </Link>
-            <Link
-              href="/treatments"
-              onClick={closeMenu}
-              className="flex min-h-14 items-center justify-between border-b border-[#D6B078]/35 py-4 font-serif text-2xl text-[#59141D]"
-            >
-              <span>Treatments</span>
-              <span className="font-sans text-[10px] text-[#B98A4D]">02</span>
-            </Link>
-            <p className="pb-2 pt-6 text-xs font-bold uppercase text-[#765A44]">Skin Support</p>
-            {skinSupportLinks.map(([label, href]) => (
+            <p className="pb-2 pt-6 text-xs font-bold uppercase text-[#765A44]">Treatments</p>
+            {treatmentNavigationItems.map((item) => (
               <Link
-                key={href}
-                href={href as Route}
+                key={item.href}
+                href={item.href as Route}
                 onClick={closeMenu}
                 className="flex min-h-12 items-center border-b border-[#D6B078]/25 py-3 pl-4 text-base font-semibold text-[#59141D]"
               >
-                {label}
+                {item.label}
               </Link>
             ))}
             {links.slice(1).map(([label, href], index) => (

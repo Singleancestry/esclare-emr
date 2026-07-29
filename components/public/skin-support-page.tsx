@@ -29,7 +29,7 @@ export function SkinSupportPage({
           <nav aria-label="Breadcrumb" className="text-xs text-[#765A44]">
             <Link href="/home">Home</Link> <span aria-hidden="true">/</span>{" "}
             <Link href="/treatments">Treatments</Link> <span aria-hidden="true">/</span>{" "}
-            <Link href="/treatments#skin-support">Skin Support</Link>{" "}
+            <Link href="/treatments/skin-support">Skin Support</Link>{" "}
             <span aria-hidden="true">/</span> <span aria-current="page">{treatment.name}</span>
           </nav>
           <div className="mt-8 grid gap-9 lg:grid-cols-[0.56fr_0.44fr] lg:items-center">
@@ -191,6 +191,27 @@ export function SkinSupportPage({
             {content.relatedEducation.label}
             <ArrowRight size={16} aria-hidden="true" />
           </Link>
+        </div>
+      </section>
+
+      <section className="border-y border-[#D8C9B4] bg-[#F4E8DA] py-14 sm:py-20">
+        <div className="public-container">
+          <p className="public-eyebrow">Continue browsing</p>
+          <div className="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="public-subheading">Related Skin Support products</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#62595C]">
+                Compare the MCCM and Rejuran groups while keeping each product&apos;s review status
+                and route distinct.
+              </p>
+            </div>
+            <Link
+              href="/treatments/skin-support"
+              className="public-link inline-flex min-h-11 shrink-0 items-center gap-2 font-semibold text-[#59141D]"
+            >
+              View Skin Support collection <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 

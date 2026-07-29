@@ -101,6 +101,69 @@ test("all Skin Support review pages render and remain non-bookable", async ({ pa
   }
 });
 
+test("Treatments navigation exposes categories while Skin Support owns product links", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.goto("/home");
+  const treatmentsMenu = page.locator("header details").filter({ hasText: "Treatments" });
+  await treatmentsMenu.locator("summary").click();
+  const expectedCategories = [
+    "All Treatments",
+    "Facial",
+    "Laser Brightening / Laser Treatments",
+    "4D Diode",
+    "Lifting",
+    "Doctor Procedures",
+    "Wellness",
+    "Skin Support",
+  ];
+  for (const category of expectedCategories) {
+    await expect(treatmentsMenu.getByRole("link", { name: category, exact: true })).toBeVisible();
+  }
+  await expect(treatmentsMenu.getByRole("link", { name: /MCCM|Rejuran/ })).toHaveCount(0);
+
+  await treatmentsMenu.getByRole("link", { name: "Skin Support", exact: true }).click();
+  await expect(page).toHaveURL(/\/treatments\/skin-support$/);
+  await expect(page.getByRole("heading", { name: "MCCM Skin Support" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Rejuran Skin Support" })).toBeVisible();
+  await expect(page.getByRole("article")).toHaveCount(6);
+});
+
+test("Skin Support product photos and nested aliases resolve correctly", async ({ page }) => {
+  await page.goto("/treatments/skin-support");
+  const expectedAltText = [
+    "MCCM Exosome PDRN professional-use box and amber vial",
+    "MCCM Out Contour Cocktail box and amber vial",
+    "MCCM Glutathione Peeling professional product bottle",
+    "Rejuran Healer black and silver product box",
+    "Rejuran I silver product box and syringe",
+    "Rejuran S blue and silver product box",
+  ];
+  for (const alt of expectedAltText) {
+    await expect(page.getByRole("img", { name: alt })).toBeVisible();
+  }
+
+  await page.goto("/treatments/skin-support/rejuran-s");
+  await expect(page).toHaveURL(/\/treatments\/rejuran-scar$/);
+  await expect(page.getByRole("heading", { name: "Rejuran S" })).toBeVisible();
+});
+
+test("mobile Treatments menu keeps the eight categories touch-friendly", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/home");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  const menu = page.getByRole("dialog", { name: "Site navigation" });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole("link", { name: "Skin Support", exact: true })).toBeVisible();
+  await expect(menu.getByRole("link", { name: /MCCM|Rejuran/ })).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await menu.getByRole("link", { name: "Skin Support", exact: true }).click();
+  await expect(page).toHaveURL(/\/treatments\/skin-support$/);
+});
+
 test("package terms expose the legal-review warning and printable acknowledgment", async ({
   page,
 }) => {

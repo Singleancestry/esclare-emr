@@ -81,20 +81,20 @@ test("treatment gallery filters verified media and preserves booking selection",
     }),
   ).toBeVisible();
 
-  await page.getByRole("tab", { name: "MCCM Exosome PDRN" }).click();
+  await page.getByRole("tab", { name: "Skin Support" }).click();
   await expect(
     page.getByRole("img", {
-      name: "Unbranded amber ampoules and clean towels illustrating topical hydration care",
+      name: "MCCM Exosome PDRN professional-use box and amber vial",
     }),
   ).toBeVisible();
   await page
     .getByRole("button", {
-      name: "Open MCCM Exosome PDRN image: Topical hydration treatment concept",
+      name: "Open Skin Support image: MCCM Exosome PDRN product review",
     })
     .click();
-  await expect(page.getByRole("dialog", { name: "MCCM Exosome PDRN image viewer" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Skin Support image viewer" })).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "MCCM Exosome PDRN image viewer" })).toBeHidden();
+  await expect(page.getByRole("dialog", { name: "Skin Support image viewer" })).toBeHidden();
 
   await expect(page.getByRole("link", { name: "Book this treatment" })).toHaveCount(0);
 });

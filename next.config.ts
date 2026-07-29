@@ -69,6 +69,40 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/treatments/skin-support/mccm-exosome-pdrn",
+        destination: "/treatments/mccm-exosome-pdrn",
+        permanent: true,
+      },
+      {
+        source: "/treatments/skin-support/mccm-eye-contour",
+        destination: "/treatments/mccm-eye-contour",
+        permanent: true,
+      },
+      {
+        source: "/treatments/skin-support/mccm-brightening-system",
+        destination: "/treatments/mccm-brightening-system",
+        permanent: true,
+      },
+      {
+        source: "/treatments/skin-support/rejuran-healer",
+        destination: "/treatments/rejuran-h",
+        permanent: true,
+      },
+      {
+        source: "/treatments/skin-support/rejuran-eye",
+        destination: "/treatments/rejuran-eye",
+        permanent: true,
+      },
+      {
+        source: "/treatments/skin-support/rejuran-s",
+        destination: "/treatments/rejuran-scar",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       ...privatePageRoutes.map((source) => ({

@@ -8,6 +8,7 @@ const routes = [
   "/contact",
   "/skin-education",
   "/treatments/mccm-exosome-pdrn",
+  "/treatments/skin-support",
   "/branches/naga",
   "/package-terms",
 ] as const;

@@ -259,7 +259,7 @@ export const treatments: ReadonlyArray<Treatment> = [
   },
   {
     slug: "rejuran-eye",
-    name: "Rejuran I / Eye",
+    name: "Rejuran Eye",
     category: "Skin Support",
     summary:
       "A doctor-only eye-area polynucleotide treatment concept under regulatory and product-source review for ESCLARE.",
@@ -307,7 +307,7 @@ export const treatments: ReadonlyArray<Treatment> = [
   },
   {
     slug: "mccm-eye-contour",
-    name: "MCCM Eye Rejuvenation / Eye Contour",
+    name: "MCCM Eye Contour",
     category: "Skin Support",
     summary:
       "A topical professional eye-contour treatment that ESCLARE proposes to place under doctor assessment and administration policy.",

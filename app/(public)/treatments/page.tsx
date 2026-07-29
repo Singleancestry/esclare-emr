@@ -8,9 +8,9 @@ import {
   catalogEffectiveDate,
   diodePackages,
   formatTreatmentPrice,
-  treatmentCategories,
   treatments,
 } from "@/lib/services/catalog";
+import { treatmentNavigationItems } from "@/lib/services/treatment-navigation";
 
 export const metadata: Metadata = {
   title: "Treatments & Prices",
@@ -24,6 +24,10 @@ const php = new Intl.NumberFormat("en-PH", {
   currency: "PHP",
   maximumFractionDigits: 0,
 });
+
+const orderedTreatmentCategories = treatmentNavigationItems.flatMap((item) =>
+  item.catalogCategory ? [item.catalogCategory] : [],
+);
 
 export default function TreatmentsPage() {
   return (
@@ -57,21 +61,15 @@ export default function TreatmentsPage() {
         className="public-scrollbar-hide sticky top-[72px] z-30 overflow-x-auto border-b border-[#D8C9B4] bg-[#FBF8F2]/95 backdrop-blur-xl"
       >
         <div className="public-container flex min-w-max gap-6 py-4">
-          {treatmentCategories.map((category) => (
+          {treatmentNavigationItems.slice(1).map((item) => (
             <a
-              key={category}
-              href={`#${category.replaceAll(" ", "-").toLowerCase()}`}
+              key={item.href}
+              href={item.href}
               className="public-link pb-1 text-xs font-bold uppercase tracking-[0.06em] text-[#5B1830]"
             >
-              {category}
+              {item.label}
             </a>
           ))}
-          <a
-            href="#4d-diode-packages"
-            className="public-link pb-1 text-xs font-bold uppercase tracking-[0.06em] text-[#5B1830]"
-          >
-            4D Diode
-          </a>
         </div>
       </nav>
 
@@ -126,9 +124,12 @@ export default function TreatmentsPage() {
       </section>
 
       <div className="public-container py-16 sm:py-24">
-        {treatmentCategories.map((category, categoryIndex) => {
+        {orderedTreatmentCategories.map((category, categoryIndex) => {
           const items = treatments.filter((item) => item.public && item.category === category);
           const sectionId = category.replaceAll(" ", "-").toLowerCase();
+          const categoryLabel =
+            treatmentNavigationItems.find((item) => item.catalogCategory === category)?.label ??
+            category;
           return (
             <section
               key={category}
@@ -140,11 +141,19 @@ export default function TreatmentsPage() {
                 <div data-reveal>
                   <p className="public-eyebrow">{String(categoryIndex + 1).padStart(2, "0")}</p>
                   <h2 id={`heading-${categoryIndex}`} className="mt-3 text-3xl text-[#481827]">
-                    {category}
+                    {categoryLabel}
                   </h2>
                   <p className="mt-3 text-sm text-[#746A6D]">
                     {items.length} {items.length === 1 ? "treatment" : "treatments"}
                   </p>
+                  {category === "Skin Support" && (
+                    <Link
+                      href="/treatments/skin-support"
+                      className="public-link mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#6F263D]"
+                    >
+                      Browse MCCM and Rejuran groups <ArrowRight size={14} aria-hidden="true" />
+                    </Link>
+                  )}
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {items.map((item) => (

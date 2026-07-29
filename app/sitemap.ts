@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "/home",
     "/treatments",
+    "/treatments/skin-support",
     "/glp-1-slimming",
     "/skin-education",
     "/diode-laser",
