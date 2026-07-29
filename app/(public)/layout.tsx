@@ -22,7 +22,8 @@ const organizationSchema = {
     },
     {
       "@type": ["MedicalClinic", "HealthAndBeautyBusiness"],
-      "@id": `${siteUrl}/branches#naga`,
+      "@id": `${siteUrl}/branches/naga#clinic`,
+      url: `${siteUrl}/branches/naga`,
       parentOrganization: { "@id": `${siteUrl}/#organization` },
       name: "ESCLARE Naga",
       telephone: "+639207351379",

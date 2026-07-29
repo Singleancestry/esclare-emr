@@ -100,6 +100,7 @@ export default function DaetBranchPage() {
               <Clock3 className="text-[#9A7740]" size={20} />
               <h3 className="mt-5 font-sans text-sm font-bold text-[#481827]">Opening hours</h3>
               <p className="mt-2 text-sm leading-6 text-[#62595C]">{daet.schedule}</p>
+              <p className="mt-3 text-xs leading-6 text-[#71686B]">{daet.doctorSchedule}</p>
             </div>
             <div className="bg-[#FBF8F2] p-6">
               <Phone className="text-[#9A7740]" size={20} />
@@ -134,10 +135,11 @@ export default function DaetBranchPage() {
               Daet treatment availability
             </p>
             <h2 className="mt-3 text-3xl text-white">
-              All listed treatments except Fractional Laser.
+              Approved, bookable treatments except Fractional Laser.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[#E7DAD2]">
-              Treatments remain subject to doctor, staff, room, and equipment availability.
+              Regulatory-review pages are not bookable. Other treatments remain subject to doctor,
+              staff, room, and equipment confirmation.
             </p>
           </div>
           <Link href="/treatments" className="luxury-button-light">

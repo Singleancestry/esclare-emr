@@ -7,6 +7,9 @@ const routes = [
   "/appointment-request",
   "/contact",
   "/skin-education",
+  "/treatments/mccm-exosome-pdrn",
+  "/branches/naga",
+  "/package-terms",
 ] as const;
 
 const viewports = [

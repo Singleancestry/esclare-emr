@@ -63,7 +63,9 @@ test("Daet branch page uses authentic photography and accurate details", async (
     }),
   ).toBeVisible();
   await expect(page.getByText("Tuesday-Sunday, 9:30 AM-6:00 PM")).toBeVisible();
-  await expect(page.getByText("All listed treatments except Fractional Laser.")).toBeVisible();
+  await expect(
+    page.getByText("Approved, bookable treatments except Fractional Laser."),
+  ).toBeVisible();
 });
 
 test("treatment gallery filters verified media and preserves booking selection", async ({
@@ -79,21 +81,22 @@ test("treatment gallery filters verified media and preserves booking selection",
     }),
   ).toBeVisible();
 
-  await page.getByRole("tab", { name: "MCCM PDRN Glow" }).click();
+  await page.getByRole("tab", { name: "MCCM Exosome PDRN" }).click();
   await expect(
     page.getByRole("img", {
-      name: "MCCM PDRN professional-use vial and packaging on a neutral display",
+      name: "Unbranded amber ampoules and clean towels illustrating topical hydration care",
     }),
   ).toBeVisible();
   await page
-    .getByRole("button", { name: "Open MCCM PDRN Glow image: MCCM PDRN professional formula" })
+    .getByRole("button", {
+      name: "Open MCCM Exosome PDRN image: Topical hydration treatment concept",
+    })
     .click();
-  await expect(page.getByRole("dialog", { name: "MCCM PDRN Glow image viewer" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "MCCM Exosome PDRN image viewer" })).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "MCCM PDRN Glow image viewer" })).toBeHidden();
+  await expect(page.getByRole("dialog", { name: "MCCM Exosome PDRN image viewer" })).toBeHidden();
 
-  await page.getByRole("link", { name: "Book this treatment" }).click();
-  await expect(page.getByRole("combobox", { name: "Treatment Optional" })).toHaveValue("mccm-pdrn");
+  await expect(page.getByRole("link", { name: "Book this treatment" })).toHaveCount(0);
 });
 
 test("premium homepage respects reduced motion", async ({ page }) => {

@@ -26,7 +26,16 @@ const noStorePageHeaders = [
     key: "Cache-Control",
     value: "private, no-store, no-cache, must-revalidate, max-age=0",
   },
+  {
+    key: "X-Robots-Tag",
+    value: "noindex, nofollow, noarchive",
+  },
 ];
+
+const previewPageHeaders =
+  process.env.VERCEL_ENV === "preview"
+    ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }]
+    : [];
 
 const privatePageRoutes = [
   "/login",
@@ -82,6 +91,7 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         headers: [
+          ...previewPageHeaders,
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-DNS-Prefetch-Control", value: "off" },

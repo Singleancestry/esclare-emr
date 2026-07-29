@@ -14,15 +14,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/gallery",
     "/appointment-request",
     "/branches",
+    "/branches/naga",
     "/branches/daet",
     "/about",
     "/faq",
     "/contact",
     "/privacy",
     "/terms",
+    "/package-terms",
   ];
   const treatmentPaths = treatments
-    .filter((treatment) => treatment.public)
+    .filter((treatment) => treatment.public && treatment.publicationStatus !== "regulatory-review")
     .map((treatment) => `/treatments/${treatment.slug}`);
   const educationCategoryPaths = educationCategories.map(
     (category) => `/skin-education/category/${category.slug}`,

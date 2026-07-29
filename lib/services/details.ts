@@ -48,7 +48,6 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
     "Uneven texture",
     "Selected pigmentation and fine lines",
   ],
-  "mccm-pdrn": ["Dullness", "Dehydration", "Eye-area dryness", "Uneven-looking texture"],
   "glp-1-slimming": [
     "Medically guided appetite regulation",
     "Structured weight-management goals",

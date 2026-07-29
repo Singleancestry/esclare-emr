@@ -55,6 +55,14 @@ export const appointmentRequestSchema = z
       });
     }
 
+    if (treatment?.publicationStatus === "regulatory-review") {
+      context.addIssue({
+        code: "custom",
+        path: ["treatmentSlug"],
+        message: "This treatment is not open for booking while verification is in progress.",
+      });
+    }
+
     if (treatment && !isTreatmentAvailable(value.branchCode as BranchCode, treatment.name)) {
       context.addIssue({
         code: "custom",

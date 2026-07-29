@@ -17,7 +17,10 @@ export default async function AppointmentRequestPage({
   const { branch, treatment } = await searchParams;
   const initialBranch = branch === "daet" ? "daet" : "naga";
   const initialTreatment =
-    typeof treatment === "string" && treatments.some((item) => item.slug === treatment)
+    typeof treatment === "string" &&
+    treatments.some(
+      (item) => item.slug === treatment && item.publicationStatus !== "regulatory-review",
+    )
       ? treatment
       : "";
   return (

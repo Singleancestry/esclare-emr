@@ -12,6 +12,7 @@ export type Treatment = {
   displayPrice?: string;
   doctorRequired: boolean;
   public: boolean;
+  publicationStatus?: "approved" | "regulatory-review";
 };
 
 export const GLP1_PROGRAM_LABEL = "GLP-1 Slimming — ₱21,500 for a 4-week treatment program";
@@ -246,33 +247,39 @@ export const treatments: ReadonlyArray<Treatment> = [
   },
   {
     slug: "rejuran-h",
-    name: "Rejuran H / Healer",
-    category: "Doctor Procedures",
-    summary: "Doctor-assessed skin-rejuvenation procedure.",
+    name: "Rejuran Healer",
+    category: "Skin Support",
+    summary:
+      "A doctor-only polynucleotide treatment concept under regulatory and product-source review for ESCLARE.",
     priceKind: "fixed",
     priceMin: 25000,
     doctorRequired: true,
     public: true,
+    publicationStatus: "regulatory-review",
   },
   {
     slug: "rejuran-eye",
     name: "Rejuran I / Eye",
-    category: "Doctor Procedures",
-    summary: "Doctor-assessed eye rejuvenation procedure.",
+    category: "Skin Support",
+    summary:
+      "A doctor-only eye-area polynucleotide treatment concept under regulatory and product-source review for ESCLARE.",
     priceKind: "fixed",
     priceMin: 15000,
     doctorRequired: true,
     public: true,
+    publicationStatus: "regulatory-review",
   },
   {
     slug: "rejuran-scar",
-    name: "Rejuran S / Scar",
-    category: "Doctor Procedures",
-    summary: "Doctor-assessed procedure for acne-scar and texture concerns.",
+    name: "Rejuran S",
+    category: "Skin Support",
+    summary:
+      "A doctor-only scar-focused polynucleotide treatment concept under regulatory and product-source review for ESCLARE.",
     priceKind: "fixed",
     priceMin: 15000,
     doctorRequired: true,
     public: true,
+    publicationStatus: "regulatory-review",
   },
   {
     slug: "fractional-laser",
@@ -286,16 +293,43 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
-    slug: "mccm-pdrn",
-    name: "MCCM PDRN Glow & Eye Rejuvenation",
+    slug: "mccm-exosome-pdrn",
+    name: "MCCM Exosome PDRN",
     category: "Skin Support",
     summary:
-      "Professional brightening, hydration and eye-contour treatment using MCCM Glutathione Peeling, PDRN and Out Contour Cocktail.",
-    priceKind: "fixed",
-    priceMin: 3800,
+      "A topical professional skin-support treatment positioned by MCCM for hydration, smoothness and a plumper-looking finish.",
+    priceKind: "starts_at",
+    priceMin: 4000,
     unit: "session",
     doctorRequired: false,
     public: true,
+    publicationStatus: "regulatory-review",
+  },
+  {
+    slug: "mccm-eye-contour",
+    name: "MCCM Eye Rejuvenation / Eye Contour",
+    category: "Skin Support",
+    summary:
+      "A topical professional eye-contour treatment that ESCLARE proposes to place under doctor assessment and administration policy.",
+    priceKind: "fixed",
+    priceMin: 3800,
+    unit: "session",
+    doctorRequired: true,
+    public: true,
+    publicationStatus: "regulatory-review",
+  },
+  {
+    slug: "mccm-brightening-system",
+    name: "MCCM Brightening System",
+    category: "Skin Support",
+    summary:
+      "A multi-step professional brightening plan built around a verified MCCM peel, with final treatment area and supporting steps confirmed after assessment.",
+    priceKind: "starts_at",
+    priceMin: 5000,
+    unit: "session",
+    doctorRequired: false,
+    public: true,
+    publicationStatus: "regulatory-review",
   },
   {
     slug: "glp-1-slimming",
@@ -339,7 +373,7 @@ export const treatments: ReadonlyArray<Treatment> = [
     summary:
       "Licensed-doctor procedure. Medicine is not included; age and care requirements may affect the total.",
     priceKind: "starts_at",
-    priceMin: 3999,
+    priceMin: 5000,
     doctorRequired: true,
     public: true,
   },

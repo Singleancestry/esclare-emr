@@ -75,11 +75,11 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
       "Complete removal cannot be promised. Different scar types respond differently to peels, lasers, skin-support procedures and doctor-led care. Assessment is needed to set a realistic plan and discuss expected improvement.",
   },
   {
-    id: "mccm-pdrn",
+    id: "mccm-exosome-pdrn",
     category: "Facials & Skin",
-    question: "What is MCCM PDRN Glow & Eye Rejuvenation?",
+    question: "What is MCCM Exosome PDRN?",
     answer:
-      "It is a professional brightening, hydration and eye-contour protocol using MCCM Glutathione Peeling, PDRN and Out Contour Cocktail. It is priced at PHP 3,800 per session and is selected after a skin assessment.",
+      "MCCM describes Exosome PDRN as a topical professional cosmetic product positioned for hydration, smoothness and a plumper-looking finish. ESCLARE lists it from PHP 4,000 per session, but booking remains closed until the clinic matches its exact stock to the current Philippine notification record.",
   },
   {
     id: "exosomes",
@@ -162,7 +162,7 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
     category: "HIFU & Doctor-Led",
     question: "When are doctor-required treatments available?",
     answer:
-      "Doctor-required consultations and treatments are scheduled on Saturdays from 1:00 PM to 5:00 PM, subject to doctor and branch confirmation. An appointment request is not a confirmed slot.",
+      "At Naga, doctor-required services are scheduled on Saturdays from 1:00 PM to 5:00 PM and may extend only for confirmed bookings and doctor availability. At Daet, doctor services may be requested Monday-Friday and Sunday, subject to the confirmed doctor schedule; no fixed end time is advertised. A request is not a confirmed slot.",
   },
   {
     id: "booking-confirmation",
@@ -183,7 +183,7 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
     category: "Visits & Aftercare",
     question: "Are all treatments available in Naga and Daet?",
     answer:
-      "Naga offers all listed treatments subject to provider availability. Daet offers all listed treatments except Fractional Laser. Doctor-led and device-based services still require schedule confirmation.",
+      "Naga offers approved, bookable treatments subject to provider availability. Daet offers approved, bookable treatments except Fractional Laser. Pages marked regulatory review are informational previews and are not available for booking. Doctor-led and device-based services still require schedule confirmation.",
   },
   {
     id: "cancel-reschedule",

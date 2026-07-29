@@ -98,7 +98,7 @@ const faqPreview = [
   ],
   [
     "Are all treatments available at both branches?",
-    "Naga offers all listed treatments subject to staff or doctor availability. Daet offers all except Fractional Laser.",
+    "Naga offers approved, bookable treatments subject to staff or doctor availability. Daet offers approved, bookable treatments except Fractional Laser. Regulatory-review pages are not available for booking.",
   ],
   [
     "How early should I reschedule?",
@@ -389,7 +389,7 @@ export default function PublicHomePage() {
               {
                 name: "Naga City",
                 image: branchHeroImages.naga,
-                href: "/branches",
+                href: "/branches/naga",
                 detail: "Daily, 10:00 AM-7:00 PM",
               },
               {

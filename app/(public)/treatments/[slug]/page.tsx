@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Stethoscope } from "lucide-react";
+import { SkinSupportPage } from "@/components/public/skin-support-page";
 import { formatTreatmentPrice, treatments } from "@/lib/services/catalog";
 import { getTreatmentDetail } from "@/lib/services/details";
+import { getSkinSupportContent } from "@/lib/services/skin-support";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -21,6 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: treatment.name,
     description: `${treatment.summary} Learn what to expect, treatment timing, suitability, beforecare, aftercare, and consultation requirements.`,
     alternates: { canonical: `/treatments/${treatment.slug}` },
+    robots:
+      treatment.publicationStatus === "regulatory-review"
+        ? { index: false, follow: false, noarchive: true }
+        : undefined,
   };
 }
 
@@ -28,6 +34,8 @@ export default async function TreatmentDetailPage({ params }: Props) {
   const { slug } = await params;
   const treatment = treatments.find((item) => item.slug === slug && item.public);
   if (!treatment) notFound();
+  const skinSupport = getSkinSupportContent(slug);
+  if (skinSupport) return <SkinSupportPage treatment={treatment} content={skinSupport} />;
   const detail = getTreatmentDetail(treatment);
 
   return (

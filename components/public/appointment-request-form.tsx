@@ -50,7 +50,9 @@ export function AppointmentRequestForm({
     ? getBranch(state.submittedBranchCode)
     : selectedBranch;
   const availableTreatments = treatments.filter(
-    (item) => !selectedBranch.unavailableTreatments.includes(item.name),
+    (item) =>
+      item.publicationStatus !== "regulatory-review" &&
+      !selectedBranch.unavailableTreatments.includes(item.name),
   );
   const prepared = state.status === "saved" || state.status === "prepared";
   const error = state.status === "error" ? state.message : null;
@@ -126,6 +128,9 @@ export function AppointmentRequestForm({
                 </option>
               ))}
             </select>
+            <span className="font-normal normal-case tracking-normal text-[#77716A]">
+              {selectedBranch.doctorSchedule}
+            </span>
           </label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[0.05em] text-[#3F1724]">
             Treatment{" "}

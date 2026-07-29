@@ -12,6 +12,7 @@ export type TreatmentGalleryCategory = {
   introduction: string;
   treatmentHref: string;
   bookingSlug: string;
+  bookingAvailable?: boolean;
   images: ReadonlyArray<TreatmentGalleryImage>;
 };
 
@@ -132,32 +133,33 @@ export const treatmentGalleryCategories: ReadonlyArray<TreatmentGalleryCategory>
   },
   {
     id: "mccm",
-    name: "MCCM PDRN Glow",
+    name: "MCCM Exosome PDRN",
     introduction:
-      "A professional brightening, hydration and eye-contour protocol using selected MCCM formulations after a skin assessment.",
+      "A topical professional skin-support product positioned by MCCM for hydration, smoothness and a plumper-looking finish.",
     treatmentHref: "/treatments#skin-support",
-    bookingSlug: "mccm-pdrn",
+    bookingSlug: "",
+    bookingAvailable: false,
     images: [
       {
-        src: "/images/optimized/treatments/mccm/mccm-pdrn-hero.webp",
-        alt: "MCCM PDRN professional-use vial and packaging on a neutral display",
-        caption: "MCCM PDRN professional formula",
-        width: 1536,
-        height: 1024,
+        src: "/images/optimized/treatments/skin-support/skin-hydration-editorial.webp",
+        alt: "Unbranded amber ampoules and clean towels illustrating topical hydration care",
+        caption: "Topical hydration treatment concept",
+        width: 1456,
+        height: 1088,
       },
       {
-        src: "/images/optimized/treatments/mccm/mccm-pdrn-detail.webp",
-        alt: "Close view of MCCM PDRN professional-use product packaging",
-        caption: "PDRN product detail",
-        width: 1536,
-        height: 1024,
+        src: "/images/optimized/treatments/skin-support/brightening-system-editorial.webp",
+        alt: "Unbranded topical vessels and fan brush illustrating a brightening system",
+        caption: "Professional brightening system concept",
+        width: 1456,
+        height: 1088,
       },
       {
-        src: "/images/optimized/treatments/mccm/mccm-eye-contour.webp",
-        alt: "MCCM Out Contour professional eye-contour vial and packaging",
-        caption: "Out Contour eye-area formula",
-        width: 1536,
-        height: 1024,
+        src: "/images/optimized/treatments/skin-support/eye-contour-editorial.webp",
+        alt: "Unbranded topical ampoule, mirror, and cotton pads illustrating eye-contour care",
+        caption: "Topical eye-contour treatment concept",
+        width: 1456,
+        height: 1088,
       },
     ],
   },

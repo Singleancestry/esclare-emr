@@ -82,3 +82,35 @@ test("branch selection updates the persistent Messenger destination", async ({ p
     page.getByRole("link", { name: "Chat with ESCLARE Daet on Messenger" }),
   ).toHaveAttribute("href", "https://m.me/110985556908419");
 });
+
+test("all Skin Support review pages render and remain non-bookable", async ({ page }) => {
+  const slugs = [
+    "mccm-exosome-pdrn",
+    "mccm-eye-contour",
+    "mccm-brightening-system",
+    "rejuran-h",
+    "rejuran-eye",
+    "rejuran-scar",
+  ];
+
+  for (const slug of slugs) {
+    await page.goto(`/treatments/${slug}`);
+    await expect(page.getByText(/not available for online booking yet/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /request assessment/i })).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
+  }
+});
+
+test("package terms expose the legal-review warning and printable acknowledgment", async ({
+  page,
+}) => {
+  await page.goto("/package-terms");
+  await expect(
+    page.getByRole("heading", { name: "Treatment Package Terms and Conditions" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/has not been reviewed by a qualified Philippine legal/i),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Package acknowledgment" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
+});

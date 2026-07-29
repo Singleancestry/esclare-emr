@@ -26,7 +26,7 @@ describe("treatment gallery media", () => {
       "pico-face": ["/pico-face/", "/devices/pico/"],
       "diode-underarms": ["/diode/", "/devices/diode-4d/"],
       hifu: ["/hifu/", "/devices/hifu/"],
-      mccm: ["/mccm/"],
+      mccm: ["/skin-support/"],
       "pico-underarms": ["/pico-underarm/"],
       "doctor-led": ["/doctor/"],
     } as const;

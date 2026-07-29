@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-const baseURL = process.env.VALIDATION_BASE_URL ?? "http://127.0.0.1:3000";
+const baseURL =
+  process.env.VALIDATION_BASE_URL ?? process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000";
 const pages = ["/home", "/treatments", "/appointment-request", "/login"];
 const viewports = [
   { name: "android", width: 360, height: 800 },

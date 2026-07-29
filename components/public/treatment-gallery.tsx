@@ -134,14 +134,16 @@ export function TreatmentGallery() {
               <Link href={category.treatmentHref as Route} className="luxury-button-outline">
                 Learn about {category.name} <ArrowRight size={15} />
               </Link>
-              <Link
-                href={
-                  `/appointment-request${category.bookingSlug ? `?treatment=${category.bookingSlug}` : ""}` as Route
-                }
-                className="luxury-button"
-              >
-                <CalendarDays size={16} /> Book this treatment
-              </Link>
+              {category.bookingAvailable !== false && (
+                <Link
+                  href={
+                    `/appointment-request${category.bookingSlug ? `?treatment=${category.bookingSlug}` : ""}` as Route
+                  }
+                  className="luxury-button"
+                >
+                  <CalendarDays size={16} /> Book this treatment
+                </Link>
+              )}
             </div>
           </div>
           {category.images.length ? (

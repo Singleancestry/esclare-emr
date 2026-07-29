@@ -46,6 +46,7 @@ export function SiteFooter() {
             <Link href={"/aftercare" as Route}>Aftercare</Link>
             <Link href="/faq">FAQ</Link>
             <Link href="/appointment-request">Book a consultation</Link>
+            <Link href={"/package-terms" as Route}>Package terms</Link>
             <Link href="/login">Staff access</Link>
           </nav>
         </div>
@@ -75,6 +76,7 @@ export function SiteFooter() {
           <div className="flex gap-5">
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
+            <Link href={"/package-terms" as Route}>Package terms</Link>
           </div>
         </div>
       </div>

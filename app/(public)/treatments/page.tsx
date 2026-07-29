@@ -125,93 +125,6 @@ export default function TreatmentsPage() {
         </div>
       </section>
 
-      <section
-        className="border-y border-[#D8C9B4] bg-white py-16 sm:py-24"
-        aria-labelledby="mccm-detail-heading"
-      >
-        <div className="public-container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:gap-16">
-          <div data-reveal>
-            <p className="public-eyebrow">Professional skin support</p>
-            <h2 id="mccm-detail-heading" className="public-subheading mt-4">
-              MCCM PDRN Glow &amp; Eye Rejuvenation
-            </h2>
-            <p className="mt-3 font-serif text-xl text-[#6F263D]">
-              Brightening, hydration and eye-contour treatment
-            </p>
-            <p className="mt-5 leading-7 text-[#62595C]">
-              This professional facial combines MCCM Glutathione Peeling, PDRN and Out Contour
-              Cocktail to support dull, dehydrated and uneven-looking skin after an individual
-              assessment.
-            </p>
-            <div className="mt-7 rounded-lg border border-[#CFB785] bg-[#F8F1E8] p-6 shadow-[0_12px_28px_rgba(65,30,42,0.07)]">
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7A6542]">
-                Regular price
-              </p>
-              <p className="mt-2 font-serif text-3xl text-[#481827]">
-                PHP 3,800 <span className="font-sans text-sm text-[#62595C]">per session</span>
-              </p>
-            </div>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-3" data-reveal>
-            {[
-              [
-                "Glutathione Peeling",
-                "Gently exfoliates and may improve the appearance of dullness, superficial pigmentation, texture and pores.",
-              ],
-              [
-                "PDRN",
-                "Supports hydration and recovery while helping skin look softer, smoother and refreshed.",
-              ],
-              [
-                "Out Contour Cocktail",
-                "Hydrates the delicate eye area and may improve the appearance of puffiness, dark circles, dryness and fine lines.",
-              ],
-            ].map(([title, copy]) => (
-              <article
-                key={title}
-                className="rounded-lg border border-[#D8C9B4] bg-[#FCFAF6] p-5 shadow-[0_8px_22px_rgba(65,30,42,0.05)]"
-              >
-                <h3 className="text-lg text-[#481827]">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#62595C]">{copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-        <div className="public-container mt-12 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-lg border border-[#D8C9B4] bg-[#FCFAF6] p-6 sm:p-8" data-reveal>
-            <h3 className="text-2xl text-[#481827]">What to expect</h3>
-            <p className="mt-4 text-sm leading-7 text-[#62595C]">
-              Some clients may notice brighter, smoother and more hydrated-looking skin after the
-              first session, with further changes developing over one to two weeks. Results and the
-              appropriate interval vary with skin condition, sensitivity and treatment goals.
-            </p>
-            <p className="mt-4 text-sm leading-7 text-[#62595C]">
-              Temporary redness, sensitivity, tightness, dryness or light peeling may occur. Contact
-              the clinic promptly for severe pain, blistering, significant swelling, signs of
-              infection or a reaction that continues to worsen.
-            </p>
-          </div>
-          <div className="rounded-lg border border-[#D8C9B4] bg-[#FCFAF6] p-6 sm:p-8" data-reveal>
-            <h3 className="text-2xl text-[#481827]">Essential aftercare</h3>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#62595C]">
-              <li>
-                <strong className="text-[#481827]">First 6-8 hours:</strong> keep the area dry;
-                avoid makeup, added skincare, rubbing and scratching.
-              </li>
-              <li>
-                <strong className="text-[#481827]">First 24-72 hours:</strong> use gentle,
-                fragrance-free care and SPF 30-50; minimize sun, heat and heavy sweating.
-              </li>
-              <li>
-                <strong className="text-[#481827]">For 5-7 days:</strong> avoid retinoids,
-                exfoliating acids, scrubs, benzoyl peroxide, waxing, saunas, swimming and intensive
-                facial treatments unless cleared by the clinic.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
       <div className="public-container py-16 sm:py-24">
         {treatmentCategories.map((category, categoryIndex) => {
           const items = treatments.filter((item) => item.public && item.category === category);
@@ -247,6 +160,11 @@ export default function TreatmentsPage() {
                             <Stethoscope size={12} aria-hidden="true" /> Doctor
                           </span>
                         )}
+                        {item.publicationStatus === "regulatory-review" && (
+                          <span className="inline-flex shrink-0 items-center rounded-md bg-[#F7EEDC] px-2 py-1 text-[10px] font-bold uppercase text-[#765A44]">
+                            Review
+                          </span>
+                        )}
                       </div>
                       <p className="mt-4 text-sm leading-7 text-[#625D58]">{item.summary}</p>
                       <div className="mt-7 border-t border-[#E8E0D7] pt-4">
@@ -280,6 +198,12 @@ export default function TreatmentsPage() {
                 rather than permanent removal; the appropriate course and interval vary by area and
                 response.
               </p>
+              <Link
+                href={"/package-terms" as Route}
+                className="public-link mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#6F263D]"
+              >
+                Review treatment-package terms <ArrowRight size={14} aria-hidden="true" />
+              </Link>
               <div className="mt-6 flex gap-3 text-sm leading-6 text-[#625D58]">
                 <CheckCircle2
                   className="mt-0.5 shrink-0 text-[#9A7740]"

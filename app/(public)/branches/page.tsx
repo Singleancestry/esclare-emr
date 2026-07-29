@@ -82,6 +82,9 @@ export default function BranchesPage() {
                     {branch.lastClient && (
                       <p className="mt-2 pl-8 text-xs text-[#71686B]">{branch.lastClient}</p>
                     )}
+                    <p className="mt-3 border-l border-[#B99559] pl-4 text-xs leading-6 text-[#62595C]">
+                      {branch.doctorSchedule}
+                    </p>
                     <a
                       href={`tel:${branch.phoneHref}`}
                       className="mt-7 inline-flex items-center gap-3 text-xl font-semibold text-[#5B1830]"
@@ -94,22 +97,20 @@ export default function BranchesPage() {
                       </p>
                       <p className="mt-2 text-sm leading-6 text-[#62595C]">
                         {branch.unavailableTreatments.length === 0
-                          ? "All listed ESCLARE treatments are available, subject to doctor or staff availability."
-                          : `All listed treatments are available except ${branch.unavailableTreatments.join(", ")}. Other services remain subject to staff availability.`}
+                          ? "Approved, bookable ESCLARE treatments are available subject to doctor or staff confirmation. Regulatory-review pages are not bookable."
+                          : `Approved, bookable treatments are available except ${branch.unavailableTreatments.join(", ")}. Regulatory-review pages are not bookable, and other services remain subject to staff confirmation.`}
                       </p>
                     </div>
                   </div>
                   <div className="mt-10 flex flex-wrap gap-3">
-                    {branch.code === "daet" && (
-                      <Link href={"/branches/daet" as Route} className="luxury-button">
-                        Explore Daet <ArrowRight size={15} />
-                      </Link>
-                    )}
+                    <Link href={`/branches/${branch.code}` as Route} className="luxury-button">
+                      Explore {branch.code === "daet" ? "Daet" : "Naga"} <ArrowRight size={15} />
+                    </Link>
                     <a
                       href={branch.maps}
                       target="_blank"
                       rel="noreferrer"
-                      className={branch.code === "daet" ? "luxury-button-outline" : "luxury-button"}
+                      className="luxury-button-outline"
                     >
                       Directions <ExternalLink size={15} />
                     </a>

@@ -16,7 +16,7 @@ describe("service catalog", () => {
     );
     expect(
       formatTreatmentPrice(treatments.find((item) => item.slug === "laser-circumcision")!),
-    ).toBe("Starts at ₱3,999");
+    ).toBe("Starts at ₱5,000");
   });
 
   it("keeps the GLP-1 program price and duration canonical", () => {
@@ -24,6 +24,21 @@ describe("service catalog", () => {
 
     expect(formatTreatmentPrice(treatment)).toBe(GLP1_PROGRAM_LABEL);
     expect(GLP1_PROGRAM_LABEL).toBe("GLP-1 Slimming — ₱21,500 for a 4-week treatment program");
+  });
+
+  it("keeps all six Skin Support services review-gated with approved preview prices", () => {
+    const skinSupport = treatments.filter((item) => item.category === "Skin Support");
+
+    expect(skinSupport).toHaveLength(6);
+    expect(skinSupport.every((item) => item.publicationStatus === "regulatory-review")).toBe(true);
+    expect(Object.fromEntries(skinSupport.map((item) => [item.slug, item.priceMin]))).toEqual({
+      "mccm-exosome-pdrn": 4000,
+      "mccm-eye-contour": 3800,
+      "mccm-brightening-system": 5000,
+      "rejuran-h": 25000,
+      "rejuran-eye": 15000,
+      "rejuran-scar": 15000,
+    });
   });
 
   it("matches the approved 4D wavelength diode price list exactly", () => {

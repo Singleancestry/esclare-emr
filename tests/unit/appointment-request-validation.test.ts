@@ -58,6 +58,20 @@ describe("public appointment request validation", () => {
       expect(result.error.issues[0]?.message).toContain("is not available at the selected branch");
     }
   });
+
+  it("rejects regulatory-review treatments even when a slug is submitted directly", () => {
+    const result = appointmentRequestSchema.safeParse({
+      fullName: "Sample Client",
+      branchCode: "naga",
+      treatmentSlug: "rejuran-h",
+      preferredDate: futureDate(),
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0]?.message).toContain("not open for booking");
+    }
+  });
 });
 
 describe("appointment request status rules", () => {

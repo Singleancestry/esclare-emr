@@ -13,6 +13,7 @@ export type ClinicBranch = {
   timezone: "Asia/Manila";
   operatingHours: Readonly<Record<number, { opens: number; closes: number } | null>>;
   lastClient?: string;
+  doctorSchedule: string;
   unavailableTreatments: ReadonlyArray<string>;
 };
 
@@ -38,6 +39,8 @@ export const clinicBranches: ReadonlyArray<ClinicBranch> = [
       6: { opens: 10 * 60, closes: 19 * 60 },
     },
     lastClient: "Last client at 6:30 PM",
+    doctorSchedule:
+      "Doctor-required services: Saturday, 1:00 PM-5:00 PM; may extend only for confirmed bookings and doctor availability.",
     unavailableTreatments: [],
   },
   {
@@ -60,6 +63,8 @@ export const clinicBranches: ReadonlyArray<ClinicBranch> = [
       5: { opens: 9 * 60 + 30, closes: 18 * 60 },
       6: { opens: 9 * 60 + 30, closes: 18 * 60 },
     },
+    doctorSchedule:
+      "Doctor-required services: Monday-Friday and Sunday by request, subject to the confirmed doctor schedule; no fixed end time is advertised.",
     unavailableTreatments: ["Fractional Laser and Scar Care"],
   },
 ];

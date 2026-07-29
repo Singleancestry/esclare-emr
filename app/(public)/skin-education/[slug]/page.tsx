@@ -14,9 +14,14 @@ type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
+const editorialPreviewEnabled =
+  process.env.NODE_ENV !== "production" ||
+  process.env.VERCEL_ENV === "preview" ||
+  process.env.ENABLE_EDITORIAL_PREVIEW === "true";
+
 export function generateStaticParams() {
   return educationArticles
-    .filter((article) => article.published || process.env.NODE_ENV !== "production")
+    .filter((article) => article.published || editorialPreviewEnabled)
     .map((article) => ({ slug: article.slug }));
 }
 
@@ -44,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EducationArticlePage({ params }: Props) {
   const { slug } = await params;
   const article = getEducationArticle(slug);
-  if (!article || (!article.published && process.env.NODE_ENV === "production")) notFound();
+  if (!article || (!article.published && !editorialPreviewEnabled)) notFound();
   const category = getEducationCategory(article.category);
   const related = article.relatedArticles
     .map((relatedSlug) => getEducationArticle(relatedSlug))

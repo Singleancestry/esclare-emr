@@ -3,12 +3,16 @@ import "./globals.css";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://127.0.0.1:3000";
+const isPreviewDeployment = process.env.VERCEL_ENV === "preview";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "ESCLARE Aesthetic & Wellness Clinic", template: "%s | ESCLARE" },
   description:
     "Premium aesthetic and wellness care in Naga City and Daet, with thoughtful assessment and clear treatment guidance.",
+  robots: isPreviewDeployment
+    ? { index: false, follow: false, noarchive: true, noimageindex: true }
+    : undefined,
   openGraph: {
     type: "website",
     siteName: "ESCLARE Aesthetic & Wellness Clinic",
