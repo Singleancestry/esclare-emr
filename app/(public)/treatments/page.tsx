@@ -292,6 +292,9 @@ export default function TreatmentsPage() {
             <div
               className="overflow-x-auto rounded-lg border border-[#D8C9B4] bg-white shadow-[0_12px_30px_rgba(65,30,42,0.07)]"
               data-reveal
+              role="region"
+              aria-label="4D diode laser pricing table"
+              tabIndex={0}
             >
               <table className="w-full min-w-[780px] border-collapse text-left text-sm">
                 <thead className="bg-[#5B1830] text-white">
@@ -312,7 +315,7 @@ export default function TreatmentsPage() {
                     >
                       <th className="p-4 font-semibold text-[#481827]">
                         {item.area}
-                        <span className="mt-1 block text-[10px] font-normal uppercase text-[#8A7A6F]">
+                        <span className="mt-1 block text-[10px] font-normal uppercase text-[#6F625A]">
                           {item.category}
                         </span>
                       </th>

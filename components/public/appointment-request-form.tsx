@@ -200,7 +200,7 @@ export function AppointmentRequestForm({
               {error}
             </p>
           )}
-          <p className="text-xs leading-5 text-[#6E6862]">
+          <p className="text-xs leading-5 text-[#5C5651]">
             Preparing this form does not confirm a slot. ESCLARE confirms through Facebook, phone
             call, or SMS.
           </p>
@@ -244,7 +244,7 @@ export function AppointmentRequestForm({
             )}
             <p className="mt-3 text-sm leading-6 text-[#4E4945]">{message}</p>
             {state.message && (
-              <p className="mt-3 text-xs leading-5 text-[#6E6862]">{state.message}</p>
+              <p className="mt-3 text-xs leading-5 text-[#5C5651]">{state.message}</p>
             )}
             <button
               type="button"
@@ -289,7 +289,7 @@ export function AppointmentRequestForm({
             <MessageCircle size={17} /> Send SMS
           </a>
         </div>
-        <p className="mt-6 text-xs leading-5 text-[#6E6862]">
+        <p className="mt-6 text-xs leading-5 text-[#5C5651]">
           No deposit is required. Please give at least 2 hours notice when cancelling or
           rescheduling.
         </p>

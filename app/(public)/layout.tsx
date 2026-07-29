@@ -21,7 +21,7 @@ const organizationSchema = {
       ],
     },
     {
-      "@type": "HealthAndBeautyBusiness",
+      "@type": ["MedicalClinic", "HealthAndBeautyBusiness"],
       "@id": `${siteUrl}/branches#naga`,
       parentOrganization: { "@id": `${siteUrl}/#organization` },
       name: "ESCLARE Naga",
@@ -43,7 +43,7 @@ const organizationSchema = {
       ],
     },
     {
-      "@type": "HealthAndBeautyBusiness",
+      "@type": ["MedicalClinic", "HealthAndBeautyBusiness"],
       "@id": `${siteUrl}/branches/daet#clinic`,
       url: `${siteUrl}/branches/daet`,
       parentOrganization: { "@id": `${siteUrl}/#organization` },

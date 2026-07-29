@@ -167,7 +167,7 @@ export default function PublicHomePage() {
                     </div>
                     <div className="mt-auto grid gap-3 pt-7">
                       <Link href={treatment.href as Route} className="signature-text-link">
-                        Learn more <ArrowRight size={15} />
+                        Learn about {treatment.name} <ArrowRight size={15} />
                       </Link>
                       <Link
                         href={bookingHref as Route}
@@ -318,7 +318,7 @@ export default function PublicHomePage() {
       <section className="overflow-hidden bg-[#3B0D14] text-white">
         <div className="public-container grid lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="py-16 lg:py-24 lg:pr-16" data-reveal="left">
-            <p className="public-eyebrow text-[#D6B078]">Doctor-led aesthetic care</p>
+            <p className="public-eyebrow !text-[#E2BF83]">Doctor-led aesthetic care</p>
             <h2 className="mt-5 font-serif text-[clamp(2.25rem,4.5vw,4.25rem)] leading-[1.08]">
               Thoughtful decisions. Natural-looking results.
             </h2>

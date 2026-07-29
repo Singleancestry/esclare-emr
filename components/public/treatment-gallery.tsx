@@ -132,7 +132,7 @@ export function TreatmentGallery() {
             <p className="mt-4 text-sm leading-7 text-[#62595C]">{category.introduction}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col">
               <Link href={category.treatmentHref as Route} className="luxury-button-outline">
-                Learn more <ArrowRight size={15} />
+                Learn about {category.name} <ArrowRight size={15} />
               </Link>
               <Link
                 href={
