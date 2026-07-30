@@ -2,7 +2,6 @@
 
 import { redirect } from "next/navigation";
 import type { Route } from "next";
-import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
 import { loginSchema } from "@/lib/validation/auth";
 
@@ -35,13 +34,7 @@ export async function signInAction(
     return { error: "Invalid email or password." };
   }
 
-  const admin = createSupabaseAdminClient();
-  if (!admin) {
-    await supabase.auth.signOut();
-    return { error: "Staff access is temporarily unavailable." };
-  }
-
-  const { data: appUser, error: appUserError } = await admin
+  const { data: appUser, error: appUserError } = await supabase
     .from("app_users")
     .select("status, mfa_required")
     .eq("auth_user_id", signInData.user.id)
