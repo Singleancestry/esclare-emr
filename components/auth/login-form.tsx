@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
-import { Eye, LogIn } from "lucide-react";
+import { useActionState, useState } from "react";
+import { Eye, EyeOff, LogIn } from "lucide-react";
 import Link from "next/link";
 import type { Route } from "next";
 import { signInAction } from "@/app/(auth)/login/actions";
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 
 export function LoginForm({ message }: { message?: string }) {
   const [state, formAction, isPending] = useActionState(signInAction, { error: null });
+  const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form
@@ -34,6 +36,8 @@ export function LoginForm({ message }: { message?: string }) {
         name="email"
         type="email"
         autoComplete="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
         className="focus-ring mt-2 w-full rounded border border-[#D9DDE3] px-3 py-3"
         required
       />
@@ -45,13 +49,19 @@ export function LoginForm({ message }: { message?: string }) {
         <input
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           autoComplete="current-password"
           className="w-full rounded px-3 py-3 outline-none"
           required
         />
-        <button type="button" className="px-3 text-[#6F263D]" aria-label="Password visibility">
-          <Eye size={18} aria-hidden />
+        <button
+          type="button"
+          className="px-3 text-[#6F263D]"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+          aria-pressed={showPassword}
+          onClick={() => setShowPassword((visible) => !visible)}
+        >
+          {showPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
         </button>
       </div>
 
