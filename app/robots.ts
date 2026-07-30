@@ -24,6 +24,7 @@ export default function robots(): MetadataRoute.Robots {
           "/lock",
           "/forgot-password",
           "/update-password",
+          "/mfa",
           "/login",
           "/auth/",
           "/appointments/",

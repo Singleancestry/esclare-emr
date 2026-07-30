@@ -1,8 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import type { Route } from "next";
+import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
-import { evaluateStaffAccess } from "@/lib/auth/guards";
 import { loginSchema } from "@/lib/validation/auth";
 
 type LoginState = {
@@ -28,17 +29,42 @@ export async function signInAction(
     return { error: "Supabase is not configured for this environment." };
   }
 
-  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  const { data: signInData, error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
     return { error: "Invalid email or password." };
   }
 
-  const access = await evaluateStaffAccess();
-
-  if (!access.allowed) {
+  const admin = createSupabaseAdminClient();
+  if (!admin) {
     await supabase.auth.signOut();
-    return { error: access.reason };
+    return { error: "Staff access is temporarily unavailable." };
+  }
+
+  const { data: appUser, error: appUserError } = await admin
+    .from("app_users")
+    .select("status, mfa_required")
+    .eq("auth_user_id", signInData.user.id)
+    .maybeSingle();
+
+  if (appUserError || !appUser) {
+    await supabase.auth.signOut();
+    return { error: "This account is not assigned to an active staff profile." };
+  }
+
+  if (appUser.status !== "active") {
+    await supabase.auth.signOut();
+    return { error: "This employee account is not active." };
+  }
+
+  if (appUser.mfa_required) {
+    const { data: assurance, error: assuranceError } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError) {
+      await supabase.auth.signOut();
+      return { error: "Unable to verify multi-factor authentication status." };
+    }
+    if (assurance.currentLevel !== "aal2") redirect("/mfa" as Route);
   }
 
   redirect("/services");
