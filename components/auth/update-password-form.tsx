@@ -1,7 +1,7 @@
 "use client";
 
-import { KeyRound } from "lucide-react";
-import { useActionState } from "react";
+import { Eye, EyeOff, KeyRound } from "lucide-react";
+import { useActionState, useState } from "react";
 import {
   updatePasswordAction,
   type PasswordUpdateState,
@@ -12,6 +12,8 @@ const initialState: PasswordUpdateState = { error: null };
 
 export function UpdatePasswordForm() {
   const [state, formAction, isPending] = useActionState(updatePasswordAction, initialState);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   return (
     <form
@@ -26,26 +28,48 @@ export function UpdatePasswordForm() {
       <label className="mt-6 block text-sm font-semibold text-[#262626]" htmlFor="password">
         New password
       </label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        autoComplete="new-password"
-        className="focus-ring mt-2 w-full rounded border border-[#D9DDE3] px-3 py-3"
-        required
-      />
+      <div className="mt-2 flex rounded border border-[#D9DDE3] bg-white focus-within:outline focus-within:outline-2 focus-within:outline-[#C6A467]">
+        <input
+          id="password"
+          name="password"
+          type={showPassword ? "text" : "password"}
+          autoComplete="new-password"
+          className="w-full rounded px-3 py-3 outline-none"
+          required
+        />
+        <button
+          type="button"
+          className="px-3 text-[#6F263D]"
+          aria-label={showPassword ? "Hide new password" : "Show new password"}
+          aria-pressed={showPassword}
+          onClick={() => setShowPassword((visible) => !visible)}
+        >
+          {showPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
+        </button>
+      </div>
 
       <label className="mt-4 block text-sm font-semibold text-[#262626]" htmlFor="confirmPassword">
         Confirm new password
       </label>
-      <input
-        id="confirmPassword"
-        name="confirmPassword"
-        type="password"
-        autoComplete="new-password"
-        className="focus-ring mt-2 w-full rounded border border-[#D9DDE3] px-3 py-3"
-        required
-      />
+      <div className="mt-2 flex rounded border border-[#D9DDE3] bg-white focus-within:outline focus-within:outline-2 focus-within:outline-[#C6A467]">
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type={showConfirmation ? "text" : "password"}
+          autoComplete="new-password"
+          className="w-full rounded px-3 py-3 outline-none"
+          required
+        />
+        <button
+          type="button"
+          className="px-3 text-[#6F263D]"
+          aria-label={showConfirmation ? "Hide confirmed password" : "Show confirmed password"}
+          aria-pressed={showConfirmation}
+          onClick={() => setShowConfirmation((visible) => !visible)}
+        >
+          {showConfirmation ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
+        </button>
+      </div>
 
       {state.error ? (
         <p className="mt-4 rounded border border-[#C43D4B] bg-[#FFF7F8] px-3 py-2 text-sm text-[#9B2130]">
