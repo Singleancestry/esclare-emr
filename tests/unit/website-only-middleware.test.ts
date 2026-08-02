@@ -10,7 +10,15 @@ afterEach(() => {
 });
 
 describe("website-only deployment boundary", () => {
-  it.each(["/login", "/dashboard", "/patients", "/settings/audit", "/auth/callback"])(
+  it.each([
+    "/login",
+    "/dashboard",
+    "/patients",
+    "/api/patients/example/reveal-contact",
+    "/marketing",
+    "/settings/audit",
+    "/auth/callback",
+  ])(
     "returns 404 for %s",
     async (pathname) => {
       process.env.PUBLIC_WEBSITE_ONLY = "true";

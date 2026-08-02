@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 const websiteOnlyPrefixes = [
   "/admin",
+  "/api/patients",
   "/appointments",
   "/auth",
   "/clinical",
@@ -14,6 +15,7 @@ const websiteOnlyPrefixes = [
   "/inventory",
   "/lock",
   "/login",
+  "/marketing",
   "/mfa",
   "/packages",
   "/patients",
