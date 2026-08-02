@@ -7,9 +7,7 @@ export async function GET(request: NextRequest) {
   const type = request.nextUrl.searchParams.get("type");
   const requestedNext = request.nextUrl.searchParams.get("next") ?? "/update-password";
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_APP_URL ??
-    request.nextUrl.origin;
+    process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? request.nextUrl.origin;
   const next =
     requestedNext.startsWith("/") && !requestedNext.startsWith("//")
       ? requestedNext

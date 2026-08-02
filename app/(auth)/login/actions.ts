@@ -64,9 +64,8 @@ export async function signInAction(
   let roleKey: string | null = null;
 
   if (!appUser.mfa_required) {
-    const { data: staffContext, error: staffContextError } = await supabase.rpc(
-      "get_staff_context",
-    );
+    const { data: staffContext, error: staffContextError } =
+      await supabase.rpc("get_staff_context");
 
     if (staffContextError || !staffContext) {
       await supabase.auth.signOut();

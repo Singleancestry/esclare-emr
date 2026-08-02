@@ -37,7 +37,10 @@ export async function verifyTurnstile(formData: FormData, remoteIp?: string | nu
     if (!result.success) return false;
 
     const hostnames = allowedHostnames();
-    return hostnames.size === 0 || Boolean(result.hostname && hostnames.has(result.hostname.toLowerCase()));
+    return (
+      hostnames.size === 0 ||
+      Boolean(result.hostname && hostnames.has(result.hostname.toLowerCase()))
+    );
   } catch {
     return false;
   }

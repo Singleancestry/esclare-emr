@@ -50,14 +50,7 @@ test("@staff development staff shell exposes only working or pilot navigation", 
 });
 
 test("@staff disabled staff modules reject direct navigation", async ({ page }) => {
-  for (const path of [
-    "/clinical",
-    "/pos",
-    "/packages",
-    "/inventory",
-    "/reports",
-    "/marketing",
-  ]) {
+  for (const path of ["/clinical", "/pos", "/packages", "/inventory", "/reports", "/marketing"]) {
     const response = await page.goto(path);
     expect(response?.status()).toBe(404);
     await expect(page.getByRole("heading", { name: "This page is not available." })).toBeVisible();

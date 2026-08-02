@@ -53,6 +53,19 @@ describe("operational controls", () => {
     expect(proxy).toContain("supabase.auth.getClaims()");
   });
 
+  it("fails closed for EMR routes in a website-only deployment", () => {
+    const proxy = read("middleware.ts");
+    const publicBooking = read("app/(public)/appointment-request/actions.ts");
+
+    expect(proxy).toContain('process.env.PUBLIC_WEBSITE_ONLY === "true"');
+    expect(proxy).toContain('"/login"');
+    expect(proxy).toContain('"/patients"');
+    expect(proxy).toContain('"/settings"');
+    expect(proxy).toContain("status: 404");
+    expect(proxy).toContain('"X-Robots-Tag": "noindex, nofollow, noarchive"');
+    expect(publicBooking).toContain('process.env.PUBLIC_WEBSITE_ONLY !== "true"');
+  });
+
   it("defines hardened response headers and an enforced CSP", () => {
     const config = read("next.config.ts");
 

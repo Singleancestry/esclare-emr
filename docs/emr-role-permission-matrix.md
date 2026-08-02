@@ -8,27 +8,27 @@ Nurse, Doctor, Inventory Officer, Auditor, and Patient.
 
 Legend: `F` full, `B` branch-scoped, `A` assigned-patient/encounter only, `R` read-only, `-` denied.
 
-| Area / action | Owner | Super Admin | Branch Manager | Receptionist | Cashier | Aesthetician | Nurse | Doctor | Inventory | Auditor |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Dashboard | F | F | B | B | B | B | B | B | B | R |
-| Patient basic view | F | F | B | B | B | B | B | B | - | R |
-| Patient create/update | F | F | B | B | - | - | - | - | - | - |
-| Contact reveal | F | F | B | B | - | - | B | B | - | audited only |
-| Medical summary | F | F | B | - | - | A | A | B | - | audited R |
-| Full clinical record | F | F | - | - | - | A | A | B | - | audited R |
-| Sign clinical note | F | F | - | - | - | - | - | B | - | - |
-| Clinical photo upload | F | F | - | - | - | A | A | B | - | - |
-| Clinical photo download | F | F | - | - | - | - | - | B | - | - |
-| Appointment create/change | F | F | B | B | - | limited | B | B | - | - |
-| Price propose/approve/publish | F | F | propose/approve | - | - | - | - | - | - | R |
-| Payment create | F | F | policy-controlled | - | B | - | - | - | - | R |
-| Refund/void | F | F | approval policy | request only | request only | - | - | - | - | R |
-| Package sale/use/adjust | F | F | policy-controlled | view | sell | use | use | use | - | R |
-| Inventory receive/adjust/transfer | F | F | oversight | - | - | - | consume | - | B | R |
-| Reports/export | F | F | B | - | B | - | - | clinical only | B | audited R |
-| Employee/user management | F | F | view only | - | - | - | - | - | - | R |
-| Role management | F | F | - | - | - | - | - | - | - | R |
-| Audit log review | F | F | B | - | - | - | - | - | - | R |
+| Area / action                     | Owner | Super Admin | Branch Manager    | Receptionist | Cashier      | Aesthetician | Nurse   | Doctor        | Inventory | Auditor      |
+| --------------------------------- | ----- | ----------- | ----------------- | ------------ | ------------ | ------------ | ------- | ------------- | --------- | ------------ |
+| Dashboard                         | F     | F           | B                 | B            | B            | B            | B       | B             | B         | R            |
+| Patient basic view                | F     | F           | B                 | B            | B            | B            | B       | B             | -         | R            |
+| Patient create/update             | F     | F           | B                 | B            | -            | -            | -       | -             | -         | -            |
+| Contact reveal                    | F     | F           | B                 | B            | -            | -            | B       | B             | -         | audited only |
+| Medical summary                   | F     | F           | B                 | -            | -            | A            | A       | B             | -         | audited R    |
+| Full clinical record              | F     | F           | -                 | -            | -            | A            | A       | B             | -         | audited R    |
+| Sign clinical note                | F     | F           | -                 | -            | -            | -            | -       | B             | -         | -            |
+| Clinical photo upload             | F     | F           | -                 | -            | -            | A            | A       | B             | -         | -            |
+| Clinical photo download           | F     | F           | -                 | -            | -            | -            | -       | B             | -         | -            |
+| Appointment create/change         | F     | F           | B                 | B            | -            | limited      | B       | B             | -         | -            |
+| Price propose/approve/publish     | F     | F           | propose/approve   | -            | -            | -            | -       | -             | -         | R            |
+| Payment create                    | F     | F           | policy-controlled | -            | B            | -            | -       | -             | -         | R            |
+| Refund/void                       | F     | F           | approval policy   | request only | request only | -            | -       | -             | -         | R            |
+| Package sale/use/adjust           | F     | F           | policy-controlled | view         | sell         | use          | use     | use           | -         | R            |
+| Inventory receive/adjust/transfer | F     | F           | oversight         | -            | -            | -            | consume | -             | B         | R            |
+| Reports/export                    | F     | F           | B                 | -            | B            | -            | -       | clinical only | B         | audited R    |
+| Employee/user management          | F     | F           | view only         | -            | -            | -            | -       | -             | -         | R            |
+| Role management                   | F     | F           | -                 | -            | -            | -            | -       | -             | -         | R            |
+| Audit log review                  | F     | F           | B                 | -            | -            | -            | -       | -             | -         | R            |
 
 ## Enforcement Rules
 

@@ -78,11 +78,7 @@ export function SiteHeader() {
     <>
       <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D6B078]/30 bg-[#FAF4EC]/95 backdrop-blur-xl">
         <div className="site-header-container flex h-[76px] items-center justify-between gap-4">
-          <Link
-            href="/"
-            aria-label="ESCLARE home"
-            className="site-logo-link shrink-0 rounded-md"
-          >
+          <Link href="/" aria-label="ESCLARE home" className="site-logo-link shrink-0 rounded-md">
             <Image
               src="/images/optimized/logo/esclare-official-wordmark-transparent-v2.png"
               alt="ESCLARE Aesthetic Center"
@@ -119,8 +115,7 @@ export function SiteHeader() {
               </div>
             </details>
             {links.map(([label, href]) => {
-              const active =
-                pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+              const active = pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
               return (
                 <Link
                   key={href}

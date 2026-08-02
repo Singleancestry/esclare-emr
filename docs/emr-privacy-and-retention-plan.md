@@ -13,14 +13,14 @@ Status: technical baseline requiring Philippine legal and clinic-policy review
 
 ## Data Classes
 
-| Class | Examples | Default access | Protection |
-| --- | --- | --- | --- |
-| Identity/contact | name, phone, address | reception and authorized care roles | masked by default; reveal audited |
-| Clinical | history, alerts, notes, parameters | assigned clinical team and doctor | RLS, versioning, signing, addenda |
-| Photos/files | before/after and signed forms | specifically permitted care roles | private storage, signed URLs, access log |
-| Financial | invoices, payments, refunds | cashier, management, auditor | immutable ledger and approval controls |
-| Authentication | sessions, MFA, trusted devices | account owner and security admins | never exported or logged as raw tokens |
-| Audit | actor, action, entity, reason | owner/security/auditor | append-only and restricted |
+| Class            | Examples                           | Default access                      | Protection                               |
+| ---------------- | ---------------------------------- | ----------------------------------- | ---------------------------------------- |
+| Identity/contact | name, phone, address               | reception and authorized care roles | masked by default; reveal audited        |
+| Clinical         | history, alerts, notes, parameters | assigned clinical team and doctor   | RLS, versioning, signing, addenda        |
+| Photos/files     | before/after and signed forms      | specifically permitted care roles   | private storage, signed URLs, access log |
+| Financial        | invoices, payments, refunds        | cashier, management, auditor        | immutable ledger and approval controls   |
+| Authentication   | sessions, MFA, trusted devices     | account owner and security admins   | never exported or logged as raw tokens   |
+| Audit            | actor, action, entity, reason      | owner/security/auditor              | append-only and restricted               |
 
 ## Retention Decisions Required
 

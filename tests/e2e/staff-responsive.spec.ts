@@ -8,9 +8,9 @@ for (const width of widths) {
     await page.goto("/dashboard");
 
     await expect(page.getByRole("heading", { name: "Clinic dashboard" })).toBeVisible();
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
-      true,
-    );
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
 
     if (width < 1024) {
       const menu = page.locator("header > div > details > summary");
@@ -34,7 +34,7 @@ test("@staff patient table scrolls inside its container on mobile", async ({ pag
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
-  expect(
-    await tableScroll.evaluate((element) => element.scrollWidth > element.clientWidth),
-  ).toBe(true);
+  expect(await tableScroll.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(
+    true,
+  );
 });

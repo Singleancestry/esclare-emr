@@ -171,7 +171,11 @@ export function MfaForm({ email }: { email: string }) {
         </p>
       ) : null}
 
-      <Button className="mt-6 w-full" type="submit" disabled={!setup || code.length !== 6 || isVerifying}>
+      <Button
+        className="mt-6 w-full"
+        type="submit"
+        disabled={!setup || code.length !== 6 || isVerifying}
+      >
         <KeyRound size={18} aria-hidden /> {isVerifying ? "Verifying..." : "Verify and continue"}
       </Button>
     </form>

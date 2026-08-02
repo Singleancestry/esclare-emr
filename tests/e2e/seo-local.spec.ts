@@ -59,14 +59,13 @@ test("booking analytics excludes entered personal information", async ({ page })
     const analyticsWindow = window as Window & { dataLayer?: unknown[] };
     const allowedEvents = new Set(["booking_form_started", "treatment_selected"]);
     const publicEvents = (analyticsWindow.dataLayer ?? [])
-      .filter(
-        (entry): entry is Record<string, unknown> =>
-          Boolean(
-            entry &&
-              typeof entry === "object" &&
-              "event" in entry &&
-              allowedEvents.has(String((entry as Record<string, unknown>).event)),
-          ),
+      .filter((entry): entry is Record<string, unknown> =>
+        Boolean(
+          entry &&
+          typeof entry === "object" &&
+          "event" in entry &&
+          allowedEvents.has(String((entry as Record<string, unknown>).event)),
+        ),
       )
       .map((entry) => ({
         event: entry.event,
@@ -83,5 +82,7 @@ test("booking analytics excludes entered personal information", async ({ page })
 test("branches page has one local-search heading", async ({ page }) => {
   await page.goto("/branches");
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: "Visit ESCLARE in Naga City or Daet" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Visit ESCLARE in Naga City or Daet" }),
+  ).toBeVisible();
 });

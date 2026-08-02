@@ -15,15 +15,15 @@ on the approved production release date. Do not invent a pre-release baseline.
 
 ## Search Clusters and Target Pages
 
-| Cluster | Primary target | Main conversion |
-| --- | --- | --- |
-| Aesthetic clinic in Naga and Daet | `/` and `/branches` | Appointment request or branch contact |
-| Diode laser and hair reduction | `/diode-laser` | View prices or request assessment |
-| Pico laser and pigmentation | Existing Pico treatment detail plus education | Request consultation |
-| Acne scars and Fractional CO2 | Existing treatment detail and aftercare | Doctor consultation request |
-| Facials | `/treatments` and relevant treatment details | Select treatment and branch |
-| Botox and doctor procedures | Existing doctor-procedure detail | Doctor assessment request |
-| HIFU and lifting | Existing HIFU detail and education | Suitability assessment request |
+| Cluster                           | Primary target                                | Main conversion                       |
+| --------------------------------- | --------------------------------------------- | ------------------------------------- |
+| Aesthetic clinic in Naga and Daet | `/` and `/branches`                           | Appointment request or branch contact |
+| Diode laser and hair reduction    | `/diode-laser`                                | View prices or request assessment     |
+| Pico laser and pigmentation       | Existing Pico treatment detail plus education | Request consultation                  |
+| Acne scars and Fractional CO2     | Existing treatment detail and aftercare       | Doctor consultation request           |
+| Facials                           | `/treatments` and relevant treatment details  | Select treatment and branch           |
+| Botox and doctor procedures       | Existing doctor-procedure detail              | Doctor assessment request             |
+| HIFU and lifting                  | Existing HIFU detail and education            | Suitability assessment request        |
 
 ## Privacy-Safe Events
 

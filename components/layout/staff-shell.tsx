@@ -117,26 +117,26 @@ function NavigationGroups({ groups }: NavigationGroupsProps) {
               href={item.href}
               summary={
                 <>
-                <Icon size={18} aria-hidden />
-                <span className="flex-1">{item.label}</span>
-                <ChevronDown
-                  size={15}
-                  className="transition-transform group-open/nav:rotate-180"
-                  aria-hidden
-                />
+                  <Icon size={18} aria-hidden />
+                  <span className="flex-1">{item.label}</span>
+                  <ChevronDown
+                    size={15}
+                    className="transition-transform group-open/nav:rotate-180"
+                    aria-hidden
+                  />
                 </>
               }
             >
-                {item.children.map((child) => (
-                  <StaffNavLink
-                    key={child.href}
-                    href={child.href}
-                    exact
-                    className="focus-ring rounded px-2 py-2 text-xs font-medium"
-                  >
-                    {child.label}
-                  </StaffNavLink>
-                ))}
+              {item.children.map((child) => (
+                <StaffNavLink
+                  key={child.href}
+                  href={child.href}
+                  exact
+                  className="focus-ring rounded px-2 py-2 text-xs font-medium"
+                >
+                  {child.label}
+                </StaffNavLink>
+              ))}
             </StaffNavDetails>
           );
         })}

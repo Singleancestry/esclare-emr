@@ -137,9 +137,7 @@ export function PatientProfile({
                 </div>
                 <span
                   className={`h-fit px-2 py-1 text-xs font-semibold ${
-                    event.success
-                      ? "bg-emerald-50 text-emerald-800"
-                      : "bg-red-50 text-red-800"
+                    event.success ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800"
                   }`}
                 >
                   {event.success ? "Recorded" : "Failed"}

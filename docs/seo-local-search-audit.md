@@ -5,15 +5,15 @@ Status: implementation in progress; production unchanged
 
 ## Architecture
 
-| Area | Current implementation |
-| --- | --- |
-| Framework | Next.js 16.2.11 with React 19.2 and TypeScript strict mode |
-| Routing | App Router with public, auth, and staff route groups |
-| Data | Supabase PostgreSQL, Auth, Storage-ready services, and RLS migrations |
-| Hosting | Vercel-compatible Next build; Hostinger deployment is separately configured |
-| Public content | Server-rendered pages backed by TypeScript service and education catalogs |
-| Booking | Public server action with Zod validation, honeypot, idempotency key, HMAC fingerprint, and optional atomic Supabase RPC |
-| Analytics | Google tag `G-RS34GQW8W6` in the shared root head plus privacy-safe public event helper |
+| Area           | Current implementation                                                                                                  |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Framework      | Next.js 16.2.11 with React 19.2 and TypeScript strict mode                                                              |
+| Routing        | App Router with public, auth, and staff route groups                                                                    |
+| Data           | Supabase PostgreSQL, Auth, Storage-ready services, and RLS migrations                                                   |
+| Hosting        | Vercel-compatible Next build; Hostinger deployment is separately configured                                             |
+| Public content | Server-rendered pages backed by TypeScript service and education catalogs                                               |
+| Booking        | Public server action with Zod validation, honeypot, idempotency key, HMAC fingerprint, and optional atomic Supabase RPC |
+| Analytics      | Google tag `G-RS34GQW8W6` in the shared root head plus privacy-safe public event helper                                 |
 
 ## Required Audit Inventory
 
@@ -35,18 +35,18 @@ Status: implementation in progress; production unchanged
 
 ## Findings
 
-| ID | Priority | Finding | Required action |
-| --- | --- | --- | --- |
-| SEO-001 | P0 | `/` redirected to `/home`, leaving the non-preferred homepage as canonical. | Resolved locally: `/` now serves the homepage, `/home` permanently redirects to `/`, and internal links use `/`. |
-| SEO-002 | P1 | Sitemap timestamps use the current request time, making every URL appear freshly modified. | Replace runtime timestamps with stable content dates. |
-| SEO-003 | P1 | Several priority search intents resolve to anchors or generic treatment entries rather than focused detail pages. | Improve existing equivalent pages first; add a route only when no equivalent exists. |
-| SEO-004 | P1 | Google Analytics is installed, but the conversion event vocabulary covers only branch and social interactions. | Add privacy-safe booking, phone, directions, treatment, and form events. |
-| SEO-005 | P1 | No cookie-preference component is present. | Obtain an owner/legal decision on analytics consent behavior before production activation. |
-| SEO-006 | P1 | Coordinates, postal codes, nearby landmarks, and parking guidance are not verified for both branches. | Keep them absent from schema and content until owner verification. |
-| SEO-007 | P1 | Naga and Daet have dedicated branch routes even though the new command prefers one combined branches page. | Keep them only as supporting routes or redirect after owner review; avoid duplicate location copy. |
-| SEO-008 | P2 | Public error boundaries and explicit loading states are incomplete. | Add only where real route failure/loading behavior requires them. |
-| SEO-009 | P2 | Search Console, Business Profile, and Bing ownership cannot be verified from code. | Complete the dashboard checklist after approved production deployment. |
-| SEO-010 | P2 | Draft/review education content needs a consistent `noindex, follow` policy. | Align metadata, sitemap filtering, and status definitions. |
+| ID      | Priority | Finding                                                                                                           | Required action                                                                                                  |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| SEO-001 | P0       | `/` redirected to `/home`, leaving the non-preferred homepage as canonical.                                       | Resolved locally: `/` now serves the homepage, `/home` permanently redirects to `/`, and internal links use `/`. |
+| SEO-002 | P1       | Sitemap timestamps use the current request time, making every URL appear freshly modified.                        | Replace runtime timestamps with stable content dates.                                                            |
+| SEO-003 | P1       | Several priority search intents resolve to anchors or generic treatment entries rather than focused detail pages. | Improve existing equivalent pages first; add a route only when no equivalent exists.                             |
+| SEO-004 | P1       | Google Analytics is installed, but the conversion event vocabulary covers only branch and social interactions.    | Add privacy-safe booking, phone, directions, treatment, and form events.                                         |
+| SEO-005 | P1       | No cookie-preference component is present.                                                                        | Obtain an owner/legal decision on analytics consent behavior before production activation.                       |
+| SEO-006 | P1       | Coordinates, postal codes, nearby landmarks, and parking guidance are not verified for both branches.             | Keep them absent from schema and content until owner verification.                                               |
+| SEO-007 | P1       | Naga and Daet have dedicated branch routes even though the new command prefers one combined branches page.        | Keep them only as supporting routes or redirect after owner review; avoid duplicate location copy.               |
+| SEO-008 | P2       | Public error boundaries and explicit loading states are incomplete.                                               | Add only where real route failure/loading behavior requires them.                                                |
+| SEO-009 | P2       | Search Console, Business Profile, and Bing ownership cannot be verified from code.                                | Complete the dashboard checklist after approved production deployment.                                           |
+| SEO-010 | P2       | Draft/review education content needs a consistent `noindex, follow` policy.                                       | Align metadata, sitemap filtering, and status definitions.                                                       |
 
 ## Business Information Gaps
 

@@ -43,12 +43,7 @@ const environmentVariables: Record<Feature, string> = {
   dataExport: "ENABLE_DATA_EXPORT",
 };
 
-const releasedDefaults = new Set<Feature>([
-  "dashboard",
-  "patients",
-  "appointments",
-  "auditRead",
-]);
+const releasedDefaults = new Set<Feature>(["dashboard", "patients", "appointments", "auditRead"]);
 
 export function getFeatureMode(feature: Feature): FeatureMode {
   const configured = process.env[environmentVariables[feature]];
