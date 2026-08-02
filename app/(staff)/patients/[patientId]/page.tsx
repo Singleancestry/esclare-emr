@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { PatientProfile } from "@/components/patients/patient-profile";
 import { getCurrentStaffContext } from "@/lib/auth/session";
 import { requireFeature } from "@/lib/features/flags";
-import { getPatientProfile } from "@/lib/patients/data";
+import { getPatientAudit, getPatientProfile } from "@/lib/patients/data";
 import { hasPermission, requirePermission } from "@/lib/permissions/checks";
 
 export default async function PatientProfilePage({
@@ -21,10 +21,15 @@ export default async function PatientProfilePage({
     notFound();
   }
 
+  const canViewAudit = hasPermission(staff, "security.view_audit", patient.homeBranchId);
+  const activity = canViewAudit ? await getPatientAudit(patientId) : [];
+
   return (
     <PatientProfile
       patient={patient}
-      canViewFullMedical={hasPermission(staff, "medical.view_full")}
+      canViewFullMedical={hasPermission(staff, "medical.view_full", patient.homeBranchId)}
+      activity={activity}
+      canViewAudit={canViewAudit}
     />
   );
 }

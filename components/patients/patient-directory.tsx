@@ -129,7 +129,18 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
         {message ? <p className="mt-3 text-sm font-semibold text-[#28875B]">{message}</p> : null}
       </div>
 
-      {view === "cards" ? (
+      {filteredPatients.length === 0 ? (
+        <div className="grid min-h-48 place-items-center rounded border border-[var(--border)] bg-white p-6 text-center">
+          <div>
+            <h2 className="text-lg font-semibold text-[var(--primary-emphasis)]">
+              No matching patients
+            </h2>
+            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+              Check the patient name, number, mobile digits, or selected branch.
+            </p>
+          </div>
+        </div>
+      ) : view === "cards" ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredPatients.map((patient) => (
             <article
@@ -191,7 +202,10 @@ export function PatientDirectory({ patients, canRevealContact }: PatientDirector
           ))}
         </div>
       ) : (
-        <div className="overflow-hidden rounded border border-[#D9DDE3] bg-white shadow-sm">
+        <div
+          className="overflow-x-auto rounded border border-[#D9DDE3] bg-white shadow-sm"
+          data-testid="patient-table-scroll"
+        >
           <table className="w-full min-w-[880px] border-collapse text-left text-sm">
             <thead className="bg-[#F8F4ED] text-xs uppercase text-[#6F263D]">
               <tr>

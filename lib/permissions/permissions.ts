@@ -73,7 +73,6 @@ export const ROLE_KEYS = [
   "nurse",
   "doctor",
   "inventory_officer",
-  "marketing",
   "auditor",
   "patient",
 ] as const;
@@ -193,13 +192,6 @@ export const rolePermissions: Record<RoleKey, Permission[]> = {
     "inventory.consume",
     "inventory.adjust",
     "inventory.transfer",
-    "reports.view_branch",
-  ],
-  marketing: [
-    "dashboard.branch.view",
-    "patients.view_basic",
-    "services.view",
-    "packages.view",
     "reports.view_branch",
   ],
   auditor: [

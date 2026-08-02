@@ -57,10 +57,6 @@ export const patientRegistrationSchema = z
     weightKg: z.coerce.number().positive().max(400).optional().or(z.literal("")),
     referralSource: z.string().trim().optional(),
     referredBy: z.string().trim().optional(),
-    campaign: z.string().trim().optional(),
-    promoCode: z.string().trim().optional(),
-    smsMarketingConsent: z.coerce.boolean().default(false),
-    emailMarketingConsent: z.coerce.boolean().default(false),
     privacyAcknowledged: z.literal("on", {
       error: "Privacy-notice acknowledgement is required.",
     }),

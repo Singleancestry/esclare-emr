@@ -10,7 +10,6 @@ import {
   FileText,
   LayoutDashboard,
   Lock,
-  Megaphone,
   PackageCheck,
   Settings,
   Stethoscope,
@@ -25,6 +24,7 @@ import { isFeatureEnabled, type Feature } from "@/lib/features/flags";
 export type NavItem = {
   label: string;
   href: string;
+  section: "Daily work" | "Clinical" | "Commerce" | "Management" | "Security";
   icon: ComponentType<{ size?: number; className?: string; "aria-hidden"?: boolean }>;
   permission: Permission;
   feature?: Feature;
@@ -35,6 +35,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Dashboard",
     href: "/dashboard",
+    section: "Daily work",
     icon: LayoutDashboard,
     permission: "dashboard.branch.view",
     feature: "dashboard",
@@ -42,6 +43,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Appointments",
     href: "/appointments",
+    section: "Daily work",
     icon: CalendarDays,
     permission: "appointments.view",
     feature: "appointments",
@@ -52,6 +54,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Patients",
     href: "/patients",
+    section: "Daily work",
     icon: UsersRound,
     permission: "patients.view_basic",
     feature: "patients",
@@ -63,6 +66,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Clinical Records",
     href: "/clinical",
+    section: "Clinical",
     icon: BriefcaseMedical,
     permission: "medical.view_summary",
     feature: "clinicalRecords",
@@ -76,12 +80,14 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Treatments and Services",
     href: "/services",
+    section: "Clinical",
     icon: Stethoscope,
     permission: "services.view",
   },
   {
     label: "Packages and Sessions",
     href: "/packages",
+    section: "Commerce",
     icon: PackageCheck,
     permission: "packages.view",
     feature: "packages",
@@ -89,6 +95,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Point of Sale",
     href: "/pos",
+    section: "Commerce",
     icon: CircleDollarSign,
     permission: "payments.view",
     feature: "payments",
@@ -96,6 +103,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Inventory",
     href: "/inventory",
+    section: "Management",
     icon: Boxes,
     permission: "inventory.view",
     feature: "inventory",
@@ -103,6 +111,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Finance",
     href: "/finance",
+    section: "Management",
     icon: BarChart3,
     permission: "reports.view_branch",
     feature: "reports",
@@ -110,20 +119,15 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Employees",
     href: "/employees",
+    section: "Management",
     icon: ContactRound,
     permission: "employees.view",
     feature: "employees",
   },
   {
-    label: "CRM and Marketing",
-    href: "/marketing",
-    icon: Megaphone,
-    permission: "patients.view_basic",
-    feature: "marketing",
-  },
-  {
     label: "Reports",
     href: "/reports",
+    section: "Management",
     icon: FileText,
     permission: "reports.view_branch",
     feature: "reports",
@@ -131,6 +135,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Integrations",
     href: "/integrations",
+    section: "Management",
     icon: Activity,
     permission: "prices.view",
     feature: "integrations",
@@ -138,6 +143,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Settings and Security",
     href: "/settings",
+    section: "Security",
     icon: Settings,
     permission: "security.view_audit",
     feature: "securitySettings",
@@ -145,6 +151,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Administration",
     href: "/admin",
+    section: "Security",
     icon: Lock,
     permission: "security.manage_roles",
     feature: "administration",
@@ -152,6 +159,7 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Audit",
     href: "/settings/audit",
+    section: "Security",
     icon: ClipboardList,
     permission: "security.view_audit",
     feature: "auditRead",

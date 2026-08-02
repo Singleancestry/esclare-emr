@@ -11,7 +11,7 @@ export default async function IntegrationsPage() {
   return (
     <ProtectedPlaceholder
       title="Integrations"
-      description="Google Sheets, Google Calendar, email, SMS, payment gateway, Facebook leads and website booking integrations begin from this protected shell."
+      description="Operational calendar, payment, backup and website-booking integrations begin from this protected shell after privacy and access reviews."
     />
   );
 }

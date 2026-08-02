@@ -156,19 +156,9 @@ export function PatientRegistrationForm({ branches, verifierName }: PatientRegis
         />
       </Step>
 
-      <Step title="6. Referral and Marketing">
+      <Step title="6. Referral">
         <Field label="Referral source" input={<input {...register("referralSource")} />} />
         <Field label="Referred by" input={<input {...register("referredBy")} />} />
-        <Field label="Campaign" input={<input {...register("campaign")} />} />
-        <Field label="Promo code" input={<input {...register("promoCode")} />} />
-        <label className="flex items-center gap-2 text-sm font-semibold">
-          <input type="checkbox" {...register("smsMarketingConsent")} />
-          SMS marketing consent
-        </label>
-        <label className="flex items-center gap-2 text-sm font-semibold">
-          <input type="checkbox" {...register("emailMarketingConsent")} />
-          Email marketing consent
-        </label>
       </Step>
 
       <Step title="7. Privacy">

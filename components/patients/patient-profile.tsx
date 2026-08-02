@@ -1,15 +1,25 @@
 import { AlertTriangle, CalendarDays, HeartPulse } from "lucide-react";
-import type { PatientProfile as PatientProfileType } from "@/lib/patients/types";
+import type {
+  PatientAuditRecord,
+  PatientProfile as PatientProfileType,
+} from "@/lib/patients/types";
 import { alertTone, formatPatientName } from "@/lib/patients/utils";
 
 type PatientProfileProps = {
   patient: PatientProfileType;
   canViewFullMedical: boolean;
+  activity: PatientAuditRecord[];
+  canViewAudit: boolean;
 };
 
-const tabs = ["Overview", "Medical Profile"];
+const tabs = ["Overview", "Medical Profile", "Activity"];
 
-export function PatientProfile({ patient, canViewFullMedical }: PatientProfileProps) {
+export function PatientProfile({
+  patient,
+  canViewFullMedical,
+  activity,
+  canViewAudit,
+}: PatientProfileProps) {
   return (
     <main className="p-4 sm:p-6">
       <section className="rounded border border-[#D9DDE3] bg-white p-5 shadow-sm">
@@ -89,6 +99,55 @@ export function PatientProfile({ patient, canViewFullMedical }: PatientProfilePr
           </dl>
         </article>
         <MedicalProfilePanel patient={patient} canViewFullMedical={canViewFullMedical} />
+      </section>
+
+      <section
+        id="activity"
+        className="mt-4 rounded border border-[#D9DDE3] bg-white p-5 shadow-sm"
+        aria-labelledby="patient-activity-heading"
+      >
+        <h2 id="patient-activity-heading" className="text-xl font-semibold text-[#481827]">
+          Patient activity
+        </h2>
+        {!canViewAudit ? (
+          <p className="mt-3 text-sm text-[#5F6368]">
+            Activity history requires audit-log permission.
+          </p>
+        ) : activity.length === 0 ? (
+          <p className="mt-3 text-sm text-[#5F6368]">No patient activity is recorded yet.</p>
+        ) : (
+          <ol className="mt-4 divide-y divide-[#E6E8EB] border-y border-[#E6E8EB]">
+            {activity.map((event) => (
+              <li key={event.id} className="grid gap-2 py-4 sm:grid-cols-[11rem_1fr_auto]">
+                <time className="text-xs font-semibold text-[#5F6368]" dateTime={event.createdAt}>
+                  {new Intl.DateTimeFormat("en-PH", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                    timeZone: "Asia/Manila",
+                  }).format(new Date(event.createdAt))}
+                </time>
+                <div>
+                  <p className="text-sm font-semibold text-[#262626]">
+                    {event.action.replaceAll("_", " ").replaceAll(".", " ")}
+                  </p>
+                  <p className="mt-1 text-xs text-[#5F6368]">
+                    {event.actorRole ?? "System role unavailable"}
+                    {event.reason ? ` - ${event.reason}` : ""}
+                  </p>
+                </div>
+                <span
+                  className={`h-fit px-2 py-1 text-xs font-semibold ${
+                    event.success
+                      ? "bg-emerald-50 text-emerald-800"
+                      : "bg-red-50 text-red-800"
+                  }`}
+                >
+                  {event.success ? "Recorded" : "Failed"}
+                </span>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
     </main>
   );

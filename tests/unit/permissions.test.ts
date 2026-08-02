@@ -46,6 +46,14 @@ describe("permissions", () => {
     expect(hrefs).not.toContain("/patients/archived");
   });
 
+  it("organizes owner navigation into operational sections", () => {
+    const nav = getAuthorizedNavigation(staffWithRole("owner"));
+
+    expect(nav.find((item) => item.href === "/dashboard")?.section).toBe("Daily work");
+    expect(nav.find((item) => item.href === "/services")?.section).toBe("Clinical");
+    expect(nav.find((item) => item.href === "/settings/audit")?.section).toBe("Security");
+  });
+
   it("gives doctors medical sign permission but not payment creation", () => {
     const doctor = staffWithRole("doctor");
 

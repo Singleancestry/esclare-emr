@@ -14,7 +14,6 @@ export const FEATURES = [
   "inventory",
   "reports",
   "employees",
-  "marketing",
   "integrations",
   "administration",
   "securitySettings",
@@ -38,14 +37,18 @@ const environmentVariables: Record<Feature, string> = {
   inventory: "ENABLE_INVENTORY",
   reports: "ENABLE_ADVANCED_REPORTS",
   employees: "ENABLE_STAFF_MANAGEMENT",
-  marketing: "ENABLE_MARKETING",
   integrations: "ENABLE_INTEGRATIONS",
   administration: "ENABLE_ROLE_MANAGEMENT",
   securitySettings: "ENABLE_SECURITY_SETTINGS",
   dataExport: "ENABLE_DATA_EXPORT",
 };
 
-const developmentPilotDefaults = new Set<Feature>(["patients", "appointments", "auditRead"]);
+const releasedDefaults = new Set<Feature>([
+  "dashboard",
+  "patients",
+  "appointments",
+  "auditRead",
+]);
 
 export function getFeatureMode(feature: Feature): FeatureMode {
   const configured = process.env[environmentVariables[feature]];
@@ -56,9 +59,7 @@ export function getFeatureMode(feature: Feature): FeatureMode {
     return "off";
   }
 
-  return process.env.NODE_ENV !== "production" && developmentPilotDefaults.has(feature)
-    ? "pilot"
-    : "off";
+  return releasedDefaults.has(feature) ? "on" : "off";
 }
 
 export function isFeatureEnabled(feature: Feature, staffId?: string) {

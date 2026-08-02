@@ -1,45 +1,40 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { isFeatureEnabled } from "@/lib/features/flags";
+import { afterEach, describe, expect, it } from "vitest";
+import { getFeatureMode } from "@/lib/features/flags";
 
-describe("feature flags", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
+const originalEnvironment = {
+  dashboard: process.env.ENABLE_DASHBOARD,
+  patients: process.env.ENABLE_PATIENTS,
+  appointments: process.env.ENABLE_APPOINTMENTS,
+  auditRead: process.env.ENABLE_AUDIT_READ,
+  inventory: process.env.ENABLE_INVENTORY,
+};
+
+afterEach(() => {
+  process.env.ENABLE_DASHBOARD = originalEnvironment.dashboard;
+  process.env.ENABLE_PATIENTS = originalEnvironment.patients;
+  process.env.ENABLE_APPOINTMENTS = originalEnvironment.appointments;
+  process.env.ENABLE_AUDIT_READ = originalEnvironment.auditRead;
+  process.env.ENABLE_INVENTORY = originalEnvironment.inventory;
+});
+
+describe("feature release defaults", () => {
+  it("keeps completed staff workflows available when deployment variables are absent", () => {
+    delete process.env.ENABLE_DASHBOARD;
+    delete process.env.ENABLE_PATIENTS;
+    delete process.env.ENABLE_APPOINTMENTS;
+    delete process.env.ENABLE_AUDIT_READ;
+
+    expect(getFeatureMode("dashboard")).toBe("on");
+    expect(getFeatureMode("patients")).toBe("on");
+    expect(getFeatureMode("appointments")).toBe("on");
+    expect(getFeatureMode("auditRead")).toBe("on");
   });
 
-  it("keeps unfinished domains disabled by default", () => {
-    expect(isFeatureEnabled("clinicalRecords")).toBe(false);
-    expect(isFeatureEnabled("clinicalPhotos")).toBe(false);
-    expect(isFeatureEnabled("payments")).toBe(false);
-    expect(isFeatureEnabled("packages")).toBe(false);
-    expect(isFeatureEnabled("inventory")).toBe(false);
-    expect(isFeatureEnabled("reports")).toBe(false);
-    expect(isFeatureEnabled("publicBookingPersistence")).toBe(false);
-  });
+  it("keeps unfinished modules closed and honors an explicit off switch", () => {
+    delete process.env.ENABLE_INVENTORY;
+    process.env.ENABLE_DASHBOARD = "off";
 
-  it("requires explicit production enablement for pilot workflows", () => {
-    vi.stubEnv("NODE_ENV", "production");
-    vi.stubEnv("ENABLE_PATIENTS", "");
-    vi.stubEnv("ENABLE_APPOINTMENTS", "");
-
-    expect(isFeatureEnabled("patients")).toBe(false);
-    expect(isFeatureEnabled("appointments")).toBe(false);
-  });
-
-  it("accepts only an explicit true value", () => {
-    vi.stubEnv("ENABLE_PAYMENTS", "true");
-    expect(isFeatureEnabled("payments")).toBe(true);
-
-    vi.stubEnv("ENABLE_PAYMENTS", "yes");
-    expect(isFeatureEnabled("payments")).toBe(false);
-  });
-
-  it("limits production pilot mode to the explicit staff allowlist", () => {
-    vi.stubEnv("NODE_ENV", "production");
-    vi.stubEnv("ENABLE_PATIENTS", "pilot");
-    vi.stubEnv("FEATURE_PILOT_STAFF_IDS", "employee-a, employee-b");
-
-    expect(isFeatureEnabled("patients", "employee-a")).toBe(true);
-    expect(isFeatureEnabled("patients", "employee-c")).toBe(false);
-    expect(isFeatureEnabled("patients")).toBe(false);
+    expect(getFeatureMode("inventory")).toBe("off");
+    expect(getFeatureMode("dashboard")).toBe("off");
   });
 });
