@@ -18,18 +18,15 @@ describe("website-only deployment boundary", () => {
     "/marketing",
     "/settings/audit",
     "/auth/callback",
-  ])(
-    "returns 404 for %s",
-    async (pathname) => {
-      process.env.PUBLIC_WEBSITE_ONLY = "true";
+  ])("returns 404 for %s", async (pathname) => {
+    process.env.PUBLIC_WEBSITE_ONLY = "true";
 
-      const response = await middleware(new NextRequest(`https://esclareph.com${pathname}`));
+    const response = await middleware(new NextRequest(`https://esclareph.com${pathname}`));
 
-      expect(response.status).toBe(404);
-      expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow, noarchive");
-      await expect(response.text()).resolves.toBe("Not Found");
-    },
-  );
+    expect(response.status).toBe(404);
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow, noarchive");
+    await expect(response.text()).resolves.toBe("Not Found");
+  });
 
   it.each(["/", "/treatments", "/appointment-request", "/skin-education"])(
     "allows public route %s without initializing an EMR session",

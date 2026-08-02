@@ -12,8 +12,8 @@ const canonicalHost = (() => {
 
 const scriptSources =
   process.env.NODE_ENV === "development"
-    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://challenges.cloudflare.com"
-    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com";
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com"
+    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -24,10 +24,10 @@ const contentSecurityPolicy = [
   "frame-src https://challenges.cloudflare.com",
   scriptSources,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://www.facebook.com",
   "media-src 'self' blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com https://challenges.cloudflare.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com https://www.facebook.com https://connect.facebook.net https://challenges.cloudflare.com",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
 ].join("; ");

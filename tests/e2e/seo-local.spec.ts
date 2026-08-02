@@ -28,12 +28,17 @@ test("sitemap includes the root and excludes the legacy homepage", async ({ requ
   expect(sitemap).not.toContain("/patients</loc>");
 });
 
-test("Google Analytics initializes once per page", async ({ page }) => {
+test("analytics initializes once per page", async ({ page, request }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
   await expect(
     page.locator('script[src*="googletagmanager.com/gtag/js?id=G-RS34GQW8W6"]'),
   ).toHaveCount(1);
+  await expect(page.locator("script#meta-pixel")).toHaveCount(1);
+  const html = await (await request.get("/")).text();
+  expect(html).toContain(
+    "https://www.facebook.com/tr?id=2927430460923084&amp;ev=PageView&amp;noscript=1",
+  );
   await expect
     .poll(() =>
       page.evaluate(() => {
