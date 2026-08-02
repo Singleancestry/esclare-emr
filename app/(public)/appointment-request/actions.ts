@@ -67,7 +67,10 @@ export async function submitPublicAppointmentRequest(
   const requestHeaders = await headers();
   const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
   const clientAddress = forwardedFor || requestHeaders.get("x-real-ip") || "unavailable";
-  if (!(await verifyTurnstile(formData, clientAddress))) {
+  if (
+    process.env.PUBLIC_WEBSITE_ONLY !== "true" &&
+    !(await verifyTurnstile(formData, clientAddress))
+  ) {
     return {
       status: "error",
       message: "Security verification failed. Refresh the page and try again.",

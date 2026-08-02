@@ -63,7 +63,7 @@ describe("operational controls", () => {
     expect(proxy).toContain('"/settings"');
     expect(proxy).toContain("status: 404");
     expect(proxy).toContain('"X-Robots-Tag": "noindex, nofollow, noarchive"');
-    expect(publicBooking).toContain('process.env.PUBLIC_WEBSITE_ONLY !== "true"');
+    expect(publicBooking.match(/process\.env\.PUBLIC_WEBSITE_ONLY !== "true"/g)).toHaveLength(2);
   });
 
   it("defines hardened response headers and an enforced CSP", () => {
