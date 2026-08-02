@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import type { Route } from "next";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
+import { requiresStaffMfa } from "@/lib/auth/mfa-policy";
+import type { StaffContext } from "@/lib/permissions/types";
 import { verifyTurnstile } from "@/lib/security/turnstile";
 import { loginSchema } from "@/lib/validation/auth";
 
@@ -59,7 +61,22 @@ export async function signInAction(
     return { error: "This employee account is not active." };
   }
 
-  if (appUser.mfa_required) {
+  let roleKey: string | null = null;
+
+  if (!appUser.mfa_required) {
+    const { data: staffContext, error: staffContextError } = await supabase.rpc(
+      "get_staff_context",
+    );
+
+    if (staffContextError || !staffContext) {
+      await supabase.auth.signOut();
+      return { error: "No active staff session." };
+    }
+
+    roleKey = (staffContext as StaffContext).activeRole?.key ?? null;
+  }
+
+  if (requiresStaffMfa(Boolean(appUser.mfa_required), roleKey)) {
     const { data: assurance, error: assuranceError } =
       await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (assuranceError) {

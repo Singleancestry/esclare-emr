@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { cache } from "react";
 import { rolePermissions } from "@/lib/permissions/permissions";
 import type { StaffContext } from "@/lib/permissions/types";
+import { requiresStaffMfa } from "./mfa-policy";
 import { createSupabaseServerClient } from "./supabase-server";
 
 const demoStaff: StaffContext = {
@@ -85,7 +86,7 @@ export const getCurrentStaffContext = cache(async (): Promise<StaffContext | nul
 
   const staff = data as StaffContext;
 
-  if (staff.employee.mfaRequired) {
+  if (requiresStaffMfa(staff.employee.mfaRequired, staff.activeRole.key)) {
     const { data: assurance, error: assuranceError } =
       await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (assuranceError || assurance.currentLevel !== "aal2") return null;
