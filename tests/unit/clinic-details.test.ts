@@ -22,6 +22,7 @@ describe("clinic details", () => {
   });
 
   it("calculates branch opening status in the clinic timezone", () => {
+    expect(isBranchOpen(getBranch("naga"), new Date("2026-07-20T03:00:00Z"))).toBe(false);
     expect(isBranchOpen(getBranch("daet"), new Date("2026-07-20T03:00:00Z"))).toBe(false);
     expect(isBranchOpen(getBranch("daet"), new Date("2026-07-21T03:00:00Z"))).toBe(true);
     expect(isBranchOpen(getBranch("daet"), new Date("2026-07-21T11:00:00Z"))).toBe(false);

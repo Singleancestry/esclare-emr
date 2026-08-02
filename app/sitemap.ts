@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://127.0.0.1:3000";
   const staticPaths = [
-    "/home",
+    "/",
     "/treatments",
     "/treatments/skin-support",
     "/glp-1-slimming",
@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/branches/daet",
     "/about",
     "/faq",
+    "/aftercare",
     "/contact",
     "/privacy",
     "/terms",
@@ -42,9 +43,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
-    changeFrequency: path === "/home" ? "weekly" : "monthly",
+    changeFrequency: path === "/" ? "weekly" : "monthly",
     priority:
-      path === "/home"
+      path === "/"
         ? 1
         : path === "/appointment-request"
           ? 0.9

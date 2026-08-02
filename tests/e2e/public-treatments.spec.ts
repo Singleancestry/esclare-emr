@@ -68,7 +68,7 @@ test("dedicated GLP-1 page uses the supplied one-shot hero without CTA buttons",
 
 test("branch selection updates the persistent Messenger destination", async ({ page }) => {
   await page.setViewportSize({ width: 1600, height: 900 });
-  await page.goto("/home");
+  await page.goto("/");
   const messenger = page.getByRole("link", { name: "Chat with ESCLARE Naga on Messenger" });
   await expect(messenger).toHaveAttribute("href", "https://m.me/625552207599338");
 
@@ -105,7 +105,7 @@ test("Treatments navigation exposes categories while Skin Support owns product l
   page,
 }) => {
   await page.setViewportSize({ width: 1600, height: 900 });
-  await page.goto("/home");
+  await page.goto("/");
   const treatmentsMenu = page.locator("header details").filter({ hasText: "Treatments" });
   await treatmentsMenu.locator("summary").click();
   const expectedCategories = [
@@ -151,7 +151,7 @@ test("Skin Support product photos and nested aliases resolve correctly", async (
 
 test("mobile Treatments menu keeps the eight categories touch-friendly", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/home");
+  await page.goto("/");
   await page.getByRole("button", { name: "Open menu" }).click();
   const menu = page.getByRole("dialog", { name: "Site navigation" });
   await expect(menu).toBeVisible();

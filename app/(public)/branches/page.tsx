@@ -3,13 +3,14 @@ import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock3, ExternalLink, Facebook, MapPin, Phone } from "lucide-react";
+import { TrackedLink } from "@/components/public/tracked-link";
 import { clinicBranches } from "@/lib/clinic/details";
 import { branchHeroImages } from "@/lib/clinic/media";
 
 export const metadata: Metadata = {
-  title: "Naga & Daet Branches",
+  title: "ESCLARE Branches | Naga City and Daet Aesthetic Clinics",
   description:
-    "Visit the authentic ESCLARE Naga and Daet clinics. Find branch photographs, addresses, opening hours, phone numbers, maps, and treatment availability.",
+    "Visit ESCLARE in Naga City or Daet. Find verified addresses, clinic hours, contact details, directions, treatment availability, and branch booking links.",
   alternates: { canonical: "/branches" },
 };
 
@@ -32,7 +33,7 @@ export default function BranchesPage() {
       <section className="bg-[#EEE6DA] py-16 sm:py-24">
         <div className="public-container">
           <p className="public-eyebrow">Visit ESCLARE</p>
-          <h1 className="public-heading mt-4">Two real spaces. One considered standard of care.</h1>
+          <h1 className="public-heading mt-4">Visit ESCLARE in Naga City or Daet</h1>
           <p className="mt-6 max-w-2xl leading-8 text-[#62595C]">
             Explore authentic views of each clinic, then connect directly for confirmed
             availability.
@@ -85,12 +86,14 @@ export default function BranchesPage() {
                     <p className="mt-3 border-l border-[#B99559] pl-4 text-xs leading-6 text-[#62595C]">
                       {branch.doctorSchedule}
                     </p>
-                    <a
+                    <TrackedLink
                       href={`tel:${branch.phoneHref}`}
+                      event="phone_clicked"
+                      parameters={{ branch: branch.code }}
                       className="mt-7 inline-flex items-center gap-3 text-xl font-semibold text-[#5B1830]"
                     >
                       <Phone size={20} /> {branch.phone}
-                    </a>
+                    </TrackedLink>
                     <div className="mt-9 border-l-2 border-[#B99559] pl-4">
                       <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#6F263D]">
                         Treatment availability
@@ -106,14 +109,16 @@ export default function BranchesPage() {
                     <Link href={`/branches/${branch.code}` as Route} className="luxury-button">
                       Explore {branch.code === "daet" ? "Daet" : "Naga"} <ArrowRight size={15} />
                     </Link>
-                    <a
+                    <TrackedLink
                       href={branch.maps}
+                      event="directions_clicked"
+                      parameters={{ branch: branch.code }}
                       target="_blank"
                       rel="noreferrer"
                       className="luxury-button-outline"
                     >
                       Directions <ExternalLink size={15} />
-                    </a>
+                    </TrackedLink>
                     <a
                       href={branch.facebook}
                       target="_blank"
@@ -122,12 +127,14 @@ export default function BranchesPage() {
                     >
                       <Facebook size={16} /> Facebook
                     </a>
-                    <Link
+                    <TrackedLink
                       href={`/appointment-request?branch=${branch.code}`}
+                      event="booking_button_clicked"
+                      parameters={{ branch: branch.code }}
                       className="luxury-button-outline"
                     >
                       Request visit <ArrowRight size={15} />
-                    </Link>
+                    </TrackedLink>
                   </div>
                 </div>
               </article>

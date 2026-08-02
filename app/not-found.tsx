@@ -13,7 +13,7 @@ export default function NotFound() {
           The address may have changed, or the page may no longer exist. Return to the ESCLARE
           website to continue.
         </p>
-        <Link href="/home" className="luxury-button mt-8">
+        <Link href="/" className="luxury-button mt-8">
           <ArrowLeft size={16} /> Return home
         </Link>
       </div>

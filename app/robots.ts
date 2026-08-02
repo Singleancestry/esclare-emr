@@ -33,7 +33,6 @@ export default function robots(): MetadataRoute.Robots {
           "/finance/",
           "/integrations/",
           "/inventory/",
-          "/marketing/",
           "/packages/",
           "/pos/",
           "/reports/",

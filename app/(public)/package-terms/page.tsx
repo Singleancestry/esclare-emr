@@ -127,7 +127,7 @@ export default function PackageTermsPage() {
       <section className="border-b border-[#D8C9B4] bg-[#F4E8DA] py-12 sm:py-16 print:bg-white print:py-4">
         <div className="public-container">
           <nav aria-label="Breadcrumb" className="text-xs text-[#765A44] print:hidden">
-            <Link href="/home">Home</Link> <span aria-hidden="true">/</span>{" "}
+            <Link href="/">Home</Link> <span aria-hidden="true">/</span>{" "}
             <span aria-current="page">Treatment Package Terms</span>
           </nav>
           <div className="mt-7 flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between print:mt-0">

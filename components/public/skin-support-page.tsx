@@ -27,7 +27,7 @@ export function SkinSupportPage({
       <section className="border-b border-[#D8C9B4] bg-[#F4E8DA] py-12 sm:py-16">
         <div className="public-container">
           <nav aria-label="Breadcrumb" className="text-xs text-[#765A44]">
-            <Link href="/home">Home</Link> <span aria-hidden="true">/</span>{" "}
+            <Link href="/">Home</Link> <span aria-hidden="true">/</span>{" "}
             <Link href="/treatments">Treatments</Link> <span aria-hidden="true">/</span>{" "}
             <Link href="/treatments/skin-support">Skin Support</Link>{" "}
             <span aria-hidden="true">/</span> <span aria-current="page">{treatment.name}</span>

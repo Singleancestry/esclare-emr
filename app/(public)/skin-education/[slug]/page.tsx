@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { notFound } from "next/navigation";
 import { AlertCircle, ArrowRight, CalendarDays, Clock3 } from "lucide-react";
+import { JsonLd } from "@/components/public/json-ld";
 import {
   educationArticles,
   getEducationArticle,
@@ -88,7 +89,7 @@ export default async function EducationArticlePage({ params }: Props) {
         <header className="border-b border-[#D8C9B4] bg-[#F4E8DA] py-10 sm:py-14">
           <div className="public-container">
             <nav aria-label="Breadcrumb" className="text-xs text-[#765A44]">
-              <Link href="/home">Home</Link> <span aria-hidden="true">/</span>{" "}
+              <Link href="/">Home</Link> <span aria-hidden="true">/</span>{" "}
               <Link href={"/skin-education" as Route}>Skin Education</Link>{" "}
               <span aria-hidden="true">/</span>{" "}
               <Link href={`/skin-education/category/${article.category}` as Route}>
@@ -335,20 +336,8 @@ export default async function EducationArticlePage({ params }: Props) {
         </div>
       </section>
 
-      {articleSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c"),
-          }}
-        />
-      )}
-      {faqSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
-        />
-      )}
+      {articleSchema && <JsonLd schema={articleSchema} />}
+      {faqSchema && <JsonLd schema={faqSchema} />}
     </main>
   );
 }

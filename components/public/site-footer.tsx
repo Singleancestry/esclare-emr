@@ -13,7 +13,7 @@ export function SiteFooter() {
     <footer className="bg-[#3B0D14] text-[#FAF4EC]">
       <div className="public-container grid gap-12 py-16 md:grid-cols-[1.2fr_0.8fr_1fr]">
         <div>
-          <Link href="/home" className="font-serif text-4xl tracking-[0.08em]">
+          <Link href="/" className="font-serif text-4xl tracking-[0.08em]">
             ESCLARE
           </Link>
           <p className="mt-5 max-w-sm text-sm leading-7 text-[#E6D6CC]">

@@ -27,11 +27,11 @@ export const clinicBranches: ReadonlyArray<ClinicBranch> = [
     facebook: "https://www.facebook.com/EsclareLaserCenter/",
     messenger: "https://m.me/625552207599338",
     maps: "https://maps.app.goo.gl/HQZQLvRmMoRpFbzD8",
-    schedule: "Daily, 10:00 AM-7:00 PM",
+    schedule: "Tuesday-Sunday, 10:00 AM-7:00 PM",
     timezone: "Asia/Manila",
     operatingHours: {
       0: { opens: 10 * 60, closes: 19 * 60 },
-      1: { opens: 10 * 60, closes: 19 * 60 },
+      1: null,
       2: { opens: 10 * 60, closes: 19 * 60 },
       3: { opens: 10 * 60, closes: 19 * 60 },
       4: { opens: 10 * 60, closes: 19 * 60 },
@@ -64,7 +64,7 @@ export const clinicBranches: ReadonlyArray<ClinicBranch> = [
       6: { opens: 9 * 60 + 30, closes: 18 * 60 },
     },
     doctorSchedule:
-      "Doctor-required services: Monday-Friday and Sunday by request, subject to the confirmed doctor schedule; no fixed end time is advertised.",
+      "Doctor-required services are available only by request after staff confirms the doctor schedule; a requested slot is not automatically confirmed.",
     unavailableTreatments: ["Fractional Laser and Scar Care"],
   },
 ];

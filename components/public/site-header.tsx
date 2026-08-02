@@ -10,7 +10,7 @@ import { BranchSelector } from "@/components/public/branch-selector";
 import { treatmentNavigationItems } from "@/lib/services/treatment-navigation";
 
 const links = [
-  ["Home", "/home"],
+  ["Home", "/"],
   ["GLP-1 Slimming", "/glp-1-slimming"],
   ["Skin Education", "/skin-education"],
   ["About", "/about"],
@@ -79,7 +79,7 @@ export function SiteHeader() {
       <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D6B078]/30 bg-[#FAF4EC]/95 backdrop-blur-xl">
         <div className="site-header-container flex h-[76px] items-center justify-between gap-4">
           <Link
-            href="/home"
+            href="/"
             aria-label="ESCLARE home"
             className="site-logo-link shrink-0 rounded-md"
           >
@@ -120,7 +120,7 @@ export function SiteHeader() {
             </details>
             {links.map(([label, href]) => {
               const active =
-                pathname === href || (href !== "/home" && pathname.startsWith(`${href}/`));
+                pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
               return (
                 <Link
                   key={href}
@@ -169,7 +169,7 @@ export function SiteHeader() {
           >
             <Link
               ref={firstLinkRef}
-              href="/home"
+              href="/"
               onClick={closeMenu}
               className="flex min-h-14 items-center justify-between border-b border-[#D6B078]/35 py-4 font-serif text-2xl text-[#59141D]"
             >
@@ -193,7 +193,7 @@ export function SiteHeader() {
                 href={href as Route}
                 onClick={closeMenu}
                 aria-current={
-                  pathname === href || (href !== "/home" && pathname.startsWith(`${href}/`))
+                  pathname === href || (href !== "/" && pathname.startsWith(`${href}/`))
                     ? "page"
                     : undefined
                 }

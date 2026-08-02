@@ -45,14 +45,18 @@ export function AuthenticHero() {
             <p className="hero-eyebrow hero-reveal hero-reveal-1 public-eyebrow">
               Personalized aesthetic care
             </p>
-            <h1 className="hero-heading-metallic hero-reveal hero-reveal-2 mt-6 font-serif text-[clamp(3.2rem,6.4vw,6.7rem)] leading-[0.95]">
+            <p className="hero-heading-metallic hero-reveal hero-reveal-2 mt-6 font-serif text-[clamp(3.2rem,6.4vw,6.7rem)] leading-[0.95]">
               <span className="block">Reveal Your</span>
               <span className="block sm:hidden">Most Radiant</span>
               <span className="block sm:hidden">Self</span>
               <span className="hidden sm:block">Most Radiant Self</span>
+            </p>
+            <h1 className="hero-summary hero-reveal hero-reveal-3 mt-7 max-w-xl text-lg font-semibold sm:text-xl">
+              Professional Aesthetic and Laser Clinic in Naga City and Daet
             </h1>
-            <p className="hero-summary hero-reveal hero-reveal-3 mt-7 max-w-xl text-lg sm:text-xl">
-              Advanced aesthetic, laser, and wellness treatments thoughtfully designed around you.
+            <p className="hero-summary hero-reveal hero-reveal-3 mt-3 max-w-xl text-base sm:text-lg">
+              ESCLARE provides professional facial, laser, skin-rejuvenation, body-contouring,
+              weight-management, and doctor-performed aesthetic treatments.
             </p>
             <div className="hero-reveal hero-reveal-4 mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/treatments" className="hero-primary-cta luxury-button">

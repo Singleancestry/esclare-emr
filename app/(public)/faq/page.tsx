@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalendarDays, MessageCircle } from "lucide-react";
 import { FaqBrowser } from "@/components/public/faq-browser";
+import { JsonLd } from "@/components/public/json-ld";
 import { clinicFaqs } from "@/lib/clinic/faqs";
 
 export const metadata: Metadata = {
@@ -24,10 +25,7 @@ const faqSchema = {
 export default function FaqPage() {
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replaceAll("<", "\\u003c") }}
-      />
+      <JsonLd schema={faqSchema} />
       <section className="bg-[#EEE6DA] py-16 sm:py-24">
         <div className="public-container">
           <p className="public-eyebrow">Clear guidance</p>

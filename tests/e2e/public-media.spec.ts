@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("public home uses authentic clinic, attendant, logo, and diode assets", async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/");
   await expect(
     page.getByRole("img", { name: "ESCLARE Naga logo wall and crystal chandelier" }),
   ).toBeVisible();
@@ -71,7 +71,7 @@ test("Daet branch page uses authentic photography and accurate details", async (
 test("treatment gallery filters verified media and preserves booking selection", async ({
   page,
 }) => {
-  await page.goto("/home");
+  await page.goto("/");
   await expect(
     page.getByRole("heading", { name: "A closer look, with clinical honesty." }),
   ).toBeVisible();
@@ -101,7 +101,7 @@ test("treatment gallery filters verified media and preserves booking selection",
 
 test("premium homepage respects reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/home");
+  await page.goto("/");
   const hero = page.locator(".hero-media");
   await expect(hero.locator(".hero-media-poster img")).toBeVisible();
   await expect(hero).toHaveAttribute("data-playback-state", "poster");
@@ -117,7 +117,7 @@ test("hero retains its poster and actions when video playback fails", async ({
       route.fulfill({ status: 503, contentType: "video/mp4", body: "" }),
     );
   }
-  await page.goto("/home");
+  await page.goto("/");
 
   const hero = page.locator(".hero-media");
   const heroStage = page.locator(".hero-stage");
@@ -139,7 +139,7 @@ test("hero retains its poster and actions when video playback fails", async ({
 
 test("hero remains usable after route navigation on a mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/home");
+  await page.goto("/");
   await expect(page.locator(".hero-media-poster img")).toBeVisible();
   await page.goto("/treatments");
   await page.goBack();
@@ -156,7 +156,7 @@ test("hero remains usable after route navigation on a mobile viewport", async ({
 test("hero completion exposes the pre-generated final frame without restarting", async ({
   page,
 }) => {
-  await page.goto("/home");
+  await page.goto("/");
   const hero = page.locator(".hero-media");
   const video = hero.locator("video");
 

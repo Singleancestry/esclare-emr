@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Stethoscope } from "lucide-react";
+import { JsonLd } from "@/components/public/json-ld";
 import { SkinSupportPage } from "@/components/public/skin-support-page";
+import { buildTreatmentSchema } from "@/lib/seo/treatment-schema";
 import { formatTreatmentPrice, treatments } from "@/lib/services/catalog";
 import { getTreatmentDetail } from "@/lib/services/details";
 import { getSkinSupportContent } from "@/lib/services/skin-support";
@@ -34,16 +36,30 @@ export default async function TreatmentDetailPage({ params }: Props) {
   const { slug } = await params;
   const treatment = treatments.find((item) => item.slug === slug && item.public);
   if (!treatment) notFound();
-  const skinSupport = getSkinSupportContent(slug);
-  if (skinSupport) return <SkinSupportPage treatment={treatment} content={skinSupport} />;
   const detail = getTreatmentDetail(treatment);
+  // Pages held back from indexing should not publish structured data either.
+  const schema =
+    treatment.publicationStatus === "regulatory-review"
+      ? null
+      : buildTreatmentSchema(treatment, detail);
+
+  const skinSupport = getSkinSupportContent(slug);
+  if (skinSupport) {
+    return (
+      <>
+        {schema && <JsonLd schema={schema} />}
+        <SkinSupportPage treatment={treatment} content={skinSupport} />
+      </>
+    );
+  }
 
   return (
     <main>
+      {schema && <JsonLd schema={schema} />}
       <section className="border-b border-[#D8C9B4] bg-[#F4E8DA] py-14 sm:py-20">
         <div className="public-container">
           <nav aria-label="Breadcrumb" className="text-xs text-[#765A44]">
-            <Link href="/home">Home</Link> <span aria-hidden="true">/</span>{" "}
+            <Link href="/">Home</Link> <span aria-hidden="true">/</span>{" "}
             <Link href="/treatments">Treatments</Link> <span aria-hidden="true">/</span>{" "}
             <span aria-current="page">{treatment.name}</span>
           </nav>

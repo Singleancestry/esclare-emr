@@ -162,7 +162,7 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
     category: "HIFU & Doctor-Led",
     question: "When are doctor-required treatments available?",
     answer:
-      "At Naga, doctor-required services are scheduled on Saturdays from 1:00 PM to 5:00 PM and may extend only for confirmed bookings and doctor availability. At Daet, doctor services may be requested Monday-Friday and Sunday, subject to the confirmed doctor schedule; no fixed end time is advertised. A request is not a confirmed slot.",
+      "At Naga, doctor-required services are scheduled on Saturdays from 1:00 PM to 5:00 PM and may extend only for confirmed bookings and doctor availability. At Daet, doctor services are available only by request after staff confirms the doctor schedule. A request is not a confirmed slot.",
   },
   {
     id: "booking-confirmation",
