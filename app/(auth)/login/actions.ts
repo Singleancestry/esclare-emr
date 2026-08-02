@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import type { Route } from "next";
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 import { loginSchema } from "@/lib/validation/auth";
 
 type LoginState = {
@@ -22,13 +23,21 @@ export async function signInAction(
     return { error: parsed.error.issues[0]?.message ?? "Check your login details." };
   }
 
+  if (!(await verifyTurnstile(formData))) {
+    return { error: "Security verification failed. Refresh the page and try again." };
+  }
+
   const supabase = await createSupabaseServerClient();
 
   if (!supabase) {
     return { error: "Supabase is not configured for this environment." };
   }
 
-  const { data: signInData, error } = await supabase.auth.signInWithPassword(parsed.data);
+  const captchaToken = String(formData.get("cf-turnstile-response") ?? "").trim();
+  const { data: signInData, error } = await supabase.auth.signInWithPassword({
+    ...parsed.data,
+    options: captchaToken ? { captchaToken } : undefined,
+  });
 
   if (error) {
     return { error: "Invalid email or password." };
@@ -60,7 +69,7 @@ export async function signInAction(
     if (assurance.currentLevel !== "aal2") redirect("/mfa" as Route);
   }
 
-  redirect("/services");
+  redirect("/dashboard");
 }
 
 export async function signOutAction() {

@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/auth/supabase-server";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 import { passwordRecoverySchema } from "@/lib/validation/auth";
 
 export type PasswordRecoveryState = {
@@ -21,6 +22,13 @@ export async function requestPasswordRecoveryAction(
     };
   }
 
+  if (!(await verifyTurnstile(formData))) {
+    return {
+      error: "Security verification failed. Refresh the page and try again.",
+      success: null,
+    };
+  }
+
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
     return { error: "Password recovery is temporarily unavailable.", success: null };
@@ -28,8 +36,10 @@ export async function requestPasswordRecoveryAction(
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://esclareph.com";
+  const captchaToken = String(formData.get("cf-turnstile-response") ?? "").trim();
   await supabase.auth.resetPasswordForEmail(parsed.data.email, {
     redirectTo: `${siteUrl.replace(/\/$/, "")}/auth/callback?next=/update-password`,
+    captchaToken: captchaToken || undefined,
   });
 
   return {

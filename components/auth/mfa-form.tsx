@@ -38,7 +38,7 @@ export function MfaForm({ email }: { email: string }) {
         return;
       }
       if (assurance.currentLevel === "aal2") {
-        window.location.replace("/services");
+        window.location.replace("/dashboard");
         return;
       }
 
@@ -102,7 +102,7 @@ export function MfaForm({ email }: { email: string }) {
       return;
     }
 
-    window.location.assign("/services");
+    window.location.assign("/dashboard");
   }
 
   return (

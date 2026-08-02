@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import {
   CalendarDays,
   CheckCircle2,
@@ -16,6 +16,8 @@ import {
   type PublicAppointmentRequestState,
 } from "@/app/(public)/appointment-request/actions";
 import { clinicBranches, getBranch, type BranchCode } from "@/lib/clinic/details";
+import { trackPublicEvent } from "@/lib/analytics/public-events";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { treatments } from "@/lib/services/catalog";
 
 const initialPublicAppointmentRequestState: PublicAppointmentRequestState = {
@@ -41,6 +43,8 @@ export function AppointmentRequestForm({
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const idempotencyRef = useRef<HTMLInputElement>(null);
+  const startedRef = useRef(false);
+  const trackedResultRef = useRef<PublicAppointmentRequestState["status"]>("idle");
   const [state, formAction, isPending] = useActionState(
     submitPublicAppointmentRequest,
     initialPublicAppointmentRequestState,
@@ -57,6 +61,30 @@ export function AppointmentRequestForm({
   const prepared = state.status === "saved" || state.status === "prepared";
   const error = state.status === "error" ? state.message : null;
   const message = state.preparedMessage ?? "";
+
+  function trackFormStart() {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackPublicEvent("booking_form_started", {
+      branch: branchCode,
+      route: window.location.pathname,
+    });
+  }
+
+  useEffect(() => {
+    if (state.status === "idle" || trackedResultRef.current === state.status) return;
+    trackedResultRef.current = state.status;
+    const parameters = {
+      branch: state.submittedBranchCode ?? branchCode,
+      treatment: treatmentSlug || "general",
+      route: window.location.pathname,
+    };
+    if (state.status === "saved") trackPublicEvent("booking_request_saved", parameters);
+    if (state.status === "prepared") {
+      trackPublicEvent("booking_contact_fallback_shown", parameters);
+    }
+    if (state.status === "error") trackPublicEvent("booking_form_error", parameters);
+  }, [branchCode, state.status, state.submittedBranchCode, treatmentSlug]);
 
   async function copyMessage() {
     try {
@@ -76,11 +104,17 @@ export function AppointmentRequestForm({
         action={formAction}
         noValidate
         onSubmit={() => {
+          trackPublicEvent("booking_button_clicked", {
+            branch: branchCode,
+            treatment: treatmentSlug || "general",
+            route: window.location.pathname,
+          });
           if (idempotencyRef.current && !idempotencyRef.current.value) {
             idempotencyRef.current.value = crypto.randomUUID();
           }
         }}
         onInput={() => {
+          trackFormStart();
           if (idempotencyRef.current && !idempotencyRef.current.value) {
             idempotencyRef.current.value = crypto.randomUUID();
           }
@@ -117,8 +151,13 @@ export function AppointmentRequestForm({
               name="branchCode"
               value={branchCode}
               onChange={(event) => {
-                setBranchCode(event.target.value as BranchCode);
+                const nextBranch = event.target.value as BranchCode;
+                setBranchCode(nextBranch);
                 setTreatmentSlug("");
+                trackPublicEvent("branch_selected", {
+                  branch: nextBranch,
+                  route: window.location.pathname,
+                });
               }}
               className="min-h-12 rounded-sm border border-[#CFC7BE] bg-white px-3 py-3 font-normal normal-case tracking-normal text-[#292524] outline-none focus:border-[#6F263D]"
             >
@@ -138,7 +177,15 @@ export function AppointmentRequestForm({
             <select
               name="treatmentSlug"
               value={treatmentSlug}
-              onChange={(event) => setTreatmentSlug(event.target.value)}
+              onChange={(event) => {
+                const nextTreatment = event.target.value;
+                setTreatmentSlug(nextTreatment);
+                trackPublicEvent("treatment_selected", {
+                  branch: branchCode,
+                  treatment: nextTreatment || "general",
+                  route: window.location.pathname,
+                });
+              }}
               className="min-h-12 rounded-sm border border-[#CFC7BE] bg-white px-3 py-3 font-normal normal-case tracking-normal text-[#292524] outline-none focus:border-[#6F263D]"
             >
               <option value="">General appointment</option>
@@ -209,6 +256,7 @@ export function AppointmentRequestForm({
             Preparing this form does not confirm a slot. ESCLARE confirms through Facebook, phone
             call, or SMS.
           </p>
+          <TurnstileField />
           <button
             type="submit"
             disabled={isPending}
@@ -274,6 +322,12 @@ export function AppointmentRequestForm({
             href={confirmationBranch.messenger}
             target="_blank"
             rel="noreferrer"
+            onClick={() =>
+              trackPublicEvent("messenger_button_clicked", {
+                branch: confirmationBranch.code,
+                route: window.location.pathname,
+              })
+            }
             className="luxury-button justify-between"
           >
             <span className="inline-flex items-center gap-2">
@@ -283,6 +337,12 @@ export function AppointmentRequestForm({
           </a>
           <a
             href={`tel:${confirmationBranch.phoneHref}`}
+            onClick={() =>
+              trackPublicEvent("phone_clicked", {
+                branch: confirmationBranch.code,
+                route: window.location.pathname,
+              })
+            }
             className="luxury-button-outline justify-start bg-white"
           >
             <Phone size={17} /> Call {confirmationBranch.phone}

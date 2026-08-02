@@ -5,6 +5,7 @@ import { Eye, EyeOff, LogIn } from "lucide-react";
 import Link from "next/link";
 import type { Route } from "next";
 import { signInAction } from "@/app/(auth)/login/actions";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { Button } from "@/components/ui/button";
 
 export function LoginForm({ message }: { message?: string }) {
@@ -79,6 +80,8 @@ export function LoginForm({ message }: { message?: string }) {
           {state.error}
         </p>
       ) : null}
+
+      <TurnstileField />
 
       <Button className="mt-6 w-full" type="submit" disabled={isPending}>
         <LogIn size={18} aria-hidden /> {isPending ? "Signing in..." : "Sign in"}

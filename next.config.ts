@@ -1,9 +1,19 @@
 import type { NextConfig } from "next";
 
+const canonicalHost = (() => {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+  if (!siteUrl) return null;
+  try {
+    return new URL(siteUrl).host;
+  } catch {
+    return null;
+  }
+})();
+
 const scriptSources =
   process.env.NODE_ENV === "development"
-    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-    : "script-src 'self' 'unsafe-inline'";
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://challenges.cloudflare.com"
+    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -11,12 +21,13 @@ const contentSecurityPolicy = [
   "form-action 'self' https://www.facebook.com https://m.me",
   "frame-ancestors 'none'",
   "object-src 'none'",
+  "frame-src https://challenges.cloudflare.com",
   scriptSources,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com https://challenges.cloudflare.com",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
 ].join("; ");
@@ -71,6 +82,18 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Collapse the www host onto the canonical host used by metadata and the sitemap,
+      // so both do not serve 200 for every URL.
+      ...(canonicalHost && !canonicalHost.startsWith("www.")
+        ? [
+            {
+              source: "/:path*",
+              has: [{ type: "host" as const, value: `www.${canonicalHost}` }],
+              destination: `https://${canonicalHost}/:path*`,
+              permanent: true,
+            },
+          ]
+        : []),
       {
         source: "/treatments/skin-support/mccm-exosome-pdrn",
         destination: "/treatments/mccm-exosome-pdrn",

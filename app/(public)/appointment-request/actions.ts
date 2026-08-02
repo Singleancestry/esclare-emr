@@ -6,6 +6,7 @@ import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
 import { getBranch } from "@/lib/clinic/details";
 import type { BranchCode } from "@/lib/clinic/details";
 import { isFeatureEnabled } from "@/lib/features/flags";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 import { treatments } from "@/lib/services/catalog";
 import { appointmentRequestSchema } from "@/lib/validation/appointment-request";
 
@@ -63,6 +64,19 @@ export async function submitPublicAppointmentRequest(
     };
   }
 
+  const requestHeaders = await headers();
+  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const clientAddress = forwardedFor || requestHeaders.get("x-real-ip") || "unavailable";
+  if (!(await verifyTurnstile(formData, clientAddress))) {
+    return {
+      status: "error",
+      message: "Security verification failed. Refresh the page and try again.",
+      reference: null,
+      preparedMessage,
+      submittedBranchCode: parsed.data.branchCode,
+    };
+  }
+
   // Anonymous booking has no user session; the atomic RPC enforces its server-side controls.
   const admin = isFeatureEnabled("publicBookingPersistence") ? createSupabaseAdminClient() : null;
   const rateLimitSecret = process.env.APPOINTMENT_REQUEST_RATE_LIMIT_SECRET;
@@ -79,9 +93,6 @@ export async function submitPublicAppointmentRequest(
   }
 
   const branchCode = parsed.data.branchCode.toUpperCase();
-  const requestHeaders = await headers();
-  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const clientAddress = forwardedFor || requestHeaders.get("x-real-ip") || "unavailable";
   const requestFingerprint = createHmac("sha256", rateLimitSecret)
     .update(clientAddress)
     .digest("hex");

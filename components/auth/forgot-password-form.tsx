@@ -1,54 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { createBrowserClient } from "@supabase/ssr";
 import { Mail } from "lucide-react";
-import { type FormEvent, useState } from "react";
+import { useActionState } from "react";
+import {
+  requestPasswordRecoveryAction,
+  type PasswordRecoveryState,
+} from "@/app/(auth)/forgot-password/actions";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { Button } from "@/components/ui/button";
-
-type PasswordRecoveryState = { error: string | null; success: string | null };
 
 const initialState: PasswordRecoveryState = { error: null, success: null };
 
 export function ForgotPasswordForm() {
-  const [state, setState] = useState(initialState);
-  const [isPending, setIsPending] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsPending(true);
-    setState(initialState);
-
-    const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") ?? "").trim();
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      setState({ error: "Password recovery is temporarily unavailable.", success: null });
-      setIsPending(false);
-      return;
-    }
-
-    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/callback?next=/update-password`,
-    });
-
-    setIsPending(false);
-    setState(
-      error
-        ? { error: "Unable to send a reset link right now. Please wait and try again.", success: null }
-        : {
-            error: null,
-            success: "If that staff account exists, a password-reset link has been sent.",
-          },
-    );
-  }
+  const [state, formAction, isPending] = useActionState(
+    requestPasswordRecoveryAction,
+    initialState,
+  );
 
   return (
     <form
-      onSubmit={handleSubmit}
+      action={formAction}
       className="w-full max-w-md rounded border border-[#D9DDE3] bg-white p-8 shadow-sm"
     >
       <h1 className="text-3xl font-semibold text-[#481827]">Reset staff password</h1>
@@ -79,6 +51,7 @@ export function ForgotPasswordForm() {
         </p>
       ) : null}
 
+      <TurnstileField />
       <Button className="mt-6 w-full" type="submit" disabled={isPending}>
         <Mail size={18} aria-hidden /> {isPending ? "Sending..." : "Send reset link"}
       </Button>
