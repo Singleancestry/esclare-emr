@@ -138,8 +138,8 @@ export default function DaetBranchPage() {
               Approved, bookable treatments except Fractional Laser.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[#E7DAD2]">
-              Regulatory-review pages are not bookable. Other treatments remain subject to doctor,
-              staff, room, and equipment confirmation.
+              Treatment availability is confirmed by the branch based on the appropriate doctor or
+              staff member, room, and equipment.
             </p>
           </div>
           <Link href="/treatments" className="luxury-button-light">

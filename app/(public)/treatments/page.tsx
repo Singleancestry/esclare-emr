@@ -169,11 +169,6 @@ export default function TreatmentsPage() {
                             <Stethoscope size={12} aria-hidden="true" /> Doctor
                           </span>
                         )}
-                        {item.publicationStatus === "regulatory-review" && (
-                          <span className="inline-flex shrink-0 items-center rounded-md bg-[#F7EEDC] px-2 py-1 text-[10px] font-bold uppercase text-[#765A44]">
-                            Review
-                          </span>
-                        )}
                       </div>
                       <p className="mt-4 text-sm leading-7 text-[#625D58]">{item.summary}</p>
                       {item.areas && (

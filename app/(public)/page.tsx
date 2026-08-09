@@ -105,7 +105,7 @@ const faqPreview = [
   ],
   [
     "Are all treatments available at both branches?",
-    "Naga offers approved, bookable treatments subject to staff or doctor availability. Daet offers approved, bookable treatments except Fractional Laser. Regulatory-review pages are not available for booking.",
+    "Treatment availability varies by branch and depends on staff, doctor, room, and equipment availability. Daet does not offer Fractional Laser. Please contact your selected branch to confirm your treatment.",
   ],
   [
     "How early should I reschedule?",

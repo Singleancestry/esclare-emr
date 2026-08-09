@@ -100,8 +100,8 @@ export default function BranchesPage() {
                       </p>
                       <p className="mt-2 text-sm leading-6 text-[#62595C]">
                         {branch.unavailableTreatments.length === 0
-                          ? "Approved, bookable ESCLARE treatments are available subject to doctor or staff confirmation. Regulatory-review pages are not bookable."
-                          : `Approved, bookable treatments are available except ${branch.unavailableTreatments.join(", ")}. Regulatory-review pages are not bookable, and other services remain subject to staff confirmation.`}
+                          ? "Treatment availability is confirmed by the branch based on the appropriate provider, room, and equipment."
+                          : `This branch does not offer ${branch.unavailableTreatments.join(", ")}. Other treatment availability is confirmed directly by the branch.`}
                       </p>
                     </div>
                   </div>
