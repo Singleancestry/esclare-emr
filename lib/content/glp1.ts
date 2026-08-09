@@ -1,9 +1,9 @@
 export const glp1Content = {
-  programLabel: "GLP-1 Slimming — ₱21,500 for a 4-week treatment program",
+  programLabel: "Physician-supervised 4-week GLP-1 treatment program",
   introduction:
     "GLP-1 medicines act on hormone-signaling pathways involved in appetite, fullness, digestion, and glucose regulation. They are prescription treatments and are not appropriate for everyone.",
   program:
-    "A supervised program may include medical screening, review of current medicines and health history, treatment selection by a qualified prescriber, progress monitoring, side-effect review, and practical lifestyle support.",
+    "A supervised program may include medical screening, review of current medicines and health history, individualized treatment selection, progress monitoring, side-effect review, and practical lifestyle support.",
   screening:
     "Eligibility is determined through consultation and clinical assessment. The clinician may recommend another approach when medical history, current medicines, pregnancy or breastfeeding, digestive concerns, or other risk factors make treatment unsuitable.",
   expectations:

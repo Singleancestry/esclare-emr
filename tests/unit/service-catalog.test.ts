@@ -20,11 +20,11 @@ describe("service catalog", () => {
     ).toBe("Starts at ₱5,000");
   });
 
-  it("keeps the GLP-1 program price and duration canonical", () => {
+  it("keeps the GLP-1 program duration canonical without a price headline", () => {
     const treatment = treatments.find((item) => item.slug === "glp-1-slimming")!;
 
     expect(formatTreatmentPrice(treatment)).toBe(GLP1_PROGRAM_LABEL);
-    expect(GLP1_PROGRAM_LABEL).toBe("GLP-1 Slimming — ₱21,500 for a 4-week treatment program");
+    expect(GLP1_PROGRAM_LABEL).toBe("Physician-supervised 4-week GLP-1 treatment program");
   });
 
   it("keeps all six Skin Support services review-gated with approved preview prices", () => {

@@ -126,9 +126,10 @@ export default function MccmSkinSupportPage() {
               </p>
             </div>
             <p className="mt-5 max-w-3xl text-sm leading-7 text-[#62595C]">
-              After a professional peel or active treatment, follow the clinic&apos;s written guidance,
-              use appropriate sun protection, avoid picking or scrubbing, and contact ESCLARE for
-              marked swelling, blistering, worsening pain, discharge or another unexpected reaction.
+              After a professional peel or active treatment, follow the clinic&apos;s written
+              guidance, use appropriate sun protection, avoid picking or scrubbing, and contact
+              ESCLARE for marked swelling, blistering, worsening pain, discharge or another
+              unexpected reaction.
             </p>
           </div>
           <Link href="/appointment-request" className="luxury-button">

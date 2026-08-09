@@ -66,7 +66,7 @@ export function AuthenticHero() {
                 href="/appointment-request"
                 className="hero-secondary-cta luxury-button-outline"
               >
-                Book a consultation
+                Request assessment
               </Link>
             </div>
             <div className="hero-trust hero-reveal hero-reveal-4 mt-11 grid max-w-2xl grid-cols-3 divide-x divide-[#D6B078]/45">

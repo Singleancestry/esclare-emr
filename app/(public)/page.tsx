@@ -344,7 +344,7 @@ export default function PublicHomePage() {
               </span>
             </div>
             <Link href="/appointment-request" className="luxury-button-light mt-9">
-              Request a consultation
+              Request assessment
             </Link>
           </div>
           <div className="relative min-h-[560px] lg:min-h-[700px]" data-reveal="right">
@@ -475,7 +475,7 @@ export default function PublicHomePage() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <Link href="/appointment-request" className="luxury-button-light">
-              <CalendarDays size={17} /> Book a consultation
+              <CalendarDays size={17} /> Request assessment
             </Link>
             <Link href="/branches" className="luxury-button-ghost">
               <MapPin size={17} /> Find a branch

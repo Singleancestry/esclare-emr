@@ -17,6 +17,7 @@ type ArticlePreview = Pick<
   | "readingMinutes"
   | "updatedAt"
   | "status"
+  | "tags"
 >;
 
 export function SkinEducationExplorer({
@@ -35,7 +36,9 @@ export function SkinEducationExplorer({
         const inCategory = category === "all" || article.category === category;
         const matchesQuery =
           !deferredQuery ||
-          `${article.title} ${article.excerpt}`.toLowerCase().includes(deferredQuery);
+          `${article.title} ${article.excerpt} ${article.tags.join(" ")}`
+            .toLowerCase()
+            .includes(deferredQuery);
         return inCategory && matchesQuery;
       }),
     [articles, category, deferredQuery],

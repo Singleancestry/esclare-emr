@@ -78,6 +78,8 @@ function categoryMechanism(treatment: Treatment) {
 }
 
 function durationFor(treatment: Treatment) {
+  if (treatment.slug === "pico-glow-face")
+    return "Each Pico Glow Face session typically lasts 30 to 45 minutes, including assessment, cleansing, the treatment proper, protection, and aftercare.";
   if (treatment.slug === "glp-1-slimming")
     return "The listed program covers four weeks. Appointment length and follow-up timing are set after consultation and may vary with the selected medicine, monitoring needs, and clinical response.";
   if (treatment.slug === "laser-circumcision")
@@ -94,6 +96,10 @@ function durationFor(treatment: Treatment) {
 }
 
 function sessionsFor(treatment: Treatment) {
+  if (treatment.slug === "pico-glow-face")
+    return "Treatment results develop progressively over a series of sessions. The recommended treatment interval is typically every 4 to 6 weeks. The total number of sessions and timing depend on your skin concerns, skin tone, skin response, treatment settings, and recovery. Each plan is individualized to support optimal results while prioritizing skin safety.";
+  if (treatment.slug === "exilift-face")
+    return "Exilift treatments are typically scheduled at intervals of 4 to 6 weeks. The recommended timing may vary depending on the client's skin condition, individual skin response, and personalized treatment plan.";
   if (treatment.slug === "glp-1-slimming")
     return "The four-week program includes medically directed follow-up and progress monitoring as appropriate. Eligibility, medication selection, dose changes, and continuation beyond four weeks require reassessment by a qualified medical professional.";
   if (treatment.category === "Doctor Procedures")
@@ -199,7 +205,7 @@ export function getTreatmentDetail(treatment: Treatment): TreatmentDetail {
     ? "A doctor consultation is required to confirm anatomy, diagnosis-independent goals, consent, and suitability."
     : "A professional assessment is required to confirm the concern, skin condition, and suitability.";
 
-  return {
+  const detail: TreatmentDetail = {
     concerns,
     howItWorks: categoryMechanism(treatment),
     potentialBenefits: concerns.map(
@@ -247,4 +253,30 @@ export function getTreatmentDetail(treatment: Treatment): TreatmentDetail {
       },
     ],
   };
+
+  if (treatment.slug === "pico-glow-face") {
+    return {
+      ...detail,
+      sessions: sessionsFor(treatment),
+      duration: durationFor(treatment),
+      downtime:
+        "Downtime is usually none to minimal, depending on the treatment intensity and individual skin sensitivity. Temporary mild redness or warmth may occur, but this generally settles after treatment. Most clients may resume normal daily activities while following the recommended aftercare instructions.",
+      aftercare: [
+        "Use gentle skincare products and a broad-spectrum sunscreen during recovery.",
+        "Avoid direct sunlight, excessive heat, friction on the treated area, and strenuous physical activity while the skin is recovering.",
+        "Continue proper sun protection and follow the recommended aftercare instructions.",
+      ],
+    };
+  }
+
+  if (treatment.slug === "exilift-face") {
+    return {
+      ...detail,
+      sessions: sessionsFor(treatment),
+      downtime:
+        "There is no downtime. You may resume normal daily activities immediately after treatment. However, avoid strenuous physical activities, such as running, weightlifting, or other heavy exercise, for the first 24 hours.",
+    };
+  }
+
+  return detail;
 }

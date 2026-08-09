@@ -24,9 +24,26 @@ const links = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [treatmentsOpen, setTreatmentsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const treatmentsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const closeTreatments = (event: PointerEvent) => {
+      if (!treatmentsRef.current?.contains(event.target as Node)) setTreatmentsOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setTreatmentsOpen(false);
+    };
+    document.addEventListener("pointerdown", closeTreatments);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeTreatments);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -101,8 +118,16 @@ export function SiteHeader() {
             >
               Home
             </Link>
-            <details className="group relative">
-              <summary className="public-link flex min-h-11 cursor-pointer list-none items-center gap-1 py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold text-[#43201E] marker:hidden">
+            <details
+              ref={treatmentsRef}
+              open={treatmentsOpen}
+              onToggle={(event) => setTreatmentsOpen(event.currentTarget.open)}
+              className="group relative"
+            >
+              <summary
+                aria-controls="desktop-treatment-navigation"
+                className="public-link flex min-h-11 cursor-pointer list-none items-center gap-1 py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold text-[#43201E] marker:hidden"
+              >
                 Treatments{" "}
                 <ChevronDown
                   size={14}
@@ -110,11 +135,15 @@ export function SiteHeader() {
                   aria-hidden="true"
                 />
               </summary>
-              <div className="absolute left-0 top-full w-80 border border-[#D6B078]/45 bg-[#FAF4EC] p-3 shadow-[0_18px_45px_rgba(59,13,20,0.14)]">
+              <div
+                id="desktop-treatment-navigation"
+                className="absolute left-0 top-full w-80 border border-[#D6B078]/45 bg-[#FAF4EC] p-3 shadow-[0_18px_45px_rgba(59,13,20,0.14)]"
+              >
                 {treatmentNavigationItems.map((item, index) => (
                   <Link
                     key={item.href}
                     href={item.href as Route}
+                    onClick={() => setTreatmentsOpen(false)}
                     className={`block min-h-11 px-3 py-3 text-sm text-[#43201E] hover:bg-white focus-visible:bg-white ${index === 0 ? "border-b border-[#D6B078]/35 font-semibold text-[#59141D]" : ""}`}
                   >
                     {item.label}
@@ -141,7 +170,7 @@ export function SiteHeader() {
               <BranchSelector />
             </div>
             <Link href="/appointment-request" className="luxury-button">
-              Book a consultation
+              Request assessment
             </Link>
           </div>
           <button
@@ -209,7 +238,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link href="/appointment-request" onClick={closeMenu} className="luxury-button mt-8">
-              Book a consultation
+              Request assessment
             </Link>
             <div className="mt-5">
               <BranchSelector mobile />

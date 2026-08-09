@@ -118,10 +118,11 @@ const weightReferences: ReadonlyArray<ArticleReference> = [
   },
 ];
 
-export const educationArticles: ReadonlyArray<EducationArticle> = [
+const educationArticleSource: ReadonlyArray<EducationArticle> = [
   {
     slug: "diode-laser-hair-removal-guide",
-    title: "Diode Laser Hair Removal: How It Works, Benefits, Sessions, and Aftercare",
+    title:
+      "4D Wavelength Diode Laser Hair Removal: How It Works, Benefits, Sessions, and Aftercare",
     excerpt:
       "A practical guide to diode laser hair reduction, treatment areas, session planning, comfort, and aftercare.",
     category: "laser-treatments",
@@ -154,9 +155,11 @@ export const educationArticles: ReadonlyArray<EducationArticle> = [
       },
       {
         id: "sessions",
-        title: "Why several sessions are usually discussed",
+        title: "Why treatment intervals and the hair-growth cycle matter",
         paragraphs: [
-          "Laser responds best when hair is in an active growth phase, and not every follicle is in that phase on the same day. This is why treatment is usually planned as a course rather than a one-time visit.",
+          "Laser hair removal works most effectively when individual hairs are in the appropriate active growth stage. Because hairs enter these stages at different times, sessions need to be appropriately spaced rather than repeated at very short intervals in an attempt to speed results.",
+          "Anagen is the active growth phase. Hair is most responsive during this stage because the growing hair provides an effective pathway for laser energy toward the follicle. Catagen is the transitional phase, when growth slows and the follicle begins moving away from active growth. Telogen is the resting and shedding phase, when hair is not actively growing in the same way as it is during anagen.",
+          "All hairs are not synchronized in one stage at the same time. A series of appropriately timed treatments is therefore needed to progressively target different hairs as they enter a responsive growth stage.",
         ],
         bullets: [
           "Intervals depend on the body area and observed regrowth.",
@@ -560,7 +563,7 @@ export const educationArticles: ReadonlyArray<EducationArticle> = [
       {
         question: "Is tirzepatide the same as a single-pathway GLP-1 medicine?",
         answer:
-          "No. Tirzepatide acts at both GIP and GLP-1 receptors. Product choice must be made by a qualified prescriber.",
+          "No. Tirzepatide acts at both GIP and GLP-1 receptors. Product choice requires an individualized clinical assessment.",
       },
       {
         question: "Can I choose my own dose progression?",
@@ -1340,7 +1343,154 @@ export const educationArticles: ReadonlyArray<EducationArticle> = [
     relatedArticles: ["mccm-professional-skincare-guide", "mccm-professional-chemical-peels"],
     relatedTreatments: [{ label: "ESCLARE Aftercare Library", href: "/aftercare" }],
   },
+  {
+    slug: "esthemax-hydrojelly-mask-guide",
+    title: "ESTHEMAX HydroJelly Mask: What It Is and What to Expect",
+    excerpt:
+      "Learn how ESTHEMAX HydroJelly Mask is prepared, how the treatment works, what it feels like, and how it may support skin hydration and a refreshed-looking complexion.",
+    category: "mccm-skin-science",
+    tags: [
+      "ESTHEMAX",
+      "STMAX",
+      "HydroJelly",
+      "Hydro Jelly",
+      "jelly mask",
+      "hydrating mask",
+      "facial mask",
+      "hydration",
+      "dry skin",
+    ],
+    heroImage: "/images/optimized/clinic/esclare-naga-preparation-area-v2.webp",
+    heroAlt: "Professional mask preparation area at ESCLARE",
+    author: "ESCLARE Editorial Team",
+    reviewer: null,
+    status: "published",
+    published: true,
+    publishedAt: "2026-08-09",
+    updatedAt: "2026-08-09",
+    readingMinutes: 7,
+    seoTitle: "ESTHEMAX HydroJelly Mask Guide | Skin Education | Esclare",
+    metaDescription:
+      "A patient-friendly guide to ESTHEMAX HydroJelly Mask preparation, application, cosmetic benefits, suitability and aftercare.",
+    keyTakeaways: [
+      "The powdered mask is freshly mixed with purified water and sets into a flexible jelly-like layer.",
+      "Specific ingredients and intended cosmetic benefits vary by the selected formulation.",
+      "Suitability depends on skin condition, ingredients, the primary procedure and professional assessment.",
+    ],
+    sections: [
+      {
+        id: "introduction",
+        title: "What is ESTHEMAX HydroJelly Mask?",
+        paragraphs: [
+          "ESTHEMAX HydroJelly Mask is a professional peel-off mask that may be incorporated into selected ESCLARE facial or aesthetic protocols. Unlike a conventional sheet or cream mask, its powdered formulation is freshly mixed with purified water and develops a soft jelly-like consistency before setting into a flexible removable layer.",
+          "Where alginate is present in the selected formulation, it helps create the characteristic gel structure. Specific ingredients and intended cosmetic benefits may vary depending on the HydroJelly Mask formulation selected.",
+        ],
+      },
+      {
+        id: "how-it-works",
+        title: "How the treatment is prepared and applied",
+        paragraphs: [
+          "The provider selects an appropriate formulation, mixes the powder with purified water immediately before use, applies it evenly, allows it to set, and gently removes the flexible layer. Remaining residue is removed and suitable finishing skincare may be applied according to clinic protocol.",
+          "As the mask sets, it forms a close-fitting flexible layer that helps maintain contact between the formulation and the treatment area while helping reduce moisture loss during the treatment period. It should not be described as forcing ingredients into pores or deeper skin layers.",
+        ],
+      },
+      {
+        id: "experience-benefits",
+        title: "What it feels like and potential cosmetic benefits",
+        paragraphs: [
+          "Clients may notice a cooling sensation, soft jelly texture, comfortable setting process and gentle peel-off removal. Scent and sensory experience may vary by formulation.",
+          "Depending on formulation and skin condition, the mask may help support hydration, softer-feeling skin, a smoother-looking complexion, a refreshed appearance and a cooling, soothing treatment experience. Results and duration vary.",
+        ],
+      },
+      {
+        id: "suitability",
+        title: "Suitability and use with other treatments",
+        paragraphs: [
+          "It may be considered for clients seeking additional hydration, a refreshing finishing treatment or support for dry-looking skin. Known ingredient allergies, active irritation, open wounds, infection, significant inflammation, recent procedures or previous mask reactions should be disclosed.",
+          "The mask is not automatically suitable after every laser, peel, microneedling, injectable or energy-based procedure. Compatibility depends on the procedure, skin condition, formulation, manufacturer directions, clinic protocol and professional assessment.",
+        ],
+      },
+      {
+        id: "after-treatment",
+        title: "What to expect afterward",
+        paragraphs: [
+          "After treatment, skin may feel cooler, softer, smoother and more hydrated. The visible effect and duration vary with skin condition, formulation, skincare routine, environment and any other treatment performed during the visit.",
+        ],
+      },
+    ],
+    beforecare: ["Disclose allergies, irritation, recent procedures and previous mask reactions."],
+    aftercare: [
+      "Follow ESCLARE's skincare instructions and use suitable moisturizer and daytime sunscreen.",
+      "When combined with another procedure, follow that primary procedure's aftercare first.",
+    ],
+    unsuitable: [
+      "Known ingredient allergy",
+      "Open wounds or active infection",
+      "Significant inflammation or unusual sensitivity",
+    ],
+    contactClinic: [
+      "Hives",
+      "Marked swelling",
+      "Persistent burning",
+      "A worsening unexpected reaction",
+    ],
+    faqs: withStandardFaqs([
+      {
+        question: "How is HydroJelly Mask prepared?",
+        answer: "The powder is freshly mixed with purified water immediately before application.",
+      },
+      {
+        question: "What does it feel like?",
+        answer:
+          "It commonly has a cooling, soft jelly texture; the exact sensory experience varies by formulation.",
+      },
+      {
+        question: "Can it be added to a facial?",
+        answer:
+          "It may be used as a ₱350 facial add-on when compatible with the selected protocol and your skin assessment.",
+      },
+      {
+        question: "Does it require downtime?",
+        answer:
+          "The mask itself generally does not require downtime, but aftercare from any treatment performed with it takes priority.",
+      },
+    ]),
+    references: [
+      {
+        title: "ESTHEMAX official HydroJelly Mask product catalog",
+        url: "https://www.esthemax.com/searchresults.asp?Cat=1977",
+      },
+    ],
+    relatedArticles: ["mccm-professional-skincare-guide"],
+    relatedTreatments: [
+      { label: "ESTHEMAX HydroJelly Mask add-on", href: "/treatments/esthemax-hydrojelly-mask" },
+    ],
+  },
 ];
+
+const suppliedArticleSlugs = new Set([
+  "diode-laser-hair-removal-guide",
+  "pico-laser-facial-pigmentation",
+  "why-underarms-become-dark",
+  "glp-1-weight-management-programs",
+  "tirzepatide-weight-management-guide",
+  "pico-laser-facial-rejuvenation",
+  "mccm-professional-skincare-guide",
+  "exosomes-aesthetic-skincare",
+  "pdrn-polynucleotides-guide",
+  "vitamin-c-glutathione-brightening",
+  "mccm-professional-chemical-peels",
+  "mccm-mesotherapy-solutions",
+  "professional-skincare-energy-treatments",
+  "mccm-home-care-after-treatments",
+]);
+
+export const educationArticles: ReadonlyArray<EducationArticle> = educationArticleSource.map(
+  (article) =>
+    suppliedArticleSlugs.has(article.slug)
+      ? { ...article, status: "published", published: true }
+      : article,
+);
 
 export function getEducationCategory(slug: string) {
   return educationCategories.find((category) => category.slug === slug);

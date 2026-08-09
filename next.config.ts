@@ -124,6 +124,16 @@ const nextConfig: NextConfig = {
         destination: "/treatments/rejuran-scar",
         permanent: true,
       },
+      {
+        source: "/treatments/hifu-abdomen",
+        destination: "/treatments/7d-hifu-face",
+        permanent: true,
+      },
+      {
+        source: "/treatments/hifu-flanks",
+        destination: "/treatments/7d-hifu-face",
+        permanent: true,
+      },
     ];
   },
   async headers() {

@@ -74,7 +74,7 @@ export default async function EducationCategoryPage({ params }: Props) {
                 publication.
               </p>
               <Link href="/appointment-request" className="luxury-button mt-6">
-                Request consultation
+                Request assessment
               </Link>
             </div>
           )}

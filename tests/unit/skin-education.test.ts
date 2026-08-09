@@ -12,28 +12,27 @@ import { resolve } from "node:path";
 
 describe("skin education editorial controls", () => {
   it("contains the complete requested article library with unique metadata", () => {
-    expect(educationArticles).toHaveLength(14);
-    expect(new Set(educationArticles.map((article) => article.slug)).size).toBe(14);
-    expect(new Set(educationArticles.map((article) => article.seoTitle)).size).toBe(14);
+    expect(educationArticles).toHaveLength(15);
+    expect(new Set(educationArticles.map((article) => article.slug)).size).toBe(15);
+    expect(new Set(educationArticles.map((article) => article.seoTitle)).size).toBe(15);
     expect(educationArticles.every((article) => article.faqs.length >= 5)).toBe(true);
   });
 
-  it("keeps Rejuran content out of Skin Education", () => {
+  it("does not expose Rejuran education content", () => {
     const rejuranDrafts = educationArticles.filter((article) => article.tags.includes("Rejuran"));
 
     expect(rejuranDrafts).toHaveLength(0);
   });
 
-  it("keeps unreviewed medical content out of production visibility", () => {
-    expect(getVisibleEducationArticles()).toEqual([]);
-    expect(
-      educationArticles.every(
-        (article) =>
-          !article.published &&
-          article.status === "medical-review-required" &&
-          article.reviewer === null,
-      ),
-    ).toBe(true);
+  it("publishes supplied editorial articles while keeping review-gated content hidden", () => {
+    const visible = getVisibleEducationArticles();
+
+    expect(visible).toHaveLength(15);
+    expect(visible.every((article) => article.published && article.status === "published")).toBe(
+      true,
+    );
+    expect(visible.some((article) => article.slug === "esthemax-hydrojelly-mask-guide")).toBe(true);
+    expect(visible.some((article) => article.tags.includes("Rejuran"))).toBe(false);
   });
 
   it("rejects draft slugs that were not generated for production", () => {

@@ -13,9 +13,10 @@ export type Treatment = {
   doctorRequired: boolean;
   public: boolean;
   publicationStatus?: "approved" | "regulatory-review";
+  areas?: ReadonlyArray<{ name: string; price: string }>;
 };
 
-export const GLP1_PROGRAM_LABEL = "GLP-1 Slimming — ₱21,500 for a 4-week treatment program";
+export const GLP1_PROGRAM_LABEL = "Physician-supervised 4-week GLP-1 treatment program";
 
 export type DiodePackage = {
   area: string;
@@ -41,10 +42,22 @@ export const treatments: ReadonlyArray<Treatment> = [
     slug: "hydrajet-peel",
     name: "HydraJet Peel",
     category: "Facials",
-    summary: "A peel-focused facial with extraction, serum, cryotherapy, mask and light therapy.",
+    summary: "A peel-focused facial with extraction, serum, cold hammer, mask and light therapy.",
     priceKind: "fixed",
     priceMin: 1999,
     unit: "session",
+    doctorRequired: false,
+    public: true,
+  },
+  {
+    slug: "esthemax-hydrojelly-mask",
+    name: "ESTHEMAX HydroJelly Mask",
+    category: "Facials",
+    summary:
+      "A freshly mixed professional peel-off mask add-on designed for a cooling, soothing and hydrating treatment experience.",
+    priceKind: "fixed",
+    priceMin: 350,
+    unit: "add-on",
     doctorRequired: false,
     public: true,
   },
@@ -133,7 +146,8 @@ export const treatments: ReadonlyArray<Treatment> = [
     slug: "carbon-laser-peel",
     name: "Carbon Laser Peel",
     category: "Laser and Brightening",
-    summary: "Laser peel for brighter-looking skin, oiliness, pores and texture.",
+    summary:
+      "Laser peel designed to brighten the skin, reduce excess oil, refine pores, and improve overall skin texture.",
     priceKind: "fixed",
     priceMin: 3500,
     unit: "session",
@@ -141,8 +155,20 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "tattoo-removal",
+    name: "Tattoo Removal",
+    category: "Laser and Brightening",
+    summary:
+      "Picosecond laser tattoo-removal treatment using selected wavelengths; final pricing depends on branch, size and assessment.",
+    priceKind: "starts_at",
+    priceMin: 1200,
+    displayPrice: "Starts at ₱1,200 in Daet / ₱2,500 in Naga for up to 3×3 cm",
+    doctorRequired: false,
+    public: true,
+  },
+  {
     slug: "exilift-face",
-    name: "Exilift Face",
+    name: "Exilift",
     category: "Lifting and Contouring",
     summary: "RF and ultrasound-style facial tightening and contouring treatment.",
     priceKind: "fixed",
@@ -150,10 +176,20 @@ export const treatments: ReadonlyArray<Treatment> = [
     unit: "session",
     doctorRequired: false,
     public: true,
+    areas: [
+      { name: "Chin", price: "₱800" },
+      { name: "Face", price: "₱1,800" },
+      { name: "Arms", price: "₱1,500" },
+      { name: "Upper back / bra line", price: "₱1,500" },
+      { name: "Front or back thighs", price: "₱1,500" },
+      { name: "Abdomen", price: "₱2,300" },
+      { name: "Flanks", price: "₱2,300" },
+      { name: "Buttocks", price: "₱2,300" },
+    ],
   },
   {
     slug: "7d-hifu-face",
-    name: "7D HIFU Face",
+    name: "HIFU",
     category: "Lifting and Contouring",
     summary: "Non-invasive focused-ultrasound treatment for lifting and tightening.",
     priceKind: "fixed",
@@ -161,28 +197,13 @@ export const treatments: ReadonlyArray<Treatment> = [
     unit: "session",
     doctorRequired: false,
     public: true,
-  },
-  {
-    slug: "hifu-abdomen",
-    name: "HIFU Abdomen",
-    category: "Lifting and Contouring",
-    summary: "Focused-ultrasound abdomen treatment; assessment determines the appropriate plan.",
-    priceKind: "fixed",
-    priceMin: 3999,
-    unit: "session",
-    doctorRequired: false,
-    public: true,
-  },
-  {
-    slug: "hifu-flanks",
-    name: "HIFU Flanks",
-    category: "Lifting and Contouring",
-    summary: "Focused-ultrasound treatment for the flank area.",
-    priceKind: "fixed",
-    priceMin: 4999,
-    unit: "session",
-    doctorRequired: false,
-    public: true,
+    areas: [
+      { name: "Face", price: "₱4,999" },
+      { name: "Abdomen", price: "₱4,999" },
+      { name: "Flanks", price: "₱3,999" },
+      { name: "Arms", price: "₱3,999" },
+      { name: "Thighs", price: "₱4,999" },
+    ],
   },
   {
     slug: "armtox",
@@ -216,7 +237,7 @@ export const treatments: ReadonlyArray<Treatment> = [
   },
   {
     slug: "fine-lines",
-    name: "Fine Lines and Wrinkles",
+    name: "Facial Wrinkles and Fine Lines",
     category: "Doctor Procedures",
     summary: "Botulinum toxin treatment planned after doctor assessment.",
     priceKind: "fixed",

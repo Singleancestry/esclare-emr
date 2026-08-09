@@ -132,8 +132,8 @@ export default function SkinEducationPage() {
             Learn at your own pace
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#62595C]">
-            Browse the topics currently in ESCLARE&apos;s medical and editorial review queue. Full
-            guides remain unavailable until a qualified reviewer approves them.
+            Browse published ESCLARE guides alongside clearly labeled previews that remain
+            unavailable until medical and editorial review is complete.
           </p>
           {articles.length > 0 ? (
             <div className="mt-8">
@@ -160,7 +160,7 @@ export default function SkinEducationPage() {
             </p>
           </div>
           <Link href="/appointment-request" className="luxury-button-light shrink-0">
-            <CalendarDays size={17} aria-hidden="true" /> Request consultation
+            <CalendarDays size={17} aria-hidden="true" /> Request assessment
           </Link>
         </div>
       </section>

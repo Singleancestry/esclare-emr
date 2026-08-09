@@ -163,7 +163,7 @@ export default async function EducationArticlePage({ params }: Props) {
                     {section.title}
                   </a>
                 ))}
-                <a href="#beforecare">Beforecare</a>
+                <a href="#beforecare">Pre Care</a>
                 <a href="#aftercare">Aftercare</a>
                 <a href="#suitability">Who may not be suitable</a>
                 <a href="#contact">When to contact the clinic</a>
@@ -197,7 +197,7 @@ export default async function EducationArticlePage({ params }: Props) {
                 </section>
               ))}
               <section id="beforecare">
-                <h2>Beforecare</h2>
+                <h2>Pre Care</h2>
                 <ul>
                   {article.beforecare.map((item) => (
                     <li key={item}>{item}</li>
@@ -331,7 +331,7 @@ export default async function EducationArticlePage({ params }: Props) {
             </p>
           </div>
           <Link href="/appointment-request" className="luxury-button-light shrink-0">
-            <CalendarDays size={17} aria-hidden="true" /> Request consultation
+            <CalendarDays size={17} aria-hidden="true" /> Request assessment
           </Link>
         </div>
       </section>

@@ -176,6 +176,19 @@ export default function TreatmentsPage() {
                         )}
                       </div>
                       <p className="mt-4 text-sm leading-7 text-[#625D58]">{item.summary}</p>
+                      {item.areas && (
+                        <dl className="mt-5 divide-y divide-[#E8E0D7] border-y border-[#E8E0D7] text-sm">
+                          {item.areas.map((area) => (
+                            <div
+                              key={area.name}
+                              className="flex items-start justify-between gap-4 py-2.5"
+                            >
+                              <dt className="text-[#625D58]">{area.name}</dt>
+                              <dd className="shrink-0 font-bold text-[#6F263D]">{area.price}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
                       <div className="mt-7 border-t border-[#E8E0D7] pt-4">
                         {item.slug !== "exilift-face" && item.slug !== "7d-hifu-face" && (
                           <p className="text-sm font-bold text-[#6F263D]">

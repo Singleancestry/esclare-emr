@@ -33,7 +33,7 @@ const steps = [
   [
     Stethoscope,
     "Individual selection",
-    "A qualified prescriber determines whether treatment and a specific medicine are appropriate.",
+    "Clinical assessment determines whether treatment and a specific medicine are appropriate.",
   ],
   [
     Activity,
@@ -49,19 +49,8 @@ export default function Glp1SlimmingPage() {
         <div className="sr-only">
           <h1 id="glp1-page-title">GLP-1 Slimming Program</h1>
           <p>A medically guided approach to sustainable weight management.</p>
-          <p>{glp1Content.programLabel}</p>
         </div>
         <Glp1HeroMedia />
-      </section>
-
-      <section className="border-y border-[#D8C9B4] bg-[#FBF7F1] py-8">
-        <div className="public-container flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <p className="font-serif text-2xl text-[#59141D]">{glp1Content.programLabel}</p>
-          <p className="max-w-xl text-sm leading-6 text-[#675D5F]">
-            Eligibility, medication selection, and continuation depend on consultation and
-            assessment by a qualified medical professional.
-          </p>
-        </div>
       </section>
 
       <section className="py-16 sm:py-24">

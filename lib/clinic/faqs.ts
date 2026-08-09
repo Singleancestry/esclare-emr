@@ -148,7 +148,7 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
     category: "HIFU & Doctor-Led",
     question: "Who performs injectable and thread treatments?",
     answer:
-      "Injectables, HIKO nose lift and PDO thread procedures require an in-person assessment and treatment by an appropriately licensed physician. Product, dose, technique and candidacy are decided clinically.",
+      "Injectables, HIKO nose lift and PCL thread procedures require an in-person assessment and treatment by an appropriately licensed physician. Product, dose, technique and candidacy are decided clinically.",
   },
   {
     id: "botox-brand",

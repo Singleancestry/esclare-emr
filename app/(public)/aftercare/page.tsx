@@ -168,7 +168,7 @@ export default function AftercarePage() {
             </h2>
           </div>
           <Link href="/appointment-request" className="luxury-button-light shrink-0">
-            Request a consultation <ArrowRight size={16} />
+            Request assessment <ArrowRight size={16} />
           </Link>
         </div>
       </section>

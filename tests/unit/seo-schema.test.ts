@@ -78,6 +78,6 @@ describe("treatment schema", () => {
     expect((nodes.FAQPage.mainEntity as unknown[]).length).toBe(detail.faqs.length);
     expect(
       (nodes.BreadcrumbList.itemListElement as ReadonlyArray<{ name: string }>).map((i) => i.name),
-    ).toEqual(["Home", "Treatments", "7D HIFU Face"]);
+    ).toEqual(["Home", "Treatments", "HIFU"]);
   });
 });

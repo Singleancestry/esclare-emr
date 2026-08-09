@@ -68,6 +68,15 @@ export default async function TreatmentDetailPage({ params }: Props) {
               <p className="public-eyebrow">{treatment.category}</p>
               <h1 className="public-heading mt-4 max-w-5xl">{treatment.name}</h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-[#62595C]">{treatment.summary}</p>
+              {treatment.slug === "esthemax-hydrojelly-mask" && (
+                <Link
+                  href="/skin-education/esthemax-hydrojelly-mask-guide"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#6F263D] underline decoration-[#B98A4D] underline-offset-4"
+                >
+                  Read the ESTHEMAX HydroJelly Mask guide{" "}
+                  <ArrowRight size={15} aria-hidden="true" />
+                </Link>
+              )}
             </div>
             <div className="border-l border-[#B98A4D] pl-5">
               <p className="text-xs font-bold uppercase text-[#765A44]">Current listed price</p>
@@ -148,7 +157,7 @@ export default async function TreatmentDetailPage({ params }: Props) {
           <h2 className="mt-4 text-3xl text-[#481827]">What happens during the visit</h2>
           <ol className="mt-8 grid gap-4 md:grid-cols-3 lg:grid-cols-6">
             {[
-              "Consultation",
+              "Assessment",
               "Area preparation",
               "Treatment",
               "Immediate care",
@@ -163,7 +172,7 @@ export default async function TreatmentDetailPage({ params }: Props) {
           </ol>
           <div className="mt-12 grid gap-8 lg:grid-cols-3">
             <div>
-              <h3 className="text-2xl text-[#481827]">Beforecare</h3>
+              <h3 className="text-2xl text-[#481827]">Pre Care</h3>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[#62595C]">
                 {detail.beforecare.map((item) => (
                   <li key={item}>{item}</li>
