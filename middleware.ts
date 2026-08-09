@@ -21,6 +21,7 @@ const websiteOnlyPrefixes = [
   "/patients",
   "/pos",
   "/reports",
+  "/reviews-manager",
   "/services",
   "/settings",
   "/update-password",
@@ -34,10 +35,11 @@ function isWebsiteOnlyBlockedPath(pathname: string) {
 
 // Edge middleware remains necessary until OpenNext supports Next.js 16 Node proxy.
 export async function middleware(request: NextRequest) {
-  if (
-    process.env.PUBLIC_WEBSITE_ONLY === "true" &&
-    isWebsiteOnlyBlockedPath(request.nextUrl.pathname)
-  ) {
+  // Public deployments are website-only by default. The internal staff application must opt in
+  // explicitly with PUBLIC_WEBSITE_ONLY=false in its separate, authenticated environment.
+  const explicitlyWebsiteOnly = process.env.PUBLIC_WEBSITE_ONLY === "true";
+  const websiteOnly = explicitlyWebsiteOnly || process.env.PUBLIC_WEBSITE_ONLY === undefined;
+  if (websiteOnly && isWebsiteOnlyBlockedPath(request.nextUrl.pathname)) {
     return new NextResponse("Not Found", {
       status: 404,
       headers: {
@@ -48,7 +50,7 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  if (process.env.PUBLIC_WEBSITE_ONLY === "true") return NextResponse.next();
+  if (websiteOnly) return NextResponse.next();
 
   let response = NextResponse.next({ request });
 

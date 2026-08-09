@@ -35,14 +35,15 @@ export default function AboutPage() {
               Beautiful outcomes begin with honest conversations.
             </h2>
             <p className="mt-6 leading-8 text-[#62595C]">
-              We believe the best aesthetic experience is one where clients feel informed,
-              comfortable, and never rushed. Treatment suitability, realistic expectations, and
-              thoughtful follow-up shape every recommendation.
+              ESCLARE Aesthetic Center began on August 8, 2012, in Naga City, Philippines. Before
+              opening ESCLARE, the founder gained experience with a world-class aesthetic clinic in
+              Qatar and trained with a Korean aesthetic clinic in Metro Manila.
             </p>
             <p className="mt-5 leading-8 text-[#62595C]">
-              Aesthetic professionals deliver non-doctor services within their scope, while
-              doctor-required procedures are clearly separated and scheduled for appropriate
-              clinical assessment.
+              ESCLARE was created to bring a high-quality, world-class aesthetic clinic experience
+              closer to the local community. Today, that purpose is reflected in warm hospitality,
+              honest conversations, careful assessment, realistic expectations, and thoughtful
+              follow-up for every patient.
             </p>
           </div>
           <div className="relative aspect-[4/5] overflow-hidden" data-reveal="right">
@@ -86,6 +87,41 @@ export default function AboutPage() {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+      <section className="bg-[#F4E8DA] py-20 lg:py-28" aria-labelledby="our-team-heading">
+        <div className="public-container">
+          <div className="max-w-3xl" data-reveal>
+            <p className="public-eyebrow">Our team</p>
+            <h2 id="our-team-heading" className="public-subheading mt-4">
+              Coordinated care, with every role clearly defined.
+            </h2>
+            <p className="mt-5 leading-8 text-[#62595C]">
+              Our team works together around patient comfort, treatment readiness, clear clinical
+              boundaries, and continuity of care.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {[
+              [
+                "Resident Nurse",
+                "Supports daily clinical operations, treatment preparation, and appropriate patient monitoring before, during, and after treatment. The resident nurse also supports aftercare and continuity of care within their professional scope.",
+              ],
+              [
+                "Aesthetic Clinic Attendants",
+                "Support and perform appropriate non-physician aesthetic treatments according to clinic protocols and permitted scope. They assist patients throughout the visit, maintain treatment areas and readiness, and help create a smooth, comfortable experience.",
+              ],
+              [
+                "Resident Aesthetic Doctor",
+                "Conducts medical and aesthetic consultations, assesses patients, and develops individualized plans where medically appropriate. The doctor performs physician-required procedures and provides medical oversight of clinical standards and clinic operations.",
+              ],
+            ].map(([title, copy]) => (
+              <article key={title} className="editorial-card p-7" data-reveal>
+                <h3 className="font-serif text-2xl text-[#59141D]">{title}</h3>
+                <p className="mt-4 text-sm leading-7 text-[#62595C]">{copy}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

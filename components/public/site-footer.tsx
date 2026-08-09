@@ -41,13 +41,15 @@ export function SiteFooter() {
           <nav className="mt-5 grid gap-3 text-sm text-[#F2E8DF]">
             <Link href="/treatments">Treatments</Link>
             <Link href={"/glp-1-slimming" as Route}>GLP-1 Slimming</Link>
-            <Link href={"/skin-education" as Route}>Skin Education</Link>
             <Link href="/about">About</Link>
-            <Link href={"/aftercare" as Route}>Aftercare</Link>
+            <Link href={"/skin-education" as Route}>Skin Education</Link>
+            <Link href="/branches">Branches</Link>
+            <Link href={"/aftercare" as Route}>After Care</Link>
+            <Link href={"/reviews" as Route}>Reviews</Link>
             <Link href="/faq">FAQ</Link>
+            <Link href="/contact">Contact</Link>
             <Link href="/appointment-request">Book a consultation</Link>
             <Link href={"/package-terms" as Route}>Package terms</Link>
-            <Link href="/login">Staff access</Link>
           </nav>
         </div>
         <div>

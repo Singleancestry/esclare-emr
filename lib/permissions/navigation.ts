@@ -10,6 +10,7 @@ import {
   FileText,
   LayoutDashboard,
   Lock,
+  MessageSquareQuote,
   PackageCheck,
   Settings,
   Stethoscope,
@@ -139,6 +140,13 @@ export const mainNavigation: NavItem[] = [
     icon: Activity,
     permission: "prices.view",
     feature: "integrations",
+  },
+  {
+    label: "Reviews Manager",
+    href: "/reviews-manager",
+    section: "Management",
+    icon: MessageSquareQuote,
+    permission: "security.manage_roles",
   },
   {
     label: "Settings and Security",

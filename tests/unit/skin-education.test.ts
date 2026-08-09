@@ -12,24 +12,16 @@ import { resolve } from "node:path";
 
 describe("skin education editorial controls", () => {
   it("contains the complete requested article library with unique metadata", () => {
-    expect(educationArticles).toHaveLength(21);
-    expect(new Set(educationArticles.map((article) => article.slug)).size).toBe(21);
-    expect(new Set(educationArticles.map((article) => article.seoTitle)).size).toBe(21);
+    expect(educationArticles).toHaveLength(14);
+    expect(new Set(educationArticles.map((article) => article.slug)).size).toBe(14);
+    expect(new Set(educationArticles.map((article) => article.seoTitle)).size).toBe(14);
     expect(educationArticles.every((article) => article.faqs.length >= 5)).toBe(true);
   });
 
-  it("keeps all seven Rejuran topics in medical-review draft status", () => {
+  it("keeps Rejuran content out of Skin Education", () => {
     const rejuranDrafts = educationArticles.filter((article) => article.tags.includes("Rejuran"));
 
-    expect(rejuranDrafts).toHaveLength(7);
-    expect(
-      rejuranDrafts.every(
-        (article) =>
-          article.status === "medical-review-required" &&
-          !article.published &&
-          article.reviewer === null,
-      ),
-    ).toBe(true);
+    expect(rejuranDrafts).toHaveLength(0);
   });
 
   it("keeps unreviewed medical content out of production visibility", () => {

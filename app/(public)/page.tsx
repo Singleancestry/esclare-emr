@@ -11,6 +11,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import { AuthenticHero } from "@/components/public/authentic-hero";
+import { HomepageReviews } from "@/components/public/homepage-reviews";
 import { TreatmentGallery } from "@/components/public/treatment-gallery";
 import {
   attendantPortrait,
@@ -41,8 +42,8 @@ const signatureTreatments = [
     benefits: ["Four-week program", "Medical assessment and follow-up"],
     href: "/glp-1-slimming",
     bookingSlug: "glp-1-slimming",
-    image: null,
-    alt: "",
+    image: "/images/optimized/treatments/glp-1-slimming-pen.webp",
+    alt: "Semaglutide injection pen representing ESCLARE's medically guided GLP-1 slimming program",
   },
   {
     name: "Pico Laser",
@@ -251,6 +252,8 @@ export default function PublicHomePage() {
       </section>
 
       <TreatmentGallery />
+
+      <HomepageReviews />
 
       <section className="editorial-section paper-texture">
         <div className="public-container text-center" data-reveal>

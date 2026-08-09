@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
 import Link from "next/link";
 import { SkinSupportDirectory } from "@/components/public/skin-support-directory";
 
@@ -26,6 +27,9 @@ export default function SkinSupportPage() {
             information as proof of suitability or Philippine authorization. Review-only services
             remain unavailable for online booking.
           </p>
+          <Link href={"/treatments/skin-support/mccm" as Route} className="luxury-button mt-8">
+            Explore the MCCM guide
+          </Link>
         </div>
       </section>
       <section className="py-14 sm:py-20">

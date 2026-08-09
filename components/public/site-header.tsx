@@ -12,10 +12,11 @@ import { treatmentNavigationItems } from "@/lib/services/treatment-navigation";
 const links = [
   ["Home", "/"],
   ["GLP-1 Slimming", "/glp-1-slimming"],
-  ["Skin Education", "/skin-education"],
   ["About", "/about"],
+  ["Skin Education", "/skin-education"],
   ["Branches", "/branches"],
-  ["Aftercare", "/aftercare"],
+  ["After Care", "/aftercare"],
+  ["Reviews", "/reviews"],
   ["FAQ", "/faq"],
   ["Contact", "/contact"],
 ] as const;
@@ -77,22 +78,29 @@ export function SiteHeader() {
   return (
     <>
       <header className="site-nav-enter sticky top-0 z-50 border-b border-[#D6B078]/30 bg-[#FAF4EC]/95 backdrop-blur-xl">
-        <div className="site-header-container flex h-[76px] items-center justify-between gap-4">
+        <div className="site-header-container flex h-[92px] items-center justify-between gap-4">
           <Link href="/" aria-label="ESCLARE home" className="site-logo-link shrink-0 rounded-md">
             <Image
-              src="/images/optimized/logo/esclare-official-wordmark-transparent-v2.png"
+              src="/images/optimized/logo/esclare-complete-transparent.png"
               alt="ESCLARE Aesthetic Center"
-              width={2048}
-              height={683}
-              sizes="(min-width: 640px) 144px, 120px"
+              width={499}
+              height={313}
+              sizes="(min-width: 640px) 144px, 124px"
               priority
-              className="h-10 w-auto object-contain sm:h-12"
+              className="h-[72px] w-auto object-contain sm:h-[80px]"
             />
           </Link>
           <nav
             aria-label="Main navigation"
             className="hidden items-center gap-4 2xl:flex 2xl:gap-5"
           >
+            <Link
+              href="/"
+              aria-current={pathname === "/" ? "page" : undefined}
+              className={`public-link min-h-11 content-center whitespace-nowrap py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold ${pathname === "/" ? "text-[#59141D]" : "text-[#43201E]"}`}
+            >
+              Home
+            </Link>
             <details className="group relative">
               <summary className="public-link flex min-h-11 cursor-pointer list-none items-center gap-1 py-3 text-[clamp(0.83rem,0.72vw,0.92rem)] font-semibold text-[#43201E] marker:hidden">
                 Treatments{" "}
@@ -114,7 +122,7 @@ export function SiteHeader() {
                 ))}
               </div>
             </details>
-            {links.map(([label, href]) => {
+            {links.slice(1).map(([label, href]) => {
               const active = pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
               return (
                 <Link
@@ -155,7 +163,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="fixed inset-x-0 bottom-0 top-[76px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 2xl:hidden"
+          className="fixed inset-x-0 bottom-0 top-[92px] z-40 overflow-y-auto bg-[#FAF4EC] px-6 py-7 2xl:hidden"
         >
           <nav
             id="mobile-navigation"

@@ -142,8 +142,8 @@ export const skinSupportContent: ReadonlyArray<SkinSupportContent> = [
     regulatory:
       "No exact Philippine FDA record for the proposed MCCM Out Contour Cocktail service has been verified in this review. No notification badge or local regulatory claim may be published until ESCLARE supplies and matches the exact product record.",
     relatedEducation: {
-      label: "Read the eye-contour treatment education draft",
-      href: "/skin-education/rejuran-eye-area-review",
+      label: "Read the professional skincare guide",
+      href: "/skin-education/mccm-professional-skincare-guide",
     },
     faqs: [
       {

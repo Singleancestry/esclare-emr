@@ -177,9 +177,11 @@ export default function TreatmentsPage() {
                       </div>
                       <p className="mt-4 text-sm leading-7 text-[#625D58]">{item.summary}</p>
                       <div className="mt-7 border-t border-[#E8E0D7] pt-4">
-                        <p className="text-sm font-bold text-[#6F263D]">
-                          {formatTreatmentPrice(item)}
-                        </p>
+                        {item.slug !== "exilift-face" && item.slug !== "7d-hifu-face" && (
+                          <p className="text-sm font-bold text-[#6F263D]">
+                            {formatTreatmentPrice(item)}
+                          </p>
+                        )}
                         <Link
                           href={`/treatments/${item.slug}` as Route}
                           className="mt-3 inline-flex min-h-11 items-center gap-2 text-xs font-bold text-[#6F263D]"
