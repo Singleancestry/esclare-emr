@@ -50,24 +50,9 @@ export default async function ReviewsPage() {
                 >
                   {label}
                 </a>
-              ) : (
-                <span
-                  key={label}
-                  aria-disabled="true"
-                  title="This review link is awaiting configuration."
-                  className="luxury-button-outline cursor-not-allowed opacity-55"
-                >
-                  {label}
-                </span>
-              ),
+              ) : null,
             )}
           </div>
-          {!process.env.NEXT_PUBLIC_ESCLARE_GOOGLE_REVIEW_URL && (
-            <p className="mt-4 text-xs text-[#765A44]">
-              Google review links are temporarily unavailable while the official business profile
-              URLs are being configured.
-            </p>
-          )}
         </div>
       </section>
       <section className="py-14 sm:py-20">

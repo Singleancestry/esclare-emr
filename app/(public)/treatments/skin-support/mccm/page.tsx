@@ -23,9 +23,9 @@ const sections = [
     alt: "MCCM professional peel collection shown in the supplied product document",
     copy: "The supplied material presents professional peel options including Whitening, Glutathione, Glycolic, Azelaic and Salicylic peels. Selection and layering depend on the assessed concern and must be performed under an approved clinic protocol.",
     benefits: [
-      "Support for uneven-looking tone",
-      "Professional exfoliation",
-      "Area-specific planning",
+      "Whitening Peel: superficial face or body option spaced every 15 days",
+      "Purple Peel 4: 20% TCA and 30% retinoic acid, spaced every 21 days",
+      "Professional product selection for pigmentation, post-acne marks and texture goals",
     ],
   },
   {
@@ -35,8 +35,8 @@ const sections = [
     copy: "The source positions Exosome PDRN as skin support for hydration, elasticity and smoother-looking texture. ESCLARE presents this conservatively as professional topical cosmetic support, not as a promise of regeneration or a medical result.",
     benefits: [
       "Hydration support",
-      "Smoother-looking texture",
-      "Post-treatment support when appropriate",
+      "Elasticity and smoother-looking texture",
+      "Individualized session planning after assessment",
     ],
   },
   {
@@ -46,19 +46,19 @@ const sections = [
     copy: "The supplied material describes Out Contour for hydration and firmness around the eye area and for the appearance of puffiness, dark circles and expression lines. The eye contour is sensitive, so suitability and route must be confirmed before use.",
     benefits: [
       "Eye-area hydration",
-      "Firmness support",
-      "Assessment-led care for a sensitive area",
+      "Firmness, puffiness and dark-circle appearance support",
+      "Acetyl Hexapeptide-8, DMAE Tartrate, Tocopherol, Sodium Pyruvate and Panthenol",
     ],
   },
   {
     title: "Tone-support systems",
     image: "/images/optimized/treatments/skin-support/mccm-source/whitening-peel.webp",
     alt: "MCCM professional tone-support peel product from the supplied document",
-    copy: "The document also describes Whitening Peel, Tranexamicum and Melano Out options for the appearance of pigmentation and uneven tone. Exact products, permitted route and local regulatory status must be verified before a clinic plan is offered.",
+    copy: "The document also describes Whitening Peel, Tranexamicum and Melano Out options for the appearance of pigmentation and uneven tone. The provider selects products, area, intensity and aftercare after assessment.",
     benefits: [
-      "Tone and clarity goals",
-      "Face or body-area assessment",
-      "Sun-protection-led aftercare",
+      "Whitening Peel ingredients include arbutin, citric, lactic, kojic and salicylic acids",
+      "Melano Out includes tranexamic acid, nicotinamide mononucleotide, acetyl glucosamine and vitamin C",
+      "Face or body-area assessment with sun-protection-led aftercare",
     ],
   },
 ] as const;

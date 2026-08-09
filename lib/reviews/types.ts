@@ -4,7 +4,7 @@ export type PublicReview = {
   id: string;
   reviewerDisplayName: string;
   reviewText: string;
-  rating: number;
+  rating: number | null;
   reviewDate: string;
   source: ReviewSource;
   originalReviewUrl: string | null;
@@ -14,7 +14,8 @@ export type PublicReview = {
   clinicResponse: string | null;
 };
 
-export type ManagedReview = PublicReview & {
+export type ManagedReview = Omit<PublicReview, "rating"> & {
+  rating: number;
   published: boolean;
   displayOrder: number;
   importedAt: string;

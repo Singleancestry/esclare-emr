@@ -27,11 +27,16 @@ describe("service catalog", () => {
     expect(GLP1_PROGRAM_LABEL).toBe("Physician-supervised 4-week GLP-1 treatment program");
   });
 
-  it("keeps all six Skin Support services review-gated with approved preview prices", () => {
+  it("keeps MCCM public, Rejuran hidden, and all approved Skin Support prices unchanged", () => {
     const skinSupport = treatments.filter((item) => item.category === "Skin Support");
 
     expect(skinSupport).toHaveLength(6);
     expect(skinSupport.every((item) => item.publicationStatus === "regulatory-review")).toBe(true);
+    expect(skinSupport.filter((item) => item.public).map((item) => item.slug)).toEqual([
+      "mccm-exosome-pdrn",
+      "mccm-eye-contour",
+      "mccm-brightening-system",
+    ]);
     expect(Object.fromEntries(skinSupport.map((item) => [item.slug, item.priceMin]))).toEqual({
       "mccm-exosome-pdrn": 4000,
       "mccm-eye-contour": 3800,

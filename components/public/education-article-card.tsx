@@ -15,16 +15,9 @@ type ArticlePreview = Pick<
   | "heroAlt"
   | "readingMinutes"
   | "updatedAt"
-  | "status"
 >;
 
-export function EducationArticleCard({
-  article,
-  linkEnabled = true,
-}: {
-  article: ArticlePreview;
-  linkEnabled?: boolean;
-}) {
+export function EducationArticleCard({ article }: { article: ArticlePreview }) {
   const category = educationCategories.find((item) => item.slug === article.category);
   const media = (
     <Image
@@ -38,35 +31,22 @@ export function EducationArticleCard({
 
   return (
     <article className="education-card group grid min-h-full grid-rows-[auto_1fr] overflow-hidden">
-      {linkEnabled ? (
-        <Link
-          href={`/skin-education/${article.slug}` as Route}
-          aria-label={`Read ${article.title}`}
-          className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]"
-        >
-          {media}
-        </Link>
-      ) : (
-        <div className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]">{media}</div>
-      )}
+      <Link
+        href={`/skin-education/${article.slug}` as Route}
+        aria-label={`Read ${article.title}`}
+        className="relative block aspect-[16/10] overflow-hidden bg-[#E9DED1]"
+      >
+        {media}
+      </Link>
       <div className="flex flex-col p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2 text-[0.72rem] font-semibold text-[#765A44]">
           <span className="rounded-md bg-[#F0E5D8] px-2.5 py-1">{category?.name}</span>
           <span className="inline-flex items-center gap-1.5">
             <Clock3 size={13} aria-hidden="true" /> {article.readingMinutes} min read
           </span>
-          {article.status === "medical-review-required" && (
-            <span className="rounded-md border border-[#B98A4D]/60 px-2.5 py-1 text-[#6F263D]">
-              Medical review pending
-            </span>
-          )}
         </div>
         <h2 className="mt-4 text-[clamp(1.35rem,2vw,1.75rem)] leading-tight text-[#481827]">
-          {linkEnabled ? (
-            <Link href={`/skin-education/${article.slug}` as Route}>{article.title}</Link>
-          ) : (
-            article.title
-          )}
+          <Link href={`/skin-education/${article.slug}` as Route}>{article.title}</Link>
         </h2>
         <p className="mt-3 text-sm leading-7 text-[#62595C]">{article.excerpt}</p>
         <div className="mt-auto flex items-center justify-between gap-4 pt-6 text-xs text-[#746A6D]">
@@ -76,16 +56,12 @@ export function EducationArticleCard({
               new Date(article.updatedAt),
             )}
           </time>
-          {linkEnabled ? (
-            <Link
-              href={`/skin-education/${article.slug}` as Route}
-              className="inline-flex min-h-11 items-center gap-1.5 font-bold text-[#6F263D]"
-            >
-              Read <ArrowUpRight size={15} aria-hidden="true" />
-            </Link>
-          ) : (
-            <span className="font-bold text-[#6F263D]">Preview</span>
-          )}
+          <Link
+            href={`/skin-education/${article.slug}` as Route}
+            className="inline-flex min-h-11 items-center gap-1.5 font-bold text-[#6F263D]"
+          >
+            Read <ArrowUpRight size={15} aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </article>

@@ -275,7 +275,7 @@ export const treatments: ReadonlyArray<Treatment> = [
     priceKind: "fixed",
     priceMin: 25000,
     doctorRequired: true,
-    public: true,
+    public: false,
     publicationStatus: "regulatory-review",
   },
   {
@@ -287,7 +287,7 @@ export const treatments: ReadonlyArray<Treatment> = [
     priceKind: "fixed",
     priceMin: 15000,
     doctorRequired: true,
-    public: true,
+    public: false,
     publicationStatus: "regulatory-review",
   },
   {
@@ -299,7 +299,7 @@ export const treatments: ReadonlyArray<Treatment> = [
     priceKind: "fixed",
     priceMin: 15000,
     doctorRequired: true,
-    public: true,
+    public: false,
     publicationStatus: "regulatory-review",
   },
   {
@@ -328,10 +328,10 @@ export const treatments: ReadonlyArray<Treatment> = [
   },
   {
     slug: "mccm-eye-contour",
-    name: "MCCM Eye Contour",
+    name: "MCCM Out Contour",
     category: "Skin Support",
     summary:
-      "A topical professional eye-contour treatment that ESCLARE proposes to place under doctor assessment and administration policy.",
+      "Professional eye-contour support for hydration, firmness, puffiness, dark-circle appearance and expression-line concerns.",
     priceKind: "fixed",
     priceMin: 3800,
     unit: "session",

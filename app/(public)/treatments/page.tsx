@@ -151,7 +151,7 @@ export default function TreatmentsPage() {
                       href="/treatments/skin-support"
                       className="public-link mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#6F263D]"
                     >
-                      Browse MCCM and Rejuran groups <ArrowRight size={14} aria-hidden="true" />
+                      Browse MCCM Skin Support <ArrowRight size={14} aria-hidden="true" />
                     </Link>
                   )}
                 </div>

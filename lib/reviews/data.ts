@@ -1,5 +1,6 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/auth/supabase-admin";
+import { ownerSuppliedReviews } from "./owner-supplied";
 import type { ManagedReview, PublicReview, ReviewSource } from "./types";
 
 type ReviewRow = {
@@ -62,17 +63,35 @@ export async function getPublishedReviews(options?: {
   limit?: number;
 }): Promise<PublicReview[]> {
   const admin = createSupabaseAdminClient();
-  if (!admin) return [];
-  let query = admin
+  if (!admin) {
+    const reviews = options?.featuredOnly
+      ? ownerSuppliedReviews.filter((review) => review.featured)
+      : ownerSuppliedReviews;
+    return options?.limit ? reviews.slice(0, options.limit) : [...reviews];
+  }
+  const query = admin
     .from("public_reviews")
     .select("*")
     .eq("published", true)
     .is("archived_at", null)
     .order("display_order", { ascending: true })
     .order("review_date", { ascending: false });
-  if (options?.featuredOnly) query = query.eq("featured", true);
-  if (options?.limit) query = query.limit(options.limit);
   const { data, error } = await query;
-  if (error) return [];
-  return (data as ReviewRow[]).map(mapReview);
+  const databaseReviews = error ? [] : (data as ReviewRow[]).map(mapReview);
+  const databaseKeys = new Set(
+    databaseReviews.map((review) =>
+      `${review.source}:${review.reviewerDisplayName}:${review.reviewDate}`.toLowerCase(),
+    ),
+  );
+  const merged = [
+    ...databaseReviews,
+    ...ownerSuppliedReviews.filter(
+      (review) =>
+        !databaseKeys.has(
+          `${review.source}:${review.reviewerDisplayName}:${review.reviewDate}`.toLowerCase(),
+        ),
+    ),
+  ];
+  const selected = options?.featuredOnly ? merged.filter((review) => review.featured) : merged;
+  return options?.limit ? selected.slice(0, options.limit) : selected;
 }

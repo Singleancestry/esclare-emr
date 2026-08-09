@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default function SkinEducationPage() {
-  const articles = getVisibleEducationArticles(true);
+  const articles = getVisibleEducationArticles();
   const featured = articles[0];
 
   return (
@@ -65,7 +65,7 @@ export default function SkinEducationPage() {
               />
             </div>
             <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-              <p className="public-eyebrow">Guide preview</p>
+              <p className="public-eyebrow">Featured guide</p>
               <h2
                 id="featured-article-heading"
                 className="mt-4 text-3xl leading-tight text-[#481827] sm:text-4xl"
@@ -77,22 +77,13 @@ export default function SkinEducationPage() {
                 <span className="inline-flex items-center gap-1.5">
                   <Clock3 size={14} aria-hidden="true" /> {featured.readingMinutes} min read
                 </span>
-                {featured.status === "medical-review-required" && (
-                  <span className="font-bold text-[#6F263D]">Local editorial preview</span>
-                )}
               </div>
-              {featured.published ? (
-                <Link
-                  href={`/skin-education/${featured.slug}` as Route}
-                  className="luxury-button mt-8 self-start"
-                >
-                  Read the guide <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-              ) : (
-                <p className="mt-8 self-start border-l border-[#B98A4D] pl-4 text-sm font-bold text-[#6F263D]">
-                  Full guide pending medical review
-                </p>
-              )}
+              <Link
+                href={`/skin-education/${featured.slug}` as Route}
+                className="luxury-button mt-8 self-start"
+              >
+                Read the guide <ArrowRight size={16} aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </section>
@@ -132,12 +123,12 @@ export default function SkinEducationPage() {
             Learn at your own pace
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#62595C]">
-            Browse published ESCLARE guides alongside clearly labeled previews that remain
-            unavailable until medical and editorial review is complete.
+            Browse published ESCLARE guides covering treatment principles, preparation, recovery,
+            aftercare, and questions to discuss during assessment.
           </p>
           {articles.length > 0 ? (
             <div className="mt-8">
-              <SkinEducationExplorer articles={articles} linkEnabled={false} />
+              <SkinEducationExplorer articles={articles} />
             </div>
           ) : (
             <p className="mt-6 text-sm leading-7 text-[#62595C]">

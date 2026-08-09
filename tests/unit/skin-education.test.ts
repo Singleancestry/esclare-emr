@@ -35,17 +35,18 @@ describe("skin education editorial controls", () => {
     expect(visible.some((article) => article.tags.includes("Rejuran"))).toBe(false);
   });
 
-  it("rejects draft slugs that were not generated for production", () => {
+  it("generates routes only for published articles", () => {
     const routeSource = readFileSync(
       resolve(process.cwd(), "app/(public)/skin-education/[slug]/page.tsx"),
       "utf8",
     );
 
     expect(routeSource).toContain("export const dynamicParams = false");
-    expect(routeSource).toContain('process.env.NODE_ENV !== "production"');
+    expect(routeSource).toContain(".filter((article) => article.published)");
+    expect(routeSource).not.toContain("ENABLE_EDITORIAL_PREVIEW");
   });
 
-  it("populates production landing and category pages with non-clickable draft previews", () => {
+  it("populates landing and category pages with published, linked articles", () => {
     const landingSource = readFileSync(
       resolve(process.cwd(), "app/(public)/skin-education/page.tsx"),
       "utf8",
@@ -55,15 +56,15 @@ describe("skin education editorial controls", () => {
       "utf8",
     );
 
-    expect(landingSource).toContain("getVisibleEducationArticles(true)");
-    expect(landingSource).toContain("linkEnabled={false}");
-    expect(categorySource).toContain("getCategoryArticles(category.slug, true)");
-    expect(categorySource).toContain("linkEnabled={article.published}");
+    expect(landingSource).toContain("getVisibleEducationArticles()");
+    expect(landingSource).not.toContain("Guide preview");
+    expect(categorySource).toContain("getCategoryArticles(category.slug)");
+    expect(categorySource).not.toContain("awaiting clinical review");
   });
 
-  it("covers all education categories in preview mode", () => {
+  it("covers all education categories with published content", () => {
     for (const category of educationCategories) {
-      expect(getCategoryArticles(category.slug, true).length).toBeGreaterThan(0);
+      expect(getCategoryArticles(category.slug).length).toBeGreaterThan(0);
     }
   });
 });

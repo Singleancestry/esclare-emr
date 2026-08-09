@@ -32,7 +32,7 @@ test("GLP-1 Slimming uses the approved four-week program terms", async ({ page }
 
   await expect(page.getByRole("heading", { name: "GLP-1 Slimming" })).toBeVisible();
   await expect(
-    page.getByText("GLP-1 Slimming — ₱21,500 for a 4-week treatment program", {
+    page.getByText("Physician-supervised 4-week GLP-1 treatment program", {
       exact: true,
     }),
   ).toBeVisible();
@@ -41,6 +41,7 @@ test("GLP-1 Slimming uses the approved four-week program terms", async ({ page }
     page.getByText(/does not promise a specific amount or rate of weight loss/i),
   ).toBeVisible();
   await expect(page.locator("body")).not.toContainText("₱21,599");
+  await expect(page.locator("body")).not.toContainText("₱21,500");
   await expect(page.locator("body")).not.toContainText("one month");
 });
 
@@ -50,11 +51,6 @@ test("dedicated GLP-1 page uses the supplied one-shot hero without CTA buttons",
   await page.goto("/glp-1-slimming");
 
   await expect(page.getByRole("heading", { name: "GLP-1 Slimming Program" })).toBeAttached();
-  await expect(
-    page
-      .locator(".glp1-hero + section")
-      .getByText("GLP-1 Slimming — ₱21,500 for a 4-week treatment program", { exact: true }),
-  ).toBeVisible();
   const hero = page.locator(".glp1-hero");
   await expect(hero.locator("video source")).toHaveAttribute(
     "src",
@@ -63,6 +59,7 @@ test("dedicated GLP-1 page uses the supplied one-shot hero without CTA buttons",
   await expect(hero.getByRole("link")).toHaveCount(0);
   await expect(hero.getByRole("button")).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("₱21,599");
+  await expect(page.locator("body")).not.toContainText("₱21,500");
   await expect(page.locator("body")).not.toContainText("one month");
 });
 
@@ -83,21 +80,27 @@ test("branch selection updates the persistent Messenger destination", async ({ p
   ).toHaveAttribute("href", "https://m.me/110985556908419");
 });
 
-test("all Skin Support review pages render and remain non-bookable", async ({ page }) => {
-  const slugs = [
-    "mccm-exosome-pdrn",
-    "mccm-eye-contour",
-    "mccm-brightening-system",
-    "rejuran-h",
-    "rejuran-eye",
-    "rejuran-scar",
-  ];
+test("MCCM Skin Support pages render without public administrative status wording", async ({
+  page,
+}) => {
+  const slugs = ["mccm-exosome-pdrn", "mccm-eye-contour", "mccm-brightening-system"];
 
   for (const slug of slugs) {
     await page.goto(`/treatments/${slug}`);
-    await expect(page.getByText(/not available for online booking yet/i)).toBeVisible();
-    await expect(page.getByRole("link", { name: /request assessment/i })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: /MCCM/i })).toBeVisible();
+    await expect(page.locator("body")).not.toContainText(/review pending|regulatory status/i);
+    await expect(page.getByRole("heading", { name: /safety and regulatory status/i })).toHaveCount(
+      0,
+    );
+    await expect(page.locator("main").getByRole("link", { name: /request assessment/i })).toHaveCount(
+      0,
+    );
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
+  }
+
+  for (const slug of ["rejuran-h", "rejuran-eye", "rejuran-scar"]) {
+    const response = await page.goto(`/treatments/${slug}`);
+    expect(response?.status()).toBe(404);
   }
 });
 
@@ -125,9 +128,9 @@ test("Treatments navigation exposes categories while Skin Support owns product l
 
   await treatmentsMenu.getByRole("link", { name: "Skin Support", exact: true }).click();
   await expect(page).toHaveURL(/\/treatments\/skin-support$/);
-  await expect(page.getByRole("heading", { name: "MCCM Skin Support" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Rejuran Skin Support" })).toBeVisible();
-  await expect(page.getByRole("article")).toHaveCount(6);
+  await expect(page.getByRole("heading", { name: "Professional skin support" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Rejuran/ })).toHaveCount(0);
+  await expect(page.getByRole("article")).toHaveCount(3);
 });
 
 test("Skin Support product photos and nested aliases resolve correctly", async ({ page }) => {
@@ -135,18 +138,11 @@ test("Skin Support product photos and nested aliases resolve correctly", async (
   const expectedAltText = [
     "MCCM Exosome PDRN professional-use box and amber vial",
     "MCCM Out Contour Cocktail box and amber vial",
-    "MCCM Glutathione Peeling professional product bottle",
-    "Rejuran Healer black and silver product box",
-    "Rejuran I silver product box and syringe",
-    "Rejuran S blue and silver product box",
+    "MCCM professional brightening peel product bottle",
   ];
   for (const alt of expectedAltText) {
     await expect(page.getByRole("img", { name: alt })).toBeVisible();
   }
-
-  await page.goto("/treatments/skin-support/rejuran-s");
-  await expect(page).toHaveURL(/\/treatments\/rejuran-scar$/);
-  await expect(page.getByRole("heading", { name: "Rejuran S" })).toBeVisible();
 });
 
 test("mobile Treatments menu keeps the eight categories touch-friendly", async ({ page }) => {
@@ -164,16 +160,13 @@ test("mobile Treatments menu keeps the eight categories touch-friendly", async (
   await expect(page).toHaveURL(/\/treatments\/skin-support$/);
 });
 
-test("package terms expose the legal-review warning and printable acknowledgment", async ({
-  page,
-}) => {
+test("package terms expose the current policy and printable acknowledgment", async ({ page }) => {
   await page.goto("/package-terms");
   await expect(
     page.getByRole("heading", { name: "Treatment Package Terms and Conditions" }),
   ).toBeVisible();
-  await expect(
-    page.getByText(/has not been reviewed by a qualified Philippine legal/i),
-  ).toBeVisible();
+  await expect(page.getByText("Package policy · 2026-07-29")).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/preview policy|awaiting.*legal review/i);
   await expect(page.getByRole("heading", { name: "Package acknowledgment" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
 });

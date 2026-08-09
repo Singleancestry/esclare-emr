@@ -4,9 +4,9 @@ import Link from "next/link";
 import { SkinSupportDirectory } from "@/components/public/skin-support-directory";
 
 export const metadata: Metadata = {
-  title: "Skin Support | MCCM and Rejuran Product Review",
+  title: "MCCM Skin Support",
   description:
-    "Browse ESCLARE's review-gated MCCM and Rejuran Skin Support collection for Naga and Daet, with cautious product and regulatory information.",
+    "Explore ESCLARE's professional MCCM Skin Support collection with assessment-led planning, documented ingredients, and practical aftercare.",
   alternates: { canonical: "/treatments/skin-support" },
 };
 
@@ -20,12 +20,11 @@ export default function SkinSupportPage() {
             <Link href="/treatments">Treatments</Link> <span aria-hidden="true">/</span>{" "}
             <span aria-current="page">Skin Support</span>
           </nav>
-          <p className="public-eyebrow mt-8">MCCM and Rejuran</p>
+          <p className="public-eyebrow mt-8">MCCM professional treatments</p>
           <h1 className="public-heading mt-4 max-w-4xl">Skin Support, organized with care.</h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-[#62595C]">
-            Explore each product family without treating packaging, brand recognition, or online
-            information as proof of suitability or Philippine authorization. Review-only services
-            remain unavailable for online booking.
+            Explore professional skin-support options with clear treatment goals, documented product
+            information, and an assessment-led approach to suitability and aftercare.
           </p>
           <Link href={"/treatments/skin-support/mccm" as Route} className="luxury-button mt-8">
             Explore the MCCM guide

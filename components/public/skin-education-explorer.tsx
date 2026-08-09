@@ -16,17 +16,10 @@ type ArticlePreview = Pick<
   | "heroAlt"
   | "readingMinutes"
   | "updatedAt"
-  | "status"
   | "tags"
 >;
 
-export function SkinEducationExplorer({
-  articles,
-  linkEnabled = true,
-}: {
-  articles: ReadonlyArray<ArticlePreview>;
-  linkEnabled?: boolean;
-}) {
+export function SkinEducationExplorer({ articles }: { articles: ReadonlyArray<ArticlePreview> }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"all" | EducationCategorySlug>("all");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -90,11 +83,7 @@ export function SkinEducationExplorer({
       {filtered.length > 0 ? (
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((article) => (
-            <EducationArticleCard
-              key={article.slug}
-              article={article}
-              linkEnabled={linkEnabled || article.status === "published"}
-            />
+            <EducationArticleCard key={article.slug} article={article} />
           ))}
         </div>
       ) : (

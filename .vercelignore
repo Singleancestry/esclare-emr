@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+tmp
+test-results
+playwright-report
+.codex
+backups
+release
+validation-agent

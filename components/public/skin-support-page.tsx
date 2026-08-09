@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { AlertTriangle, ArrowRight, CheckCircle2, MapPin, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, MapPin } from "lucide-react";
 import type { Treatment } from "@/lib/services/catalog";
 import { formatTreatmentPrice } from "@/lib/services/catalog";
 import type { SkinSupportContent } from "@/lib/services/skin-support";
@@ -16,11 +16,11 @@ export function SkinSupportPage({
   const quickFacts = [
     ["Classification", content.classification],
     ["Assessment", content.assessment],
-    ["Branches", content.branches],
-    ["Frequency", content.frequency ?? "Not published until verified"],
-    ["Duration", content.duration ?? "Confirmed after protocol review"],
-    ["Downtime", content.downtime ?? "Not published until verified"],
-  ] as const;
+    ["Treatment interval", content.frequency],
+    ["Duration", content.duration],
+    ["Downtime", content.downtime],
+    ["Areas", content.areas.join(", ")],
+  ].filter((item): item is [string, string] => Boolean(item[1]));
 
   return (
     <main>
@@ -42,12 +42,6 @@ export function SkinSupportPage({
               <p className="mt-6 font-serif text-2xl text-[#59141D]">
                 {formatTreatmentPrice(treatment)}
               </p>
-              <div className="mt-7 border-l-2 border-[#A34B5B] bg-white/70 px-5 py-4 text-sm leading-6 text-[#59141D]">
-                <p className="flex gap-3">
-                  <AlertTriangle className="mt-0.5 shrink-0" size={18} aria-hidden="true" />{" "}
-                  {content.reviewNotice}
-                </p>
-              </div>
             </div>
             <div className="relative aspect-[4/3] overflow-hidden bg-[#E8D7CA]">
               <Image
@@ -75,7 +69,7 @@ export function SkinSupportPage({
       </section>
 
       <section className="py-14 sm:py-20">
-        <div className="public-container grid gap-12 lg:grid-cols-[0.62fr_0.38fr] lg:gap-16">
+        <div className="public-container max-w-5xl">
           <div>
             <p className="public-eyebrow">What it is</p>
             <h2 className="public-subheading mt-4">
@@ -86,16 +80,19 @@ export function SkinSupportPage({
                 {paragraph}
               </p>
             ))}
-            <h3 className="mt-10 text-2xl text-[#481827]">
-              What makes the proposed service distinct
-            </h3>
+            <h3 className="mt-10 text-2xl text-[#481827]">What makes this treatment distinct</h3>
             <p className="mt-4 leading-8 text-[#62595C]">{content.unique}</p>
+            {content.ingredients.length > 0 && (
+              <div className="mt-10 border-l border-[#B98A4D] pl-5">
+                <h3 className="text-2xl text-[#481827]">Documented ingredients</h3>
+                <ul className="mt-4 grid gap-2 text-sm leading-7 text-[#62595C] sm:grid-cols-2">
+                  {content.ingredients.map((ingredient) => (
+                    <li key={ingredient}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <aside className="h-fit border border-[#D8C9B4] bg-white p-6 sm:p-8">
-            <ShieldCheck className="text-[#6F263D]" size={24} aria-hidden="true" />
-            <h2 className="mt-4 text-2xl text-[#481827]">Safety and regulatory status</h2>
-            <p className="mt-4 text-sm leading-7 text-[#62595C]">{content.regulatory}</p>
-          </aside>
         </div>
       </section>
 
@@ -201,8 +198,8 @@ export function SkinSupportPage({
             <div>
               <h2 className="public-subheading">Related Skin Support products</h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-[#62595C]">
-                Compare the MCCM and Rejuran groups while keeping each product&apos;s review status
-                and route distinct.
+                Compare the MCCM options and read the documented treatment details before deciding
+                what to discuss during assessment.
               </p>
             </div>
             <Link
@@ -218,11 +215,11 @@ export function SkinSupportPage({
       <section className="bg-[#3B0D14] py-14 text-white">
         <div className="public-container flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase text-[#D6B078]">Review status</p>
-            <h2 className="mt-3 text-3xl">This service is not open for booking.</h2>
+            <p className="text-xs font-bold uppercase text-[#D6B078]">Treatment questions</p>
+            <h2 className="mt-3 text-3xl">Ask whether this treatment suits your goals.</h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-[#E6D6CC]">
-              {content.bookingNote} A submitted appointment request is never an automatic
-              confirmation.
+              Contact your selected branch to discuss current availability and assessment. A
+              submitted request is never an automatic appointment confirmation.
             </p>
           </div>
           <Link href="/contact" className="luxury-button-light shrink-0">

@@ -30,7 +30,7 @@ export default async function EducationCategoryPage({ params }: Props) {
   const { category: slug } = await params;
   const category = getEducationCategory(slug);
   if (!category) notFound();
-  const articles = getCategoryArticles(category.slug, true);
+  const articles = getCategoryArticles(category.slug);
 
   return (
     <main>
@@ -59,19 +59,16 @@ export default async function EducationCategoryPage({ params }: Props) {
           {articles.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {articles.map((article) => (
-                <EducationArticleCard
-                  key={article.slug}
-                  article={article}
-                  linkEnabled={article.published}
-                />
+                <EducationArticleCard key={article.slug} article={article} />
               ))}
             </div>
           ) : (
             <div className="border-y border-[#D8C9B4] py-16 text-center">
-              <h2 className="text-2xl text-[#481827]">Articles are awaiting clinical review.</h2>
+              <h2 className="text-2xl text-[#481827]">
+                No articles are available in this category.
+              </h2>
               <p className="mt-3 text-sm text-[#62595C]">
-                Contact ESCLARE for current guidance while this category is prepared for
-                publication.
+                Contact ESCLARE for current guidance or browse another Skin Education category.
               </p>
               <Link href="/appointment-request" className="luxury-button mt-6">
                 Request assessment

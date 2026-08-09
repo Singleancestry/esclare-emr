@@ -183,7 +183,7 @@ export const clinicFaqs: ReadonlyArray<ClinicFaq> = [
     category: "Visits & Aftercare",
     question: "Are all treatments available in Naga and Daet?",
     answer:
-      "Naga offers approved, bookable treatments subject to provider availability. Daet offers approved, bookable treatments except Fractional Laser. Pages marked regulatory review are informational previews and are not available for booking. Doctor-led and device-based services still require schedule confirmation.",
+      "Naga offers listed treatments subject to provider availability. Daet offers listed treatments except Fractional Laser. Doctor-led and device-based services still require schedule confirmation, and not every service is available through the online request form.",
   },
   {
     id: "cancel-reschedule",

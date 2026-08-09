@@ -115,7 +115,7 @@ const sections = [
   {
     title: "16. Policy status and changes",
     paragraphs: [
-      "Preview version 2026-07-29-DRAFT. This website version is awaiting owner and qualified Philippine legal review and is not represented as legal advice or a completed legal review.",
+      "Website version dated 2026-07-29. This page provides general package information and is not legal advice.",
       "A material change requires a new version and effective date. Existing purchase records must retain the version accepted at purchase. ESCLARE should re-present changed terms only where legally and operationally appropriate.",
     ],
   },
@@ -132,7 +132,7 @@ export default function PackageTermsPage() {
           </nav>
           <div className="mt-7 flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between print:mt-0">
             <div>
-              <p className="public-eyebrow">Preview policy · 2026-07-29-DRAFT</p>
+              <p className="public-eyebrow">Package policy · 2026-07-29</p>
               <h1 className="public-heading mt-4 max-w-5xl">
                 Treatment Package Terms and Conditions
               </h1>

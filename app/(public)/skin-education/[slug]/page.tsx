@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { notFound } from "next/navigation";
-import { AlertCircle, ArrowRight, CalendarDays, Clock3 } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { JsonLd } from "@/components/public/json-ld";
 import {
   educationArticles,
@@ -15,14 +15,9 @@ type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
-const editorialPreviewEnabled =
-  process.env.NODE_ENV !== "production" ||
-  process.env.VERCEL_ENV === "preview" ||
-  process.env.ENABLE_EDITORIAL_PREVIEW === "true";
-
 export function generateStaticParams() {
   return educationArticles
-    .filter((article) => article.published || editorialPreviewEnabled)
+    .filter((article) => article.published)
     .map((article) => ({ slug: article.slug }));
 }
 
@@ -50,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EducationArticlePage({ params }: Props) {
   const { slug } = await params;
   const article = getEducationArticle(slug);
-  if (!article || (!article.published && !editorialPreviewEnabled)) notFound();
+  if (!article || !article.published) notFound();
   const category = getEducationCategory(article.category);
   const related = article.relatedArticles
     .map((relatedSlug) => getEducationArticle(relatedSlug))
@@ -120,23 +115,6 @@ export default async function EducationArticlePage({ params }: Props) {
         </header>
 
         <div className="public-container py-10 sm:py-14">
-          {article.status === "medical-review-required" && (
-            <div
-              className="mb-8 flex gap-3 border-l-4 border-[#B98A4D] bg-[#F8F1E8] p-4 text-sm leading-6 text-[#5F4240]"
-              role="note"
-            >
-              <AlertCircle
-                className="mt-0.5 shrink-0 text-[#6F263D]"
-                size={19}
-                aria-hidden="true"
-              />
-              <p>
-                <strong>Editorial preview:</strong> this draft requires review and approval by an
-                appropriately qualified ESCLARE clinician before public publication. It is noindex
-                and excluded from the production article library.
-              </p>
-            </div>
-          )}
           <div className="relative aspect-[16/7] overflow-hidden rounded-lg bg-[#E9DED1]">
             <Image
               src={article.heroImage}

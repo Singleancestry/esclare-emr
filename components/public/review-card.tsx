@@ -2,21 +2,29 @@ import { Star } from "lucide-react";
 import type { PublicReview } from "@/lib/reviews/types";
 
 export function ReviewCard({ review }: { review: PublicReview }) {
+  const rating = review.rating;
+
   return (
-    <article className="flex h-full flex-col border border-[#D8C9B4] bg-white p-6">
-      <div
-        className="flex items-center gap-1 text-[#B98A4D]"
-        aria-label={`${review.rating} out of 5 stars`}
-      >
-        {Array.from({ length: 5 }, (_, index) => (
-          <Star
-            key={index}
-            size={16}
-            fill={index < review.rating ? "currentColor" : "none"}
-            aria-hidden="true"
-          />
-        ))}
-      </div>
+    <article className="flex h-full flex-col rounded-lg border border-[#D8C9B4] bg-white p-6 shadow-[0_12px_32px_rgba(65,30,42,0.06)]">
+      {rating ? (
+        <div
+          className="flex items-center gap-1 text-[#B98A4D]"
+          aria-label={`${rating} out of 5 stars`}
+        >
+          {Array.from({ length: 5 }, (_, index) => (
+            <Star
+              key={index}
+              size={16}
+              fill={index < rating ? "currentColor" : "none"}
+              aria-hidden="true"
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#6F263D]">
+          Recommended on Facebook
+        </p>
+      )}
       <blockquote className="mt-5 line-clamp-6 text-sm leading-7 text-[#62595C]">
         “{review.reviewText}”
       </blockquote>
@@ -28,8 +36,7 @@ export function ReviewCard({ review }: { review: PublicReview }) {
       <footer className="mt-auto pt-6">
         <p className="font-semibold text-[#481827]">{review.reviewerDisplayName}</p>
         <p className="mt-1 text-xs uppercase tracking-wide text-[#765A44]">
-          {review.source}
-          {review.verified ? " · Verified source" : ""} ·{" "}
+          {review.source} ·{" "}
           {new Intl.DateTimeFormat("en-PH", { dateStyle: "medium" }).format(
             new Date(review.reviewDate),
           )}
