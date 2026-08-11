@@ -110,21 +110,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/treatments/skin-support/rejuran-healer",
-        destination: "/treatments/rejuran-h",
-        permanent: true,
-      },
-      {
-        source: "/treatments/skin-support/rejuran-eye",
-        destination: "/treatments/rejuran-eye",
-        permanent: true,
-      },
-      {
-        source: "/treatments/skin-support/rejuran-s",
-        destination: "/treatments/rejuran-scar",
-        permanent: true,
-      },
-      {
         source: "/treatments/hifu-abdomen",
         destination: "/treatments/7d-hifu-face",
         permanent: true,

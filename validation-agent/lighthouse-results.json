@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-11T05:26:57.834Z",
+  "generatedAt": "2026-08-11T05:37:12.037Z",
   "baseUrl": "http://127.0.0.1:3100",
   "results": {
     "/": {
       "mobile": {
-        "performance": 95,
+        "performance": 96,
         "accessibility": 100,
         "best-practices": 100,
         "seo": 100
@@ -18,7 +18,7 @@
     },
     "/treatments": {
       "mobile": {
-        "performance": 99,
+        "performance": 96,
         "accessibility": 100,
         "best-practices": 100,
         "seo": 100

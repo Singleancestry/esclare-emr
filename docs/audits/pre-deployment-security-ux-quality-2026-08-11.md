@@ -23,6 +23,7 @@ All blocking local checks passed. The approved website changes are eligible for 
 - Fifteen approved treatment families were added without changing any pre-existing treatment fields.
 - No existing treatment, price, package, branch, diode, MCCM, review, logo, or navigation record was removed.
 - Rejuran content remains absent.
+- Stale Rejuran compatibility aliases were removed; all six legacy and destination paths return 404.
 - Regulatory-review services remain non-bookable and excluded from the public sitemap.
 - The additive Supabase catalog migration contains inserts only. It is not required by the static Hostinger public catalog and was not applied during this website deployment.
 
@@ -35,7 +36,7 @@ All blocking local checks passed. The approved website changes are eligible for 
 - Accessibility: 30 axe route/viewport checks passed with no violations.
 - Responsive QA: Android, iPhone, tablet, laptop, and desktop profiles passed with no horizontal overflow.
 - Load smoke: zero errors; p95 latency was approximately 12 ms for the legacy-home redirect, 27 ms for treatments, and 11 ms for health.
-- Lighthouse: canonical homepage 95 mobile / 100 desktop performance; treatments 99 mobile / 100 desktop. Accessibility, best practices, and SEO were 100 for both pages and both profiles.
+- Final Lighthouse rerun: canonical homepage and treatments both scored 96 mobile / 100 desktop performance. Accessibility, best practices, and SEO were 100 for both pages and both profiles.
 
 ## Hostinger workflow and rollback
 

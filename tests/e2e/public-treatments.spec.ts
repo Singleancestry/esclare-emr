@@ -170,3 +170,17 @@ test("package terms expose the current policy and printable acknowledgment", asy
   await expect(page.getByRole("heading", { name: "Package acknowledgment" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
 });
+
+test("removed Rejuran aliases remain unavailable", async ({ request }) => {
+  for (const path of [
+    "/treatments/skin-support/rejuran-healer",
+    "/treatments/skin-support/rejuran-eye",
+    "/treatments/skin-support/rejuran-s",
+    "/treatments/rejuran-h",
+    "/treatments/rejuran-eye",
+    "/treatments/rejuran-scar",
+  ]) {
+    const response = await request.get(path, { maxRedirects: 0 });
+    expect(response.status()).toBe(404);
+  }
+});
