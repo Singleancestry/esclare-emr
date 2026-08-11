@@ -11,9 +11,11 @@ export type Treatment = {
   unit?: string;
   displayPrice?: string;
   doctorRequired: boolean;
+  assessmentRequired?: boolean;
   public: boolean;
   publicationStatus?: "approved" | "regulatory-review";
   areas?: ReadonlyArray<{ name: string; price: string }>;
+  showAreasOnDetail?: boolean;
 };
 
 export const GLP1_PROGRAM_LABEL = "Physician-supervised 4-week GLP-1 treatment program";
@@ -24,7 +26,7 @@ export type DiodePackage = {
   options: ReadonlyArray<{ sessions: number; price: number }>;
 };
 
-export const catalogEffectiveDate = "2026-07-01";
+export const catalogEffectiveDate = "2026-08-09";
 
 export const treatments: ReadonlyArray<Treatment> = [
   {
@@ -120,6 +122,74 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "facial-treatment-add-ons",
+    name: "Facial Treatment Add-ons",
+    category: "Facials",
+    summary:
+      "Optional professional serums, masks and exfoliation steps selected to complement an eligible facial after assessment.",
+    priceKind: "starts_at",
+    priceMin: 150,
+    unit: "add-on",
+    doctorRequired: false,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "MCCM Exosomes PDRN Serum", price: "₱999" },
+      { name: "ESTHEMAX Collagen Serum", price: "₱400" },
+      { name: "Collagen Serum with cryotherapy", price: "₱300" },
+      { name: "Stem Cell Serum", price: "₱250" },
+      { name: "Vitamin C or Mandelic Serum", price: "₱200" },
+      { name: "Sheet Mask", price: "₱200" },
+      { name: "Diamond Peel", price: "₱150" },
+    ],
+  },
+  {
+    slug: "botox-facial",
+    name: "Botox Facial",
+    category: "Facials",
+    summary:
+      "Doctor-assessed facial botulinum toxin treatment for selected rejuvenation and skin-quality goals.",
+    priceKind: "fixed",
+    priceMin: 2000,
+    unit: "session",
+    doctorRequired: true,
+    public: true,
+  },
+  {
+    slug: "back-acne-care",
+    name: "Back Acne Care",
+    category: "Facials",
+    summary:
+      "Assessment-led cleansing, extraction and selected peel or light-therapy steps for acne-prone skin on the back.",
+    priceKind: "assessment",
+    doctorRequired: false,
+    assessmentRequired: true,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Back Acne Cleanse", price: "Price confirmed after assessment" },
+      { name: "Salicylic Peel + extraction", price: "₱1,800" },
+    ],
+  },
+  {
+    slug: "acne-care-pdt",
+    name: "Acne Care with PDT",
+    category: "Facials",
+    summary:
+      "Assessment-led acne care using selected cleansing, extraction, salicylic peel and PDT light-therapy steps.",
+    priceKind: "starts_at",
+    priceMin: 1500,
+    unit: "session",
+    doctorRequired: false,
+    assessmentRequired: true,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Acne Care with PDT light therapy", price: "₱1,500" },
+      { name: "Salicylic Peel + extraction + PDT", price: "₱1,800" },
+    ],
+  },
+  {
     slug: "pico-glow-face",
     name: "Pico Glow Face",
     category: "Laser and Brightening",
@@ -167,6 +237,20 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "pico-spot-treatment",
+    name: "Pico Spot Treatment",
+    category: "Laser and Brightening",
+    summary:
+      "Targeted picosecond laser treatment for selected small pigment spots after skin assessment.",
+    priceKind: "fixed",
+    priceMin: 500,
+    unit: "spot/session",
+    doctorRequired: false,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [{ name: "Freckles, age spots or coffee spots — up to 3 spots", price: "₱800" }],
+  },
+  {
     slug: "exilift-face",
     name: "Exilift",
     category: "Lifting and Contouring",
@@ -203,6 +287,47 @@ export const treatments: ReadonlyArray<Treatment> = [
       { name: "Flanks", price: "₱3,999" },
       { name: "Arms", price: "₱3,999" },
       { name: "Thighs", price: "₱4,999" },
+    ],
+  },
+  {
+    slug: "hifu-exilift-combination",
+    name: "HIFU + Exilift",
+    category: "Lifting and Contouring",
+    summary:
+      "A combined focused-ultrasound and Exilift plan for selected face or body contouring concerns.",
+    priceKind: "starts_at",
+    priceMin: 4999,
+    unit: "session",
+    doctorRequired: false,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Face", price: "₱5,999" },
+      { name: "Abdomen", price: "₱5,999" },
+      { name: "Flanks", price: "₱4,999" },
+      { name: "Arms", price: "₱4,999" },
+      { name: "Thighs", price: "₱5,999" },
+    ],
+  },
+  {
+    slug: "mesotherapy-exilift-contouring",
+    name: "Mesotherapy + Exilift Contouring",
+    category: "Lifting and Contouring",
+    summary:
+      "Doctor-assessed mesotherapy combined with Exilift for selected chin, jaw and body contouring areas.",
+    priceKind: "starts_at",
+    priceMin: 2500,
+    unit: "session",
+    doctorRequired: true,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Chin and jaw contour", price: "₱2,500" },
+      { name: "Upper back / bra line", price: "₱2,800" },
+      { name: "Arms", price: "₱3,000" },
+      { name: "Back thighs", price: "₱3,500" },
+      { name: "Flanks", price: "₱3,800" },
+      { name: "Abdomen", price: "₱4,000" },
     ],
   },
   {
@@ -247,6 +372,27 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "traptox",
+    name: "Traptox",
+    category: "Doctor Procedures",
+    summary:
+      "Doctor-assessed botulinum toxin procedure for selected trapezius concerns and contouring goals.",
+    priceKind: "fixed",
+    priceMin: 15000,
+    doctorRequired: true,
+    public: true,
+  },
+  {
+    slug: "palmar-hyperhidrosis",
+    name: "Palmar Hyperhidrosis Treatment",
+    category: "Doctor Procedures",
+    summary: "Doctor-assessed botulinum toxin treatment for excessive sweating of the palms.",
+    priceKind: "fixed",
+    priceMin: 15000,
+    doctorRequired: true,
+    public: true,
+  },
+  {
     slug: "hiko-nose-lift",
     name: "HIKO Nose Lift",
     category: "Doctor Procedures",
@@ -263,6 +409,17 @@ export const treatments: ReadonlyArray<Treatment> = [
     summary: "Doctor-performed thread procedure using up to 20 PDO threads.",
     priceKind: "fixed",
     priceMin: 12000,
+    doctorRequired: true,
+    public: true,
+  },
+  {
+    slug: "cats-eye-eyebrow-lift",
+    name: "Cat's Eye / Eyebrow Lift",
+    category: "Doctor Procedures",
+    summary:
+      "Doctor-performed thread procedure planned after assessment of the brow area, anatomy and treatment goals.",
+    priceKind: "fixed",
+    priceMin: 5000,
     doctorRequired: true,
     public: true,
   },
@@ -314,6 +471,75 @@ export const treatments: ReadonlyArray<Treatment> = [
     public: true,
   },
   {
+    slug: "minor-skin-procedures",
+    name: "Minor Skin Procedures",
+    category: "Doctor Procedures",
+    summary:
+      "Doctor-assessed removal or treatment of selected skin tags, warts and other minor skin lesions; diagnosis and suitability are confirmed first.",
+    priceKind: "starts_at",
+    priceMin: 1000,
+    doctorRequired: true,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Wart or skin tag — 1 to 3 pieces", price: "Starts at ₱1,000" },
+      { name: "Wart or skin-tag removal — face and neck", price: "Starts at ₱2,500" },
+      { name: "Syringoma, xanthelasma or milia", price: "Starts at ₱1,500" },
+      { name: "Mole removal", price: "Starts at ₱2,000" },
+      { name: "Sebaceous cyst removal", price: "Starts at ₱3,500" },
+      { name: "Small benign lesion", price: "₱1,500–₱3,500" },
+      { name: "Acne injection — assessment first", price: "₱250 / lesion" },
+    ],
+  },
+  {
+    slug: "rf-microneedling",
+    name: "RF Microneedling",
+    category: "Doctor Procedures",
+    summary:
+      "Doctor-assessed radiofrequency microneedling for selected facial texture or stretch-mark concerns, with optional professional adjuncts when appropriate.",
+    priceKind: "starts_at",
+    priceMin: 3500,
+    unit: "session",
+    doctorRequired: true,
+    public: true,
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Face — skin rejuvenation", price: "Starts at ₱3,500" },
+      { name: "Vampire Facial / PRP option", price: "₱4,500" },
+      { name: "Selected hyperemic stretch marks", price: "Starts at ₱4,000" },
+    ],
+  },
+  {
+    slug: "acne-stub-stop",
+    name: "Acne Stub Stop",
+    category: "Doctor Procedures",
+    summary:
+      "Doctor-assessed CO₂ laser treatment for selected recurrent or stubborn acne lesions; it is not a guaranteed cure for acne.",
+    priceKind: "starts_at",
+    priceMin: 2500,
+    unit: "1–3 lesions",
+    doctorRequired: true,
+    public: true,
+  },
+  {
+    slug: "vascular-treatments",
+    name: "Vascular Treatments",
+    category: "Doctor Procedures",
+    summary:
+      "Assessment-led options for selected visible leg or facial veins; the appropriate method depends on the vessel pattern, medical history and treatment suitability.",
+    priceKind: "assessment",
+    doctorRequired: false,
+    assessmentRequired: true,
+    public: true,
+    publicationStatus: "regulatory-review",
+    showAreasOnDetail: true,
+    areas: [
+      { name: "Sclerotherapy — Polidocanol 1–3%", price: "₱3,500 / ml" },
+      { name: "Diode vein therapy — bilateral legs", price: "₱4,000 / session" },
+      { name: "Diode vein therapy — facial spider veins", price: "₱3,000 / session" },
+    ],
+  },
+  {
     slug: "mccm-exosome-pdrn",
     name: "MCCM Exosome PDRN",
     category: "Skin Support",
@@ -349,6 +575,19 @@ export const treatments: ReadonlyArray<Treatment> = [
     priceMin: 5000,
     unit: "session",
     doctorRequired: false,
+    public: true,
+    publicationStatus: "regulatory-review",
+  },
+  {
+    slug: "mccm-glass-skin-booster",
+    name: "MCCM Glass Skin / Skin Booster",
+    category: "Skin Support",
+    summary:
+      "Doctor-assessed professional skin-booster treatment for selected hydration, moisture and brighter-looking skin goals.",
+    priceKind: "fixed",
+    priceMin: 4000,
+    unit: "session",
+    doctorRequired: true,
     public: true,
     publicationStatus: "regulatory-review",
   },

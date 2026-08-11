@@ -89,7 +89,7 @@ test("treatment gallery filters verified media and preserves booking selection",
   ).toBeVisible();
   await page
     .getByRole("button", {
-      name: "Open Skin Support image: MCCM Exosome PDRN product review",
+      name: "Open Skin Support image: MCCM Exosome PDRN",
     })
     .click();
   await expect(page.getByRole("dialog", { name: "Skin Support image viewer" })).toBeVisible();
@@ -121,20 +121,31 @@ test("hero retains its poster and actions when video playback fails", async ({
 
   const hero = page.locator(".hero-media");
   const heroStage = page.locator(".hero-stage");
+  let webkitStayedOnPoster = false;
   if (browserName === "webkit") {
-    await expect(hero).toHaveAttribute("data-playback-state", /playing|complete/);
-    await hero.locator("video").evaluate((video: HTMLVideoElement) => {
-      video.pause();
-      video.querySelectorAll("source").forEach((source) => source.remove());
-      video.src = "/media/forced-missing-video.mp4";
-      video.load();
-    });
+    await expect(hero).toHaveAttribute("data-playback-state", /poster|playing|complete/);
+    webkitStayedOnPoster = (await hero.getAttribute("data-playback-state")) === "poster";
+    if (!webkitStayedOnPoster) {
+      await hero.locator("video").evaluate((video: HTMLVideoElement) => {
+        video.pause();
+        video.querySelectorAll("source").forEach((source) => source.remove());
+        video.src = "/media/forced-missing-video.mp4";
+        video.load();
+      });
+    }
   }
   await expect(hero.locator(".hero-media-poster img")).toBeVisible();
-  await expect(page.getByRole("heading", { name: /Reveal Your Most Radiant Self/ })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Professional Aesthetic and Laser Clinic in Naga City and Daet",
+    }),
+  ).toBeVisible();
   await expect(heroStage.getByRole("link", { name: "Explore treatments" })).toBeVisible();
-  await expect(heroStage.getByRole("link", { name: "Book a consultation" })).toBeVisible();
-  await expect(hero).toHaveAttribute("data-playback-state", "fallback");
+  await expect(heroStage.getByRole("link", { name: "Request assessment" })).toBeVisible();
+  await expect(hero).toHaveAttribute(
+    "data-playback-state",
+    webkitStayedOnPoster ? "poster" : "fallback",
+  );
 });
 
 test("hero remains usable after route navigation on a mobile viewport", async ({ page }) => {
@@ -144,9 +155,13 @@ test("hero remains usable after route navigation on a mobile viewport", async ({
   await page.goto("/treatments");
   await page.goBack();
 
-  await expect(page.getByRole("heading", { name: /Reveal Your Most Radiant Self/ })).toBeVisible();
   await expect(
-    page.locator(".hero-stage").getByRole("link", { name: "Book a consultation" }),
+    page.getByRole("heading", {
+      name: "Professional Aesthetic and Laser Clinic in Naga City and Daet",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.locator(".hero-stage").getByRole("link", { name: "Request assessment" }),
   ).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,

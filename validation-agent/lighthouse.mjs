@@ -7,7 +7,7 @@ import { setTimeout as delay } from "node:timers/promises";
 const baseUrl = process.env.VALIDATION_BASE_URL ?? "http://127.0.0.1:3100";
 const npx = process.platform === "win32" ? "npx.cmd" : "npx";
 const categories = "performance,accessibility,best-practices,seo";
-const paths = ["/home", "/treatments"];
+const paths = ["/", "/treatments"];
 const results = {};
 const chromeTemp = join(process.cwd(), ".tools", "lighthouse-temp");
 mkdirSync(chromeTemp, { recursive: true });

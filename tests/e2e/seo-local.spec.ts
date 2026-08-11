@@ -28,17 +28,25 @@ test("sitemap includes the root and excludes the legacy homepage", async ({ requ
   expect(sitemap).not.toContain("/patients</loc>");
 });
 
-test("analytics initializes once per page", async ({ page, request }) => {
+test("analytics stays off before consent and initializes once after acceptance", async ({
+  page,
+  request,
+}) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
   await expect(
     page.locator('script[src*="googletagmanager.com/gtag/js?id=G-RS34GQW8W6"]'),
+  ).toHaveCount(0);
+  await expect(page.locator("script#meta-pixel")).toHaveCount(0);
+  const html = await (await request.get("/")).text();
+  expect(html).not.toContain("googletagmanager.com/gtag/js");
+  expect(html).not.toContain("facebook.com/tr?id=");
+
+  await page.getByRole("button", { name: "Accept all" }).click();
+  await expect(
+    page.locator('script[src*="googletagmanager.com/gtag/js?id=G-RS34GQW8W6"]'),
   ).toHaveCount(1);
   await expect(page.locator("script#meta-pixel")).toHaveCount(1);
-  const html = await (await request.get("/")).text();
-  expect(html).toContain(
-    "https://www.facebook.com/tr?id=2927430460923084&amp;ev=PageView&amp;noscript=1",
-  );
   await expect
     .poll(() =>
       page.evaluate(() => {
@@ -56,6 +64,17 @@ test("analytics initializes once per page", async ({ page, request }) => {
 });
 
 test("booking analytics excludes entered personal information", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      "esclare-privacy-consent-v1",
+      JSON.stringify({
+        version: 1,
+        analytics: true,
+        marketing: false,
+        updatedAt: new Date().toISOString(),
+      }),
+    );
+  });
   await page.goto("/appointment-request");
   await page.getByLabel("Full name").fill("Reagan Test");
   await page.getByLabel("Treatment").selectOption({ index: 1 });

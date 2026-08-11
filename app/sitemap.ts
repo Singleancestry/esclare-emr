@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/aftercare",
     "/contact",
     "/privacy",
+    "/cookies",
     "/terms",
     "/package-terms",
   ];

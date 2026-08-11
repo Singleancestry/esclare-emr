@@ -38,8 +38,12 @@ export default async function ServicesPage() {
                     <div>
                       <h3 className="font-semibold text-[#262626]">{item.name}</h3>
                       <p className="mt-1 text-sm text-[#5F6368]">
-                        {item.doctorRequired ? "Doctor required" : "Aesthetic professional"} ·{" "}
-                        {item.summary}
+                        {item.doctorRequired
+                          ? "Doctor required"
+                          : item.assessmentRequired
+                            ? "Professional assessment required"
+                            : "Aesthetic professional"}{" "}
+                        · {item.summary}
                       </p>
                     </div>
                     <p className="text-sm font-bold text-[#6F263D]">{formatTreatmentPrice(item)}</p>

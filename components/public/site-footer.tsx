@@ -6,6 +6,7 @@ import type { Route } from "next";
 import { clinicBranches } from "@/lib/clinic/details";
 import { useSelectedBranch } from "@/components/public/branch-provider";
 import { trackPublicEvent } from "@/lib/analytics/public-events";
+import { OPEN_PRIVACY_SETTINGS_EVENT } from "@/lib/privacy/consent";
 
 export function SiteFooter() {
   const { branch } = useSelectedBranch();
@@ -75,8 +76,16 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="public-container flex flex-col gap-3 py-5 text-[11px] text-[#CDBDB5] sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} ESCLARE Aesthetic & Wellness Clinic.</p>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap gap-5">
             <Link href="/privacy">Privacy</Link>
+            <Link href="/cookies">Cookies</Link>
+            <button
+              type="button"
+              className="text-left"
+              onClick={() => window.dispatchEvent(new Event(OPEN_PRIVACY_SETTINGS_EVENT))}
+            >
+              Cookie settings
+            </button>
             <Link href="/terms">Terms</Link>
             <Link href={"/package-terms" as Route}>Package terms</Link>
           </div>

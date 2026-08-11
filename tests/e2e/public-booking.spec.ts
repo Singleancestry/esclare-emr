@@ -30,7 +30,7 @@ test("branch page shows confirmed details and Daet exception", async ({ page }) 
     page.getByRole("main").getByRole("link", { name: "+63 920 735 1379" }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "ESCLARE Daet" })).toBeVisible();
-  await expect(page.getByText(/except Fractional Laser/)).toBeVisible();
+  await expect(page.getByText(/does not offer Fractional Laser/)).toBeVisible();
 });
 
 test("Daet branch links preserve the selected booking branch", async ({ page }) => {

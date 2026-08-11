@@ -164,9 +164,10 @@ export default function TreatmentsPage() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <h3 className="text-xl text-[#3F1724]">{item.name}</h3>
-                        {item.doctorRequired && (
+                        {(item.doctorRequired || item.assessmentRequired) && (
                           <span className="inline-flex shrink-0 items-center gap-1 rounded-md bg-[#F2E7E2] px-2 py-1 text-[10px] font-bold uppercase text-[#6F263D]">
-                            <Stethoscope size={12} aria-hidden="true" /> Doctor
+                            <Stethoscope size={12} aria-hidden="true" />{" "}
+                            {item.doctorRequired ? "Doctor" : "Assessment"}
                           </span>
                         )}
                       </div>

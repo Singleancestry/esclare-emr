@@ -92,9 +92,9 @@ test("MCCM Skin Support pages render without public administrative status wordin
     await expect(page.getByRole("heading", { name: /safety and regulatory status/i })).toHaveCount(
       0,
     );
-    await expect(page.locator("main").getByRole("link", { name: /request assessment/i })).toHaveCount(
-      0,
-    );
+    await expect(
+      page.locator("main").getByRole("link", { name: /request assessment/i }),
+    ).toHaveCount(0);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
   }
 

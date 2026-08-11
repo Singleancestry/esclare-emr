@@ -2,7 +2,14 @@ import { expect, test } from "@playwright/test";
 
 const baseURL =
   process.env.VALIDATION_BASE_URL ?? process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000";
-const pages = ["/", "/treatments", "/appointment-request", "/login"];
+const websiteOnlyValidation =
+  process.env.PUBLIC_WEBSITE_ONLY === "true" || Boolean(process.env.VALIDATION_BASE_URL);
+const pages = [
+  "/",
+  "/treatments",
+  "/appointment-request",
+  ...(websiteOnlyValidation ? [] : ["/login"]),
+];
 const viewports = [
   { name: "android", width: 360, height: 800 },
   { name: "iphone", width: 390, height: 844 },

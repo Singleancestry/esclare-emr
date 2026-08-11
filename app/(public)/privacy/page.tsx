@@ -40,6 +40,14 @@ export default function PrivacyPage() {
           </p>
         </section>
         <section>
+          <h2 className="text-2xl text-[#481827]">Cookies and analytics</h2>
+          <p className="mt-3">
+            Optional analytics and marketing technologies remain off until you choose them. You can
+            reject optional technologies without losing essential website access and change your
+            choice later through Cookie settings in the footer. See the Cookie Notice for details.
+          </p>
+        </section>
+        <section>
           <h2 className="text-2xl text-[#481827]">Your choices</h2>
           <p className="mt-3">
             You may ask ESCLARE about your personal information, request corrections, or raise a

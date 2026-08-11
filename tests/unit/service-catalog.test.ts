@@ -30,21 +30,73 @@ describe("service catalog", () => {
   it("keeps MCCM public, Rejuran hidden, and all approved Skin Support prices unchanged", () => {
     const skinSupport = treatments.filter((item) => item.category === "Skin Support");
 
-    expect(skinSupport).toHaveLength(6);
+    expect(skinSupport).toHaveLength(7);
     expect(skinSupport.every((item) => item.publicationStatus === "regulatory-review")).toBe(true);
     expect(skinSupport.filter((item) => item.public).map((item) => item.slug)).toEqual([
       "mccm-exosome-pdrn",
       "mccm-eye-contour",
       "mccm-brightening-system",
+      "mccm-glass-skin-booster",
     ]);
     expect(Object.fromEntries(skinSupport.map((item) => [item.slug, item.priceMin]))).toEqual({
       "mccm-exosome-pdrn": 4000,
       "mccm-eye-contour": 3800,
       "mccm-brightening-system": 5000,
+      "mccm-glass-skin-booster": 4000,
       "rejuran-h": 25000,
       "rejuran-eye": 15000,
       "rejuran-scar": 15000,
     });
+  });
+
+  it("preserves every pre-audit treatment price field", () => {
+    const expected: Record<string, [string, number | null, number | null, string | null]> = {
+      "korean-facial": ["fixed", 1800, null, "session"],
+      "hydrajet-peel": ["fixed", 1999, null, "session"],
+      "esthemax-hydrojelly-mask": ["fixed", 350, null, "add-on"],
+      "intense-hydrating": ["fixed", 2000, null, "session"],
+      "basic-detox": ["fixed", 399, null, "session"],
+      exfoliare: ["fixed", 499, null, "session"],
+      "exfoliare-cryo": ["fixed", 599, null, "session"],
+      "acne-cleanse": ["range", 499, 599, "session"],
+      "pico-glow-face": ["fixed", 3500, null, "session"],
+      "pico-glow-body": ["fixed", 2000, null, "area/session"],
+      "carbon-laser-peel": ["fixed", 3500, null, "session"],
+      "tattoo-removal": ["starts_at", 1200, null, null],
+      "exilift-face": ["fixed", 1800, null, "session"],
+      "7d-hifu-face": ["fixed", 4999, null, "session"],
+      armtox: ["fixed", 17000, null, null],
+      sweatox: ["fixed", 15000, null, null],
+      jawtox: ["fixed", 10000, null, null],
+      "fine-lines": ["fixed", 250, null, "unit"],
+      "hiko-nose-lift": ["assessment", null, null, null],
+      "pdo-threads": ["fixed", 12000, null, null],
+      "rejuran-h": ["fixed", 25000, null, null],
+      "rejuran-eye": ["fixed", 15000, null, null],
+      "rejuran-scar": ["fixed", 15000, null, null],
+      "fractional-laser": ["range", 4000, 7000, null],
+      "mccm-exosome-pdrn": ["starts_at", 4000, null, "session"],
+      "mccm-eye-contour": ["fixed", 3800, null, "session"],
+      "mccm-brightening-system": ["starts_at", 5000, null, "session"],
+      "glp-1-slimming": ["fixed", 21500, null, "4-week treatment program"],
+      "hikari-drip": ["fixed", 3000, null, "session"],
+      "zaguta-drip": ["fixed", 2100, null, "session"],
+      "laser-circumcision": ["starts_at", 5000, null, null],
+    };
+
+    for (const [slug, price] of Object.entries(expected)) {
+      const treatment = treatments.find((item) => item.slug === slug);
+      expect(treatment, slug).toBeDefined();
+      expect(
+        [
+          treatment!.priceKind,
+          treatment!.priceMin ?? null,
+          treatment!.priceMax ?? null,
+          treatment!.unit ?? null,
+        ],
+        slug,
+      ).toEqual(price);
+    }
   });
 
   it("keeps product links out of the first-level Treatments navigation", () => {

@@ -88,6 +88,21 @@ export default async function TreatmentDetailPage({ params }: Props) {
                   <Stethoscope size={17} aria-hidden="true" /> Doctor consultation required
                 </p>
               )}
+              {!treatment.doctorRequired && treatment.assessmentRequired && (
+                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#6F263D]">
+                  <Stethoscope size={17} aria-hidden="true" /> Professional assessment required
+                </p>
+              )}
+              {treatment.showAreasOnDetail && treatment.areas && (
+                <dl className="mt-5 divide-y divide-[#D8C9B4] border-y border-[#D8C9B4] text-sm">
+                  {treatment.areas.map((area) => (
+                    <div key={area.name} className="grid gap-1 py-3">
+                      <dt className="text-[#62595C]">{area.name}</dt>
+                      <dd className="font-bold text-[#6F263D]">{area.price}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
           </div>
         </div>

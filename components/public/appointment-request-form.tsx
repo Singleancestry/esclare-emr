@@ -139,7 +139,10 @@ export function AppointmentRequestForm({
               aria-invalid={Boolean(error)}
               aria-describedby={error ? "booking-error" : undefined}
               value={fullName}
-              onChange={(event) => setFullName(event.target.value)}
+              onChange={(event) => {
+                trackFormStart();
+                setFullName(event.target.value);
+              }}
               className="min-h-12 rounded-sm border border-[#CFC7BE] px-3 py-3 font-normal normal-case tracking-normal text-[#292524] outline-none transition-colors focus:border-[#6F263D] focus:ring-2 focus:ring-[#6F263D]/10"
               autoComplete="name"
               placeholder="Your full name"
@@ -151,6 +154,7 @@ export function AppointmentRequestForm({
               name="branchCode"
               value={branchCode}
               onChange={(event) => {
+                trackFormStart();
                 const nextBranch = event.target.value as BranchCode;
                 setBranchCode(nextBranch);
                 setTreatmentSlug("");
@@ -178,6 +182,7 @@ export function AppointmentRequestForm({
               name="treatmentSlug"
               value={treatmentSlug}
               onChange={(event) => {
+                trackFormStart();
                 const nextTreatment = event.target.value;
                 setTreatmentSlug(nextTreatment);
                 trackPublicEvent("treatment_selected", {
@@ -211,7 +216,10 @@ export function AppointmentRequestForm({
                   name="preferredDate"
                   type="date"
                   value={date}
-                  onChange={(event) => setDate(event.target.value)}
+                  onChange={(event) => {
+                    trackFormStart();
+                    setDate(event.target.value);
+                  }}
                   className="min-h-12 w-full rounded-sm border border-[#CFC7BE] py-3 pl-10 pr-3 font-normal normal-case tracking-normal text-[#292524] outline-none focus:border-[#6F263D]"
                 />
               </span>
@@ -230,7 +238,10 @@ export function AppointmentRequestForm({
                   name="preferredTime"
                   type="time"
                   value={time}
-                  onChange={(event) => setTime(event.target.value)}
+                  onChange={(event) => {
+                    trackFormStart();
+                    setTime(event.target.value);
+                  }}
                   className="min-h-12 w-full rounded-sm border border-[#CFC7BE] py-3 pl-10 pr-3 font-normal normal-case tracking-normal text-[#292524] outline-none focus:border-[#6F263D]"
                 />
               </span>

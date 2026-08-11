@@ -23,6 +23,14 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
   exfoliare: ["Dullness", "Surface buildup", "Congestion", "Rough texture"],
   "exfoliare-cryo": ["Dullness", "Congestion", "Temporary redness after extraction"],
   "acne-cleanse": ["Acne-prone congestion", "Blackheads and whiteheads", "Excess oil"],
+  "facial-treatment-add-ons": [
+    "Facial hydration support",
+    "Selected exfoliation support",
+    "A personalized facial plan",
+  ],
+  "botox-facial": ["Selected facial rejuvenation goals", "Skin-quality goals assessed by a doctor"],
+  "back-acne-care": ["Back congestion", "Acne-prone skin", "Post-acne surface concerns"],
+  "acne-care-pdt": ["Acne-prone congestion", "Excess oil", "Selected active breakouts"],
   "pico-glow-face": ["Uneven pigmentation", "Sun spots", "Post-acne marks", "Dull-looking tone"],
   "pico-glow-body": [
     "Selected body-area pigmentation",
@@ -30,16 +38,25 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
     "Post-inflammatory marks",
   ],
   "carbon-laser-peel": ["Oiliness", "Visible pores", "Dullness", "Uneven-looking texture"],
+  "pico-spot-treatment": ["Selected small pigment spots", "Freckles", "Age spots"],
   "exilift-face": ["Mild loss of firmness", "Facial contour", "Skin-support goals"],
   "7d-hifu-face": ["Loss of firmness", "Jawline definition", "Lifting and tightening goals"],
+  "hifu-exilift-combination": ["Selected face or body contouring goals", "Mild loss of firmness"],
+  "mesotherapy-exilift-contouring": [
+    "Selected chin and jaw contouring goals",
+    "Selected body contouring goals",
+  ],
   "hifu-abdomen": ["Abdominal contour", "Selected firmness concerns"],
   "hifu-flanks": ["Flank contour", "Selected firmness concerns"],
   armtox: ["Upper-arm contouring goals", "Muscle-related prominence assessed by a doctor"],
   sweatox: ["Excessive underarm sweating assessed by a doctor"],
   jawtox: ["Masseter prominence", "Jaw tension", "Lower-face contouring goals"],
   "fine-lines": ["Expression lines", "Selected facial wrinkles assessed by a doctor"],
+  traptox: ["Selected trapezius concerns", "Upper-shoulder contouring goals"],
+  "palmar-hyperhidrosis": ["Excessive sweating of the palms assessed by a doctor"],
   "hiko-nose-lift": ["Selected nose-shape and projection goals after anatomical assessment"],
   "pdo-threads": ["Selected facial laxity", "Contour and support goals"],
+  "cats-eye-eyebrow-lift": ["Selected brow-position goals", "Upper-face support goals"],
   "rejuran-h": ["Hydration", "Texture", "Fine-line appearance", "Skin quality goals"],
   "rejuran-eye": ["Eye-area texture", "Fine-line appearance", "Hydration goals"],
   "rejuran-scar": ["Selected acne scars", "Uneven texture", "Recovery-support goals"],
@@ -47,6 +64,23 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
     "Atrophic acne scars",
     "Uneven texture",
     "Selected pigmentation and fine lines",
+  ],
+  "minor-skin-procedures": [
+    "Selected skin tags or warts",
+    "Selected milia, syringoma or xanthelasma",
+    "A skin lesion requiring doctor assessment before treatment",
+  ],
+  "rf-microneedling": [
+    "Uneven-looking facial texture",
+    "Selected stretch-mark concerns",
+    "Skin-quality goals assessed by a doctor",
+  ],
+  "acne-stub-stop": ["Selected recurrent or stubborn acne lesions assessed by a doctor"],
+  "vascular-treatments": ["Selected visible leg veins", "Selected facial spider veins"],
+  "mccm-glass-skin-booster": [
+    "Hydration and moisture goals",
+    "Brighter-looking skin",
+    "Skin-quality goals assessed by a doctor",
   ],
   "glp-1-slimming": [
     "Medically guided appetite regulation",
@@ -61,13 +95,35 @@ const concernOverrides: Record<string, ReadonlyArray<string>> = {
   ],
 };
 
+const sourceLimitedNewTreatmentSlugs = new Set([
+  "facial-treatment-add-ons",
+  "botox-facial",
+  "back-acne-care",
+  "acne-care-pdt",
+  "pico-spot-treatment",
+  "hifu-exilift-combination",
+  "mesotherapy-exilift-contouring",
+  "traptox",
+  "palmar-hyperhidrosis",
+  "cats-eye-eyebrow-lift",
+  "minor-skin-procedures",
+  "rf-microneedling",
+  "acne-stub-stop",
+  "vascular-treatments",
+  "mccm-glass-skin-booster",
+]);
+
 function categoryMechanism(treatment: Treatment) {
+  if (treatment.assessmentRequired && !treatment.doctorRequired)
+    return "A professional assesses the visible concern, treatment area, health history, and suitability before confirming whether an available clinic method is appropriate. The provider classification and treatment plan are not determined from website information alone.";
   if (treatment.slug === "glp-1-slimming")
     return "GLP-1 medicines act on hormone-signaling pathways involved in appetite, fullness, digestion, and glucose regulation. When a qualified prescriber considers treatment appropriate, medication is combined with practical nutrition, activity, and follow-up guidance. The exact medicine and dose are selected individually and are not confirmed from website information alone.";
   if (treatment.slug.startsWith("pico-"))
     return "The Pico platform delivers very short laser pulses selected for the pigment concern and skin response. Wavelength, treatment mode, and settings are chosen after assessment; not every pigmentation pattern should be treated the same way.";
   if (treatment.slug.includes("hifu"))
     return "Focused ultrasound energy is delivered at selected tissue depths to support a gradual firming response. The treatment area, cartridge depth, number of lines, and suitability depend on anatomy and professional assessment.";
+  if (treatment.doctorRequired && sourceLimitedNewTreatmentSlugs.has(treatment.slug))
+    return "A licensed doctor reviews the treatment goal, health history, medicines, anatomy, and contraindications before selecting the appropriate method and treatment plan. The procedure is not confirmed from website information alone.";
   if (treatment.category === "Facials")
     return "The treatment combines cleansing and selected professional steps to address the surface concerns identified during assessment. Extraction, exfoliation, hydration, masks, or device-assisted steps are adjusted for sensitivity and current skin condition.";
   if (treatment.category === "Doctor Procedures")
@@ -78,6 +134,8 @@ function categoryMechanism(treatment: Treatment) {
 }
 
 function durationFor(treatment: Treatment) {
+  if (sourceLimitedNewTreatmentSlugs.has(treatment.slug))
+    return "The source does not state a standard visit duration. Timing is confirmed after assessment and depends on the selected area and treatment plan.";
   if (treatment.slug === "pico-glow-face")
     return "Each Pico Glow Face session typically lasts 30 to 45 minutes, including assessment, cleansing, the treatment proper, protection, and aftercare.";
   if (treatment.slug === "glp-1-slimming")
@@ -96,6 +154,8 @@ function durationFor(treatment: Treatment) {
 }
 
 function sessionsFor(treatment: Treatment) {
+  if (sourceLimitedNewTreatmentSlugs.has(treatment.slug))
+    return "The source does not establish one universal course for this service. The provider confirms whether a single session or a planned series is appropriate after assessment and response.";
   if (treatment.slug === "pico-glow-face")
     return "Treatment results develop progressively over a series of sessions. The recommended treatment interval is typically every 4 to 6 weeks. The total number of sessions and timing depend on your skin concerns, skin tone, skin response, treatment settings, and recovery. Each plan is individualized to support optimal results while prioritizing skin safety.";
   if (treatment.slug === "exilift-face")
@@ -114,7 +174,9 @@ function sessionsFor(treatment: Treatment) {
 }
 
 function careFor(treatment: Treatment) {
-  const isDoctor = treatment.category === "Doctor Procedures";
+  const isDoctor =
+    (treatment.category === "Doctor Procedures" && !treatment.assessmentRequired) ||
+    (treatment.doctorRequired && sourceLimitedNewTreatmentSlugs.has(treatment.slug));
   const isLaser = treatment.category === "Laser and Brightening";
   return {
     beforecare: [
@@ -220,8 +282,9 @@ export function getTreatmentDetail(treatment: Treatment): TreatmentDetail {
     ],
     duration: durationFor(treatment),
     sessions: sessionsFor(treatment),
-    downtime:
-      treatment.category === "Doctor Procedures"
+    downtime: sourceLimitedNewTreatmentSlugs.has(treatment.slug)
+      ? "The source does not provide a standard downtime classification. The provider explains expected temporary effects, recovery guidance, and warning signs for the selected treatment before consent."
+      : treatment.category === "Doctor Procedures"
         ? "Downtime is procedure-dependent. Temporary swelling, tenderness, bruising, redness, or asymmetry may occur, and the doctor must explain procedure-specific warning signs."
         : "Downtime is usually minimal to moderate depending on treatment intensity and sensitivity. Temporary redness, warmth, tightness, dryness, peeling, or tenderness may occur.",
     beforecare: care.beforecare,

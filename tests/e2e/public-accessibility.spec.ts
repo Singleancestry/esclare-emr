@@ -11,6 +11,7 @@ const routes = [
   "/treatments/skin-support",
   "/branches/naga",
   "/package-terms",
+  "/cookies",
 ] as const;
 
 const viewports = [

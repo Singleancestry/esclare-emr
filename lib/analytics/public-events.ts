@@ -25,9 +25,15 @@ export function trackPublicEvent(
   parameters: Record<string, string | boolean> = {},
 ) {
   if (typeof window === "undefined") return;
+  const consent = readPrivacyConsent();
+  if (!consent?.analytics && !consent?.marketing) return;
   const analyticsWindow = window as AnalyticsWindow;
   const payload = { event, ...parameters };
-  analyticsWindow.dataLayer?.push(payload);
-  analyticsWindow.fbq?.("trackCustom", event, parameters);
+  if (consent.analytics) {
+    analyticsWindow.dataLayer ??= [];
+    analyticsWindow.dataLayer.push(payload);
+  }
+  if (consent.marketing) analyticsWindow.fbq?.("trackCustom", event, parameters);
   window.dispatchEvent(new CustomEvent("esclare:analytics", { detail: payload }));
 }
+import { readPrivacyConsent } from "@/lib/privacy/consent";
