@@ -136,7 +136,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 8,
-    seoTitle: "Diode Laser Hair Removal Guide | ESCLARE",
+    seoTitle: "Diode Laser Hair Removal Guide",
     metaDescription:
       "Understand diode laser hair reduction, typical sessions, skin-tone considerations, beforecare, and aftercare at ESCLARE Naga and Daet.",
     keyTakeaways: [
@@ -234,7 +234,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 8,
-    seoTitle: "Pico Laser for Facial Pigmentation | ESCLARE",
+    seoTitle: "Pico Laser for Facial Pigmentation",
     metaDescription:
       "Learn how Pico laser is considered for pigmentation, acne marks, sun spots, and uneven tone, including downtime and sun protection.",
     keyTakeaways: [
@@ -327,7 +327,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "Why Underarms Become Dark | ESCLARE Skin Education",
+    seoTitle: "Why Underarms Become Dark | Skin Education",
     metaDescription:
       "Understand common causes of underarm darkening, gentle home care, and when diode, Pico, or professional peel assessment may help.",
     keyTakeaways: [
@@ -415,7 +415,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 9,
-    seoTitle: "GLP-1 Weight Management Programs | ESCLARE",
+    seoTitle: "GLP-1 Weight Management Programs",
     metaDescription:
       "A cautious guide to GLP-1-based weight management, medical screening, monitoring, side effects, and lifestyle support.",
     keyTakeaways: [
@@ -507,7 +507,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 9,
-    seoTitle: "Tirzepatide Weight Management Guide | ESCLARE",
+    seoTitle: "Tirzepatide Weight Management Guide",
     metaDescription:
       "What clients should know about tirzepatide, GIP and GLP-1 activity, doctor assessment, side effects, follow-up, and precautions.",
     keyTakeaways: [
@@ -596,7 +596,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "Pico Laser Facial Rejuvenation | ESCLARE",
+    seoTitle: "Pico Laser Facial Rejuvenation",
     metaDescription:
       "Learn about Pico laser for brighter-looking skin, texture, acne-mark appearance, downtime, intervals, and aftercare.",
     keyTakeaways: [
@@ -680,7 +680,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 6,
-    seoTitle: "MCCM Professional Skincare Guide | ESCLARE",
+    seoTitle: "MCCM Professional Skincare Guide",
     metaDescription:
       "Understand professional MCCM skincare, clinic protocols, home care, consultation, and realistic expectations.",
     keyTakeaways: [
@@ -764,7 +764,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "Exosomes in Aesthetic Skincare | ESCLARE",
+    seoTitle: "Exosomes in Aesthetic Skincare",
     metaDescription:
       "A client-friendly guide to exosomes, topical recovery support, evidence limitations, quality, and professional protocols.",
     keyTakeaways: [
@@ -845,7 +845,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "PDRN and Polynucleotides Guide | ESCLARE",
+    seoTitle: "PDRN and Polynucleotides Guide",
     metaDescription:
       "Understand PDRN and polynucleotides, hydration and texture goals, delivery methods, temporary effects, and assessment.",
     keyTakeaways: [
@@ -933,7 +933,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 6,
-    seoTitle: "Vitamin C and Glutathione Brightening | ESCLARE",
+    seoTitle: "Vitamin C and Glutathione Brightening",
     metaDescription:
       "Learn how Vitamin C and glutathione are discussed in professional brightening, sensitivity, sunscreen, and realistic expectations.",
     keyTakeaways: [
@@ -1015,7 +1015,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "Professional Chemical Peels Guide | ESCLARE",
+    seoTitle: "Professional Chemical Peels Guide",
     metaDescription:
       "Understand professional chemical peels, superficial and deeper concepts, downtime, beforecare, aftercare, and warning signs.",
     keyTakeaways: [
@@ -1096,7 +1096,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "MCCM Mesotherapy Solutions Guide | ESCLARE",
+    seoTitle: "MCCM Mesotherapy Solutions Guide",
     metaDescription:
       "Understand topical, microneedling-assisted, and injectable mesotherapy approaches, ingredients, sterile technique, and aftercare.",
     keyTakeaways: [
@@ -1179,7 +1179,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 7,
-    seoTitle: "Combining Skincare with Laser and HIFU | ESCLARE",
+    seoTitle: "Combining Skincare with Laser and HIFU",
     metaDescription:
       "Learn why treatment sequencing, skin-barrier recovery, active ingredients, and personalized timing matter around Pico, fractional laser, HIFU, and diode.",
     keyTakeaways: [
@@ -1271,7 +1271,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-07-19",
     updatedAt: "2026-07-19",
     readingMinutes: 6,
-    seoTitle: "Home Care After Professional Skin Treatments | ESCLARE",
+    seoTitle: "Home Care After Professional Skin Treatments",
     metaDescription:
       "Practical home care after professional skin treatments: gentle cleansing, barrier support, sunscreen, makeup, actives, and warning signs.",
     keyTakeaways: [
@@ -1369,7 +1369,7 @@ const educationArticleSource: ReadonlyArray<EducationArticle> = [
     publishedAt: "2026-08-09",
     updatedAt: "2026-08-09",
     readingMinutes: 7,
-    seoTitle: "ESTHEMAX HydroJelly Mask Guide | Skin Education | Esclare",
+    seoTitle: "ESTHEMAX HydroJelly Mask Guide | Skin Education",
     metaDescription:
       "A patient-friendly guide to ESTHEMAX HydroJelly Mask preparation, application, cosmetic benefits, suitability and aftercare.",
     keyTakeaways: [

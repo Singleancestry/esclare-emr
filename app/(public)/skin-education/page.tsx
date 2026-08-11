@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { ArrowRight, BookOpen, CalendarDays, Clock3 } from "lucide-react";
 import { SkinEducationExplorer } from "@/components/public/skin-education-explorer";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { educationCategories, getVisibleEducationArticles } from "@/lib/content/skin-education";
 
 export const metadata: Metadata = {
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
     "Clear, cautious guides to laser treatments, skin concerns, professional skincare, and doctor-led weight management from ESCLARE.",
   alternates: { canonical: "/skin-education" },
   openGraph: {
-    title: "ESCLARE Skin Education",
+    siteName: BUSINESS_NAME,
+    title: `${BUSINESS_NAME} Skin Education`,
     description:
       "Understand treatments, preparation, recovery, limitations, and questions to ask before consultation.",
     type: "website",

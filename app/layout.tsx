@@ -8,7 +8,7 @@ const isPreviewDeployment = process.env.VERCEL_ENV === "preview";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: BUSINESS_NAME, template: "%s | ESCLARE" },
+  title: { default: BUSINESS_NAME, template: `%s | ${BUSINESS_NAME}` },
   description:
     "Premium aesthetic and wellness care in Naga City and Daet, with thoughtful assessment and clear treatment guidance.",
   robots: isPreviewDeployment

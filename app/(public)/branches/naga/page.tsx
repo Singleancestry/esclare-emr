@@ -10,11 +10,12 @@ import { branchHeroImages } from "@/lib/clinic/media";
 const naga = getBranch("naga");
 
 export const metadata: Metadata = {
-  title: `${BUSINESS_NAME} – Naga`,
+  title: { absolute: `${BUSINESS_NAME} – Naga` },
   description:
     "Visit ESCLARE Naga at Elias Angeles Street corner Paz Street. View authentic clinic photos, hours, directions, contact details, and booking information.",
   alternates: { canonical: "/branches/naga" },
   openGraph: {
+    siteName: BUSINESS_NAME,
     title: `${BUSINESS_NAME} – Naga`,
     description: "Plan a visit to ESCLARE Naga City.",
     images: [{ url: branchHeroImages.naga.src, alt: "The authentic ESCLARE Naga clinic" }],

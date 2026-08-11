@@ -8,7 +8,7 @@ import { clinicBranches } from "@/lib/clinic/details";
 import { branchHeroImages } from "@/lib/clinic/media";
 
 export const metadata: Metadata = {
-  title: "ESCLARE Branches | Naga City and Daet Aesthetic Clinics",
+  title: "Naga City and Daet Branches",
   description:
     "Visit ESCLARE in Naga City or Daet. Find verified addresses, clinic hours, contact details, directions, treatment availability, and branch booking links.",
   alternates: { canonical: "/branches" },

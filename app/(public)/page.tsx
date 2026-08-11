@@ -13,6 +13,7 @@ import {
 import { AuthenticHero } from "@/components/public/authentic-hero";
 import { HomepageReviews } from "@/components/public/homepage-reviews";
 import { TreatmentGallery } from "@/components/public/treatment-gallery";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import {
   attendantPortrait,
   branchHeroImages,
@@ -27,7 +28,8 @@ export const metadata: Metadata = {
     "Explore facial, Pico laser, 4D diode hair removal, HIFU, acne-scar, skin-rejuvenation and doctor-led aesthetic treatments at ESCLARE in Naga City and Daet.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Aesthetic Clinic in Naga City & Daet | ESCLARE",
+    siteName: BUSINESS_NAME,
+    title: `Aesthetic Clinic in Naga City & Daet | ${BUSINESS_NAME}`,
     description:
       "Professional facial, laser, skin-rejuvenation, body-contouring, wellness and doctor-led aesthetic care in Naga City and Daet.",
     url: "/",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Activity, ClipboardCheck, HeartPulse, ShieldCheck, Stethoscope } from "lucide-react";
 import { Glp1HeroMedia } from "@/components/public/glp1-hero-media";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { glp1Content } from "@/lib/content/glp1";
 
 export const metadata: Metadata = {
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
     "Learn about ESCLARE's physician-supervised GLP-1 weight-management consultation and 4-week treatment program in Naga and Daet.",
   alternates: { canonical: "/glp-1-slimming" },
   openGraph: {
-    title: "GLP-1 Slimming Program | ESCLARE",
+    siteName: BUSINESS_NAME,
+    title: `GLP-1 Slimming Program | ${BUSINESS_NAME}`,
     description:
       "A medically guided approach to sustainable weight management, with eligibility determined through consultation and clinical assessment.",
     images: [
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
         url: "/images/optimized/glp-1/glp-1-hero-poster.webp",
         width: 1920,
         height: 1080,
-        alt: "ESCLARE GLP-1 Slimming Program",
+        alt: `${BUSINESS_NAME} GLP-1 Slimming Program`,
       },
     ],
   },

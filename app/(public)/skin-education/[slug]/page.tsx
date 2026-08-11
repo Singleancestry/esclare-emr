@@ -5,6 +5,7 @@ import type { Route } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { JsonLd } from "@/components/public/json-ld";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import {
   educationArticles,
   getEducationArticle,
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/skin-education/${article.slug}` },
     robots: isPublic ? undefined : { index: false, follow: false },
     openGraph: {
+      siteName: BUSINESS_NAME,
       title: article.title,
       description: article.excerpt,
       type: "article",
@@ -60,7 +62,7 @@ export default async function EducationArticlePage({ params }: Props) {
         headline: article.title,
         description: article.excerpt,
         image: `${siteUrl}${article.heroImage}`,
-        author: { "@type": "Organization", name: article.author },
+        author: { "@type": "Organization", name: BUSINESS_NAME },
         datePublished: article.publishedAt,
         dateModified: article.updatedAt,
         mainEntityOfPage: articleUrl,

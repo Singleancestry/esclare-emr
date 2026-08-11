@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 
 export const metadata: Metadata = {
   title: "MCCM Skin Support & Professional Peels",
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
     "Explore source-grounded MCCM professional peel and skin-support options at ESCLARE, with assessment-led planning and careful aftercare.",
   alternates: { canonical: "/treatments/skin-support/mccm" },
   openGraph: {
-    title: "MCCM Skin Support & Professional Peels | ESCLARE",
+    siteName: BUSINESS_NAME,
+    title: `MCCM Skin Support & Professional Peels | ${BUSINESS_NAME}`,
     description:
       "A clear guide to MCCM peel, Exosome PDRN and eye-contour options described in ESCLARE's supplied product material.",
     url: "/treatments/skin-support/mccm",

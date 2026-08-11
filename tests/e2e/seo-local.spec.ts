@@ -17,6 +17,27 @@ test("root is the single canonical homepage", async ({ page, request }) => {
   expect(legacy.headers().location).toBe("/");
 });
 
+test("metadata and structured data use the canonical business name", async ({ page, request }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle("Aesthetic Clinic in Naga City & Daet | Esclare Aesthetic Center");
+  await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+    "content",
+    "Esclare Aesthetic Center",
+  );
+
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+  expect(schemas.join("\n")).toContain('"name":"Esclare Aesthetic Center"');
+
+  const html = await (await request.get("/")).text();
+  expect(html).not.toMatch(/Aesthetic\s*(?:&|and)\s*Wellness Clinic/i);
+
+  await page.goto("/skin-education/diode-laser-hair-removal-guide");
+  await expect(page).toHaveTitle("Diode Laser Hair Removal Guide | Esclare Aesthetic Center");
+
+  await page.goto("/branches/naga");
+  await expect(page).toHaveTitle("Esclare Aesthetic Center – Naga");
+});
+
 test("sitemap includes the root and excludes the legacy homepage", async ({ request }) => {
   const response = await request.get("/sitemap.xml");
   expect(response.ok()).toBe(true);

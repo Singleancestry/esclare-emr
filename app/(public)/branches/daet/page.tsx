@@ -18,11 +18,12 @@ import { branchHeroImages } from "@/lib/clinic/media";
 const daet = getBranch("daet");
 
 export const metadata: Metadata = {
-  title: `${BUSINESS_NAME} – Daet`,
+  title: { absolute: `${BUSINESS_NAME} – Daet` },
   description:
     "Step inside the authentic ESCLARE Daet clinic on J. Lukban Street. View the branch, opening hours, services, map, and official booking channels.",
   alternates: { canonical: "/branches/daet" },
   openGraph: {
+    siteName: BUSINESS_NAME,
     title: `${BUSINESS_NAME} – Daet`,
     description: "A real look inside ESCLARE Daet in Camarines Norte.",
     images: [
