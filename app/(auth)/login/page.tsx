@@ -18,7 +18,7 @@ export default async function LoginPage({
             logging before sensitive clinic data is shown.
           </p>
         </div>
-        <p className="text-sm text-white/70">Aesthetic & Wellness Clinic</p>
+        <p className="text-sm text-white/70">Esclare Aesthetic Center</p>
       </section>
       <section className="flex items-center justify-center px-6 py-10">
         <LoginForm

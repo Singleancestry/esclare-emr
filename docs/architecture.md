@@ -2,7 +2,7 @@
 
 ## Goal
 
-Build a secure multi-branch clinic-management platform for ESCLARE Aesthetic & Wellness Clinic. Phase 1 establishes the foundation: project structure, design system, authentication boundaries, employee profiles, roles, permissions, branch restrictions, core database objects, main staff layout and dashboard shell.
+Build a secure multi-branch clinic-management platform for Esclare Aesthetic Center. Phase 1 establishes the foundation: project structure, design system, authentication boundaries, employee profiles, roles, permissions, branch restrictions, core database objects, main staff layout and dashboard shell.
 
 ## Application Layers
 

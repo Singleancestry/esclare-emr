@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import "./globals.css";
 
 const siteUrl =
@@ -7,7 +8,7 @@ const isPreviewDeployment = process.env.VERCEL_ENV === "preview";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "ESCLARE Aesthetic & Wellness Clinic", template: "%s | ESCLARE" },
+  title: { default: BUSINESS_NAME, template: "%s | ESCLARE" },
   description:
     "Premium aesthetic and wellness care in Naga City and Daet, with thoughtful assessment and clear treatment guidance.",
   robots: isPreviewDeployment
@@ -15,21 +16,21 @@ export const metadata: Metadata = {
     : undefined,
   openGraph: {
     type: "website",
-    siteName: "ESCLARE Aesthetic & Wellness Clinic",
-    title: "ESCLARE Aesthetic & Wellness Clinic",
+    siteName: BUSINESS_NAME,
+    title: BUSINESS_NAME,
     description: "Premium aesthetic and wellness care in Naga City and Daet.",
     images: [
       {
         url: "/og-esclare.jpg",
         width: 1200,
         height: 630,
-        alt: "ESCLARE Aesthetic and Wellness in Naga and Daet",
+        alt: `${BUSINESS_NAME} in Naga and Daet`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ESCLARE Aesthetic & Wellness Clinic",
+    title: BUSINESS_NAME,
     description: "Premium aesthetic and wellness care in Naga City and Daet.",
     images: ["/og-esclare.jpg"],
   },

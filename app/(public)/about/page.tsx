@@ -35,7 +35,7 @@ export default function AboutPage() {
               Beautiful outcomes begin with honest conversations.
             </h2>
             <p className="mt-6 leading-8 text-[#62595C]">
-              ESCLARE Aesthetic Center began on August 8, 2012, in Naga City, Philippines. Before
+              Esclare Aesthetic Center began on August 8, 2012, in Naga City, Philippines. Before
               opening ESCLARE, the founder gained experience with a world-class aesthetic clinic in
               Qatar and trained with a Korean aesthetic clinic in Metro Manila.
             </p>

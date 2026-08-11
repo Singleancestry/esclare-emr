@@ -11,18 +11,19 @@ import {
   Phone,
 } from "lucide-react";
 import { ClinicGallery } from "@/components/public/clinic-gallery";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { getBranch } from "@/lib/clinic/details";
 import { branchHeroImages } from "@/lib/clinic/media";
 
 const daet = getBranch("daet");
 
 export const metadata: Metadata = {
-  title: "ESCLARE Daet Aesthetic Center",
+  title: `${BUSINESS_NAME} – Daet`,
   description:
     "Step inside the authentic ESCLARE Daet clinic on J. Lukban Street. View the branch, opening hours, services, map, and official booking channels.",
   alternates: { canonical: "/branches/daet" },
   openGraph: {
-    title: "ESCLARE Daet Aesthetic Center",
+    title: `${BUSINESS_NAME} – Daet`,
     description: "A real look inside ESCLARE Daet in Camarines Norte.",
     images: [
       {

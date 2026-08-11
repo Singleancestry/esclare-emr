@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { ChevronDown, Menu, X } from "lucide-react";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
@@ -99,7 +100,7 @@ export function SiteHeader() {
           <Link href="/" aria-label="ESCLARE home" className="site-logo-link shrink-0 rounded-md">
             <Image
               src="/images/optimized/logo/esclare-complete-transparent.png"
-              alt="ESCLARE Aesthetic Center"
+              alt={BUSINESS_NAME}
               width={499}
               height={313}
               sizes="(min-width: 640px) 144px, 124px"

@@ -17,7 +17,7 @@ Status: preview branch. No preview URL should be submitted for indexing.
 
 ## Entity And Content Rules
 
-- Clinic entity: ESCLARE Aesthetic & Wellness Clinic.
+- Clinic entity: Esclare Aesthetic Center.
 - Location entities: ESCLARE Naga and ESCLARE Daet.
 - Public treatment facts must include branch limitations, assessment requirements, price type, and
   the difference between a request and a confirmed appointment.

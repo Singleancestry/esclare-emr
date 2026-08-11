@@ -35,7 +35,7 @@ export const ownerSuppliedReviews: ReadonlyArray<PublicReview> = [
     id: "facebook-raven-rubio-2024-10-11",
     reviewerDisplayName: "Raven Rubio",
     reviewText:
-      "Super satisfied ako sa facial treatment na ginawa sakin. Buti nalang napili ako for free facial treatment its my first time. Will definitely come back, plus mababait ang staff/s. Thank you Esclare Aesthetic & Laser Center 🥰",
+      "Super satisfied ako sa facial treatment na ginawa sakin. Buti nalang napili ako for free facial treatment its my first time. Will definitely come back, plus mababait ang staff/s. Thank you Esclare Aesthetic Center 🥰",
     rating: null,
     reviewDate: "2024-10-11",
     source: "facebook",
@@ -49,7 +49,7 @@ export const ownerSuppliedReviews: ReadonlyArray<PublicReview> = [
     id: "facebook-jommel-a-chanco-2024-10-11",
     reviewerDisplayName: "Jommel A. Chanco",
     reviewText:
-      "Thank you so much Esclare Aesthetic and Laser Center for taking care of my face. All the staff are very nice. I feel young again. Thank you sa nag facial sa akin talagang maingat sya sa pag handle ng face ko. Maraming salamat po ulet. ❤️❤️❤️",
+      "Thank you so much Esclare Aesthetic Center for taking care of my face. All the staff are very nice. I feel young again. Thank you sa nag facial sa akin talagang maingat sya sa pag handle ng face ko. Maraming salamat po ulet. ❤️❤️❤️",
     rating: null,
     reviewDate: "2024-10-11",
     source: "facebook",
@@ -63,7 +63,7 @@ export const ownerSuppliedReviews: ReadonlyArray<PublicReview> = [
     id: "facebook-menica-bandola-2024-10-10",
     reviewerDisplayName: "Menica Bandola",
     reviewText:
-      "First time sakin to and thank you Esclare Aesthetic & Laser Center kasi napaka asikaso nang mga staff and very nice. Subra saram sa face at nakaka relax.",
+      "First time sakin to and thank you Esclare Aesthetic Center kasi napaka asikaso nang mga staff and very nice. Subra saram sa face at nakaka relax.",
     rating: null,
     reviewDate: "2024-10-10",
     source: "facebook",

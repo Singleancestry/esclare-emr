@@ -18,7 +18,7 @@ test("public home uses authentic clinic, attendant, logo, and diode assets", asy
   await expect(
     page
       .getByRole("link", { name: "ESCLARE home" })
-      .getByRole("img", { name: "ESCLARE Aesthetic Center" }),
+      .getByRole("img", { name: "Esclare Aesthetic Center" }),
   ).toBeVisible();
 });
 

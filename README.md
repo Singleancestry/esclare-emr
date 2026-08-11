@@ -1,6 +1,6 @@
 # ESCLARE Clinic Platform
 
-Phase 1 foundation for the ESCLARE Aesthetic & Wellness Clinic management platform.
+Phase 1 foundation for the Esclare Aesthetic Center management platform.
 
 ## Included In Phase 1
 

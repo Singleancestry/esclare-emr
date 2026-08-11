@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { Facebook, MapPin, Phone } from "lucide-react";
 import type { Route } from "next";
 import { clinicBranches } from "@/lib/clinic/details";
@@ -75,7 +76,9 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="public-container flex flex-col gap-3 py-5 text-[11px] text-[#CDBDB5] sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} ESCLARE Aesthetic & Wellness Clinic.</p>
+          <p>
+            © {new Date().getFullYear()} {BUSINESS_NAME}.
+          </p>
           <div className="flex flex-wrap gap-5">
             <Link href="/privacy">Privacy</Link>
             <Link href="/cookies">Cookies</Link>

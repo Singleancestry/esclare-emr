@@ -3,18 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock3, ExternalLink, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ClinicGallery } from "@/components/public/clinic-gallery";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { getBranch } from "@/lib/clinic/details";
 import { branchHeroImages } from "@/lib/clinic/media";
 
 const naga = getBranch("naga");
 
 export const metadata: Metadata = {
-  title: "ESCLARE Naga Aesthetic & Wellness Clinic",
+  title: `${BUSINESS_NAME} – Naga`,
   description:
     "Visit ESCLARE Naga at Elias Angeles Street corner Paz Street. View authentic clinic photos, hours, directions, contact details, and booking information.",
   alternates: { canonical: "/branches/naga" },
   openGraph: {
-    title: "ESCLARE Naga Aesthetic & Wellness Clinic",
+    title: `${BUSINESS_NAME} – Naga`,
     description: "Plan a visit to ESCLARE Naga City.",
     images: [{ url: branchHeroImages.naga.src, alt: "The authentic ESCLARE Naga clinic" }],
   },

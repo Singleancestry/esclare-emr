@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ESCLARE Aesthetic & Wellness Clinic",
+    name: BUSINESS_NAME,
     short_name: "ESCLARE",
     description: "Aesthetic, laser, and wellness care in Naga City and Daet.",
     start_url: "/",

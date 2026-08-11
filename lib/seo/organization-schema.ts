@@ -1,4 +1,5 @@
 import { clinicBranches, type ClinicBranch } from "@/lib/clinic/details";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { organizationId, siteUrl } from "@/lib/seo/site";
 
 const SCHEMA_DAYS = [
@@ -80,7 +81,7 @@ export const organizationSchema = {
     {
       "@type": "Organization",
       "@id": organizationId,
-      name: "ESCLARE Aesthetic & Wellness Clinic",
+      name: BUSINESS_NAME,
       url: siteUrl,
       email: "esclarenaga@gmail.com",
       logo: `${siteUrl}/og-esclare.jpg`,
@@ -95,7 +96,7 @@ export const organizationSchema = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
-      name: "ESCLARE Aesthetic & Wellness Clinic",
+      name: BUSINESS_NAME,
       inLanguage: "en-PH",
       publisher: { "@id": organizationId },
     },

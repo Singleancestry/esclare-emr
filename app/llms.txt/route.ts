@@ -1,4 +1,5 @@
 import { clinicBranches } from "@/lib/clinic/details";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { educationCategories } from "@/lib/content/skin-education";
 import { formatTreatmentPrice, treatments } from "@/lib/services/catalog";
 import { siteUrl } from "@/lib/seo/site";
@@ -25,7 +26,7 @@ export function GET() {
   );
 
   const body = [
-    "# ESCLARE Aesthetic & Wellness Clinic",
+    `# ${BUSINESS_NAME}`,
     "",
     "> Aesthetic, laser, and wellness clinic with two branches in the Bicol Region, Philippines:",
     "> Naga City (Camarines Sur) and Daet (Camarines Norte). Treatments include facials, pico and",

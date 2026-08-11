@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { clinicBranches } from "@/lib/clinic/details";
+import { BUSINESS_NAME } from "@/lib/clinic/brand";
 import { organizationSchema } from "@/lib/seo/organization-schema";
 import { buildTreatmentSchema } from "@/lib/seo/treatment-schema";
 import { treatments } from "@/lib/services/catalog";
@@ -19,6 +20,14 @@ function schemaFor(slug: string) {
 }
 
 describe("organization schema", () => {
+  it("uses the canonical business name for the organization and website", () => {
+    const namedNodes = graph.filter((node) =>
+      ["Organization", "WebSite"].includes(String(node["@type"])),
+    );
+
+    expect(namedNodes.map((node) => node.name)).toEqual([BUSINESS_NAME, BUSINESS_NAME]);
+  });
+
   it("publishes one clinic node per branch with a map link and phone", () => {
     expect(clinics).toHaveLength(clinicBranches.length);
     expect(clinics.map((clinic) => clinic.name)).toEqual(
